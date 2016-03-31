@@ -69,7 +69,8 @@ class StackExchangeNotificationProcessor(BaseNotificationProcessor):
         if self.previously_notified_article_count == len(self.article_dict["articles"]):
             return
 
-        if has_previous_message:
+        # Deleted email (by the user) means they don't want to see THOSE notifications listed in a Rollup again.
+        if has_previous_message == False:
             if self.previously_notified_article_count > 0:
                 self.article_dict["most_recent_seen"] = self.previously_notified_article_most_recent
 

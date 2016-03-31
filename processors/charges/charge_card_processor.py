@@ -62,8 +62,8 @@ class ChargeCardProcessor(BaseNotificationProcessor):
             else:
                 self.charge_summary["most_recent_seen"] = arrow.get(gmtime(0))
 
-        # Deleted email (by the user) means they don't want to see those notifications listed again.
-        if has_previous_message == None:
+        # Deleted email (by the user) means they don't want to see THOSE notifications listed in a Rollup again.
+        if has_previous_message == False:
             self.charge_summary["charges"] = {}
 
         # copy new items into main list

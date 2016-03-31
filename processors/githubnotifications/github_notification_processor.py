@@ -117,8 +117,8 @@ class GithubNotificationProcessor(BaseNotificationProcessor):
 
         # print ">>> Previous githubNotifications: " + json.dumps(self.githubNotifications, sort_keys=True) + "\n\n"
 
-        # Deleted email (by the user) means they don't want to see those notifications listed again.
-        if has_previous_message:
+        # Deleted email (by the user) means they don't want to see THOSE notifications listed in a Rollup again.
+        if has_previous_message == False:
             self.githubNotifications = {}
 
         # If the last mail has been read, then everything in it has been seen
