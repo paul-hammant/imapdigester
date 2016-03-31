@@ -32,36 +32,38 @@ class AmexNotificationProcessor(BaseNotificationProcessor):
         # of the plain-text half because the two things carry different data.
         # Specifically - merchant name is missing from the plain text half
 
-        soup = BeautifulSoup(html_message, 'html.parser')
-        body_html_as_text = soup.find("body").get_text()
-        body_html_as_text = " ".join(body_html_as_text.split())  # rmv line breaks, squish double spaces
+        if html_message:
+            soup = BeautifulSoup(html_message, 'html.parser')
+            text = soup.find("body").get_text()
+            text = " ".join(text.split())  # rmv line breaks, squish double spaces
+        else:
+            text = text_message
 
         # Then again, Location: for 'card not present' is only in the plain text half
 
         processed = self.maybe_card_not_present_purchase(text_message, when)
         if not processed:
-            processed = self.maybe_process_merchant_credit(body_html_as_text, when)
+            processed = self.maybe_process_merchant_credit(text, when)
         if not processed:
-            processed = self.maybe_autopay_has_been_processed(body_html_as_text, soup, when)
+            processed = self.maybe_autopay_has_been_processed(text, when)
         if not processed:
-            processed = self.maybe_process_regular_charge(body_html_as_text, when)
+            processed = self.maybe_process_regular_charge(text, when)
         if not processed:
-            processed = self.maybe_process_pending_charge(body_html_as_text, soup, when)
+            processed = self.maybe_process_pending_charge(text, when)
         if not processed:
-            processed = self.maybe_process_pending_charge_has_posted(body_html_as_text, soup, when)
+            processed = self.maybe_process_pending_charge_has_posted(text, when)
         if not processed:
-            processed = self.maybe_process_pending_charge_has_not_posted(body_html_as_text, soup, when)
+            processed = self.maybe_process_pending_charge_has_not_posted(text, when)
         if not processed:
-            processed = self.maybe_things_i_dont_need(body_html_as_text, soup, when)
+            processed = self.maybe_things_i_dont_need(text, when)
         return processed
 
-    def maybe_process_pending_charge(self, body_html_as_text, soup, when):
+    def maybe_process_pending_charge(self, text, when):
 
-        if "Your Pending Charge Is Being Monitored" not in body_html_as_text:
+        if "Your Pending Charge Is Being Monitored" not in text:
             return False
 
-        is_monitoring = re.search('Description: (.*) Date: (.*) Amount: \$(.*)  We will.*Account Ending: (\d{5})',
-                                  body_html_as_text)
+        is_monitoring = re.search('Description: (.*) Date: (.*) Amount: \$(.*)  We will.*Account Ending: (\d{5})', text)
         if is_monitoring:
             desc = is_monitoring.group(1)
             amt = Decimal(is_monitoring.group(3))
@@ -78,13 +80,13 @@ class AmexNotificationProcessor(BaseNotificationProcessor):
                 return True
         return False
 
-    def maybe_process_pending_charge_has_posted(self, body_html_as_text, soup, when):
+    def maybe_process_pending_charge_has_posted(self, text, when):
 
-        if "Your Pending Charge Has Posted" not in body_html_as_text:
+        if "Your Pending Charge Has Posted" not in text:
             return False
 
         has_posted = re.search('Description: (.*) Date: (.*) Amount: \$(.*)  Please review.*Account Ending: (\d{5})',
-                               body_html_as_text)
+                               text)
 
         if has_posted:
             desc = has_posted.group(1)
@@ -102,14 +104,14 @@ class AmexNotificationProcessor(BaseNotificationProcessor):
                 return True
         return False
 
-    def maybe_process_pending_charge_has_not_posted(self, body_html_as_text, soup, when):
+    def maybe_process_pending_charge_has_not_posted(self, text, when):
 
-        if "Your Pending Charge Has Not Been Posted" not in body_html_as_text:
+        if "Your Pending Charge Has Not Been Posted" not in text:
             return False
 
         has_not_posted = re.search(
             'The pending \$(.*) charge from (.*) that was marked for monitoring on (.*) has not yet posted.*Account Ending: (\d{5})',
-            body_html_as_text)
+            text)
 
         if has_not_posted:
             desc = has_not_posted.group(2)
@@ -128,31 +130,30 @@ class AmexNotificationProcessor(BaseNotificationProcessor):
         return False
 
     @staticmethod
-    def maybe_things_i_dont_need(body_html_as_text, soup, when):
+    def maybe_things_i_dont_need(text, when):
 
         # I don't need these retained at all.
-        if "Save time, see your account at a glance" in body_html_as_text:
+        if "Save time, see your account at a glance" in text:
             return True
-        if "Now your Year-End Summary includes" in body_html_as_text:
+        if "Now your Year-End Summary includes" in text:
             return True
-        if "Get the latest news, offers and more from your Card" in body_html_as_text:
+        if "Get the latest news, offers and more from your Card" in text:
             return True
-        if "This email advertisement was sent to" in body_html_as_text:
+        if "This email advertisement was sent to" in text:
             return True
-        if "MANAGE YOUR ALERTS >" in body_html_as_text:
+        if "MANAGE YOUR ALERTS >" in text:
             return True
-        if "About This Survey" in body_html_as_text:
+        if "About This Survey" in text:
             return True
 
         return False
 
-    def maybe_autopay_has_been_processed(self, body_html_as_text, soup, when):
+    def maybe_autopay_has_been_processed(self, text, when):
 
-        if "AutoPay Payment Processed" not in body_html_as_text:
+        if "AutoPay Payment Processed" not in text:
             return False
 
-        autopay = re.search('(\d{5}) AutoPay.*Express Customer Care \$(.*) PROCESSED ON (.*) Available Credit',
-                            body_html_as_text)
+        autopay = re.search('(\d{5}) AutoPay.*Express Customer Care \$(.*) PROCESSED ON (.*) Available Credit', text)
 
         if autopay:
             amt = Decimal(autopay.group(2).replace(',', ''))
@@ -169,12 +170,12 @@ class AmexNotificationProcessor(BaseNotificationProcessor):
                 return True
         return False
 
-    def maybe_process_merchant_credit(self, body_html_as_text, when):
+    def maybe_process_merchant_credit(self, text, when):
 
-        if "The following merchant credit has been posted to your American Express" not in body_html_as_text:
+        if "The following merchant credit has been posted to your American Express" not in text:
             return False
 
-        is_merch_credit = re.search('Merchant Name:(.*)Credit Amount:(.*)Thank', body_html_as_text)
+        is_merch_credit = re.search('Merchant Name:(.*)Credit Amount:(.*)Thank', text)
         if is_merch_credit:
             merchant = is_merch_credit.group(1).strip()
             amt = (Decimal(is_merch_credit.group(2).strip()[1:]) * Decimal(-1))
@@ -187,7 +188,7 @@ class AmexNotificationProcessor(BaseNotificationProcessor):
                 chg["amt"] = amt
                 chg["curr"] = "USD"
                 chg["vendor"] = merchant
-                chg["card"] = "Amex " + re.search("Account Ending:(\d{5}) View Account", body_html_as_text).group(1)
+                chg["card"] = "Amex " + re.search("Account Ending:(\d{5}) View Account", text).group(1)
                 return True
         else:
             pass
@@ -232,15 +233,15 @@ class AmexNotificationProcessor(BaseNotificationProcessor):
         print "--> Amex.maybe_card_not_present_purchase - unprocessed unexecptedly w/o exception -->" + plain_text
         return False
 
-    def maybe_process_regular_charge(self, body_html_as_text, when):
+    def maybe_process_regular_charge(self, text, when):
 
         a_charge = re.search(
             'Account Ending:(.*)View AccountMake.*Transaction Date:(.*)Merchant Name:(.*)Purchase Amount:.*\$(.*)Credit Limit',
-            body_html_as_text)
+            text)
         if not a_charge:
             a_charge = re.search(
                 'Account Ending:(.*)View AccountMake.*Transaction Date:(.*)Merchant Name:(.*)Purchase Amount:.*\$(.*)Some transactions',
-                body_html_as_text)
+                text)
             if not a_charge:
                 return False
         acct, amt, curr, vendor = self.get_fields(a_charge)

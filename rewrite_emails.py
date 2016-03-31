@@ -1,3 +1,5 @@
+import imaplib
+
 from imapclient import IMAPClient
 from optparse import OptionParser
 import re
@@ -45,11 +47,6 @@ if __name__ == '__main__':
 
     (options, args) = parser.parse_args()
 
-    # Add Processors
-
-    processors = []
-    add_processors(processors)
-
     # Read and mark for deletion items from notification inbox.
     inqueue_server = None
     try:
@@ -69,6 +66,16 @@ if __name__ == '__main__':
             exit(10)
     time.sleep(1)
     inqueue_server.select_folder('INBOX')
+
+    rollup_inbox = IMAPClient(options.rollup_imap, use_uid=True, ssl=(True))
+    rollup_inbox.login(options.rollup_user, options.rollup_pw)
+    rollup_inbox.select_folder('INBOX')
+
+    # Add Processors
+
+    processors = []
+    add_processors(processors)
+
     messages = inqueue_server.search(['NOT DELETED'])
     response = inqueue_server.fetch(messages, ['FLAGS', 'RFC822.SIZE'])
     unmatched_to_move = []
@@ -97,12 +104,14 @@ if __name__ == '__main__':
                 print "Unmatched email from: " + msg['From'].strip() + ", subject: " + msg['Subject'].strip()
 
     # Rewrite emails in the rollup Inbox (the one the end-user actually reads)
-    rollup_inbox = IMAPClient(options.rollup_imap, use_uid=True, ssl=(True))
-    rollup_inbox.login(options.rollup_user, options.rollup_pw)
-    rollup_inbox.select_folder('INBOX')
     for processor in processors:
-        header_to_match = 'HEADER Subject "' + processor.matching_rollup_subject() + '"'
-        messages = rollup_inbox.search(['NOT DELETED', header_to_match])
+        subj_to_match = 'HEADER Subject "' + processor.matching_rollup_subject() + '"'
+        from_to_match = 'HEADER From "' + options.sender_to_implicate.split(" ")[-1]\
+            .replace("<", "").replace(">","") + '"'
+        try:
+            messages = rollup_inbox.search(['NOT DELETED', subj_to_match, from_to_match])
+        except imaplib.IMAP4.abort:
+            messages = rollup_inbox.search(['NOT DELETED', subj_to_match, from_to_match])
         response = rollup_inbox.fetch(messages, ['FLAGS', 'RFC822.SIZE'])
         previously_seen = False
         previous_message_id = None
