@@ -27,11 +27,12 @@ class Digester(object):
         self.rollup_inbox = rollup_inbox
         self.inqueue_server = inqueue_server
 
-    def doit(self):
-
         # Add Processors
-        processors = []
-        add_processors(processors)
+        self.processors = []
+        add_processors(self.processors)
+
+
+    def doit(self):
 
         messages = self.inqueue_server.search(['NOT DELETED'])
         response = self.inqueue_server.fetch(messages, ['FLAGS', 'RFC822.SIZE'])
@@ -39,29 +40,11 @@ class Digester(object):
         to_delete = []
         for msgid, data in response.iteritems():
             rfc822content = self.inqueue_server.fetch(msgid, ["INTERNALDATE", "BODY", "RFC822"])[msgid]['RFC822']
-            msg = email.message_from_string(rfc822content)
-            html_message = Utils.get_decoded_email_body(msg, True)
-            text_message = Utils.get_decoded_email_body(msg, False)
-            processed = False
-            for processor in processors:
-                if processed:
-                    break
-                matching_incoming_headers = processor.matching_incoming_headers()
-                for matching_header in matching_incoming_headers:
-                    if re.search(matching_header, rfc822content) is not None:
-                        processed = processor.process_new_notification(rfc822content, msg, html_message, text_message)
-                        break
-            if processed:
-                to_delete.append(msgid)
-            else:
-                if self.options.move_unmatched:
-                    unmatched_to_move.append(rfc822content)
-                    to_delete.append(msgid)
-                else:
-                    print "Unmatched email from: " + msg['From'].strip() + ", subject: " + msg['Subject'].strip()
-
+            self.process_incoming_message(msgid, self.processors, rfc822content, to_delete,
+                                          unmatched_to_move, self.options.move_unmatched)
+            
         # Rewrite emails in the rollup Inbox (the one the end-user actually reads)
-        for processor in processors:
+        for processor in self.processors:
             subj_to_match = 'HEADER Subject "' + processor.matching_rollup_subject() + '"'
             from_to_match = 'HEADER From "' + self.options.sender_to_implicate.split(" ")[-1]\
                 .replace("<", "").replace(">", "") + '"'
@@ -98,5 +81,29 @@ class Digester(object):
         # Print summary for posterity
 
         if self.options.print_summary:
-            for processor in processors:
+            for processor in self.processors:
                 processor.print_summary()
+
+    def process_incoming_message(self, msgid, processors, rfc822content, to_delete,
+                                 unmatched_to_move, move_unmatched):
+        msg = email.message_from_string(rfc822content)
+        html_message = Utils.get_decoded_email_body(msg, True)
+        text_message = Utils.get_decoded_email_body(msg, False)
+
+        processed = False
+        for processor in processors:
+            if processed:
+                break
+            matching_incoming_headers = processor.matching_incoming_headers()
+            for matching_header in matching_incoming_headers:
+                if re.search(matching_header, rfc822content) is not None:
+                    processed = processor.process_new_notification(rfc822content, msg, html_message, text_message)
+                    break
+        if processed:
+            to_delete.append(msgid)
+        else:
+            if move_unmatched:
+                unmatched_to_move.append(rfc822content)
+                to_delete.append(msgid)
+            else:
+                print "Unmatched email from: " + msg['From'].strip() + ", subject: " + msg['Subject'].strip()
