@@ -140,13 +140,15 @@ class GithubNotificationProcessor(BaseNotificationProcessor):
         # print ">>> notifsToPrint to merge with template: " + json.dumps(notifsToPrint, sort_keys=True) + "\n\n"
 
         templ = """
-<span>You have previously read notifications up to: {{most_recent_seen_str}}</span>
+{% if not_first_email %}<span>You have previously read notifications up to: {{most_recent_seen_str}}</span>{% endif %}
 <table>
   <tr style="background-color: #acf;">
     <th>When</th><th>Issues/Pull Requests &amp; Their Notifications</th>
   </tr>
 {% for when, topic in notifsToPrint|dictsort(false, by='key')|reverse %}
-{{'  <tr><td colspan="2" style="border-bottom: 1pt solid red; border-top: 1pt solid red;"><center>^ New/Updated Notifications Since You Last Checked ^</center></td></tr>' if topic['line_here']}}
+  {% if topic['line_here'] %}
+  <tr><td colspan="2" style="border-bottom: 1pt solid red; border-top: 1pt solid red;"><center>^ New/Updated Notifications Since You Last Checked ^</center></td></tr>
+  {% endif %}
   <tr style="{{loop.cycle('','background-color: #def;')}}">
     <td valign="top">{{ topic.when.replace('---','<br/>') }}</td>
     <td>
@@ -171,7 +173,7 @@ class GithubNotificationProcessor(BaseNotificationProcessor):
         seen_formated = arrow.get(self.mostRecentlySeen).to("local").format("MMM DD YYYY hh:mm A")
         email_html = template.render(notifsToPrint=notifsToPrint,
                                      most_recent_seen=self.mostRecentlySeen,
-                                     most_recent_seen_str=seen_formated)
+                                     most_recent_seen_str=seen_formated, not_first_email=(self.mostRecentlySeen > 0))
 
         new_message = 'Subject: ' + self.matching_rollup_subject() + ' (' + str(
             num_messages_since_last_seen) + ' new)\n'
