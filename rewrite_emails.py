@@ -30,28 +30,28 @@ if __name__ == '__main__':
     (options, args) = parser.parse_args()
 
     # Read and mark for deletion items from notification inbox.
-    inqueue_server = None
+    inqueue_folder = None
     try:
-        inqueue_server = IMAPClient(options.notifications_imap, use_uid=True, ssl=(True))
+        inqueue_folder = IMAPClient(options.notifications_imap, use_uid=True, ssl=(True))
     except gaierror:
         print "CAN'T FIND IMAP SERVER"
         exit(10)
     try:
-        inqueue_server.login(options.notifications_user, options.notifications_pw)
+        inqueue_folder.login(options.notifications_user, options.notifications_pw)
     except:
         time.sleep(5)
-        inqueue_server = IMAPClient(options.notifications_imap, use_uid=True, ssl=(True))
+        inqueue_folder = IMAPClient(options.notifications_imap, use_uid=True, ssl=(True))
         try:
-            inqueue_server.login(options.notifications_user, options.notifications_pw)
+            inqueue_folder.login(options.notifications_user, options.notifications_pw)
         except:
             print "CAN'T LOG IN to IN IMAP SERVER"
             exit(10)
     time.sleep(1)
-    inqueue_server.select_folder('INBOX')
+    inqueue_folder.select_folder('INBOX')
 
-    rollup_inbox = IMAPClient(options.rollup_imap, use_uid=True, ssl=(True))
-    rollup_inbox.login(options.rollup_user, options.rollup_pw)
-    rollup_inbox.select_folder('INBOX')
+    rollup_folder = IMAPClient(options.rollup_imap, use_uid=True, ssl=(True))
+    rollup_folder.login(options.rollup_user, options.rollup_pw)
+    rollup_folder.select_folder('INBOX')
 
-    Digester(inqueue_server, rollup_inbox, options).doit()
+    Digester(inqueue_folder, rollup_folder, options).doit()
 

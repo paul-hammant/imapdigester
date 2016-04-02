@@ -21,11 +21,11 @@ class RollupServer(object):
 
 class Digester(object):
 
-    def __init__(self, inqueue_server, rollup_inbox, options):
+    def __init__(self, inqueue_folder, rollup_folder, options):
         super(Digester, self)
         self.options = options
-        self.rollup_inbox = rollup_inbox
-        self.inqueue_server = inqueue_server
+        self.rollup_folder = rollup_folder
+        self.inqueue_folder = inqueue_folder
 
         # Add Processors
         self.processors = []
@@ -34,31 +34,33 @@ class Digester(object):
 
     def doit(self):
 
-        messages = self.inqueue_server.search(['NOT DELETED'])
-        response = self.inqueue_server.fetch(messages, ['FLAGS', 'RFC822.SIZE'])
+        messages = self.inqueue_folder.search(['NOT DELETED'])
+        response = self.inqueue_folder.fetch(messages, ['FLAGS', 'RFC822.SIZE'])
         unmatched_to_move = []
         to_delete = []
+
+        # Loop through email in inqueue folder
         for msgid, data in response.iteritems():
-            rfc822content = self.inqueue_server.fetch(msgid, ["INTERNALDATE", "BODY", "RFC822"])[msgid]['RFC822']
+            rfc822content = self.inqueue_folder.fetch(msgid, ["INTERNALDATE", "BODY", "RFC822"])[msgid]['RFC822']
             self.process_incoming_message(msgid, self.processors, rfc822content, to_delete,
                                           unmatched_to_move, self.options.move_unmatched)
-            
-        # Rewrite emails in the rollup Inbox (the one the end-user actually reads)
+
+        # Rewrite emails in the rollup folder (the one the end-user actually reads)
         for processor in self.processors:
             subj_to_match = 'HEADER Subject "' + processor.matching_rollup_subject() + '"'
             from_to_match = 'HEADER From "' + self.options.sender_to_implicate.split(" ")[-1]\
                 .replace("<", "").replace(">", "") + '"'
             try:
-                messages = self.rollup_inbox.search(['NOT DELETED', subj_to_match, from_to_match])
+                messages = self.rollup_folder.search(['NOT DELETED', subj_to_match, from_to_match])
             except imaplib.IMAP4.abort:
-                messages = self.rollup_inbox.search(['NOT DELETED', subj_to_match, from_to_match])
-            response = self.rollup_inbox.fetch(messages, ['FLAGS', 'RFC822.SIZE'])
+                messages = self.rollup_folder.search(['NOT DELETED', subj_to_match, from_to_match])
+            response = self.rollup_folder.fetch(messages, ['FLAGS', 'RFC822.SIZE'])
             previously_seen = False
             previous_message_id = None
             for msgid, data in response.iteritems():
                 previous_message_id = msgid
                 previously_seen = '\\Seen' in data[b'FLAGS']
-            rollup_inbox_proxy = RollupServer(self.rollup_inbox, previous_message_id)
+            rollup_inbox_proxy = RollupServer(self.rollup_folder, previous_message_id)
             processor.rewrite_rollup_emails(rollup_inbox_proxy, previous_message_id is not None, previously_seen,
                                             self.options.sender_to_implicate)
 
@@ -67,16 +69,16 @@ class Digester(object):
         for unm in unmatched_to_move:
             unm = re.sub("\nFrom: .*\r\n", "\nFrom: " + self.options.sender_to_implicate + "\r\n", unm)
             unm = re.sub("\nTo: .*\r\n", "\nTo: " + self.options.sender_to_implicate + "\r\n", unm)
-            self.rollup_inbox.append("INBOX", unm)
+            self.rollup_folder.append("INBOX", unm)
 
-        self.rollup_inbox.expunge()
-        self.rollup_inbox.logout()
+        self.rollup_folder.expunge()
+        self.rollup_folder.logout()
 
         # Delete Originals
 
-        self.inqueue_server.delete_messages(to_delete)
-        self.inqueue_server.expunge()
-        self.inqueue_server.logout()
+        self.inqueue_folder.delete_messages(to_delete)
+        self.inqueue_folder.expunge()
+        self.inqueue_folder.logout()
 
         # Print summary for posterity
 
