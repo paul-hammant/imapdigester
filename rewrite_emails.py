@@ -53,5 +53,6 @@ if __name__ == '__main__':
     rollup_folder.login(options.rollup_user, options.rollup_pw)
     rollup_folder.select_folder('INBOX')
 
-    Digester(inqueue_folder, rollup_folder, options).doit()
+    Digester(inqueue_folder, rollup_folder, options.print_summary,
+             options.sender_to_implicate, options.move_unmatched).doit()
 
