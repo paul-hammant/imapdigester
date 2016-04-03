@@ -3,7 +3,6 @@ import arrow
 import re
 from base_notification_processor import BaseNotificationProcessor
 from jinja2 import Template
-import base64
 import StringIO
 from email.header import decode_header
 
@@ -184,12 +183,8 @@ class GithubNotificationProcessor(BaseNotificationProcessor):
         new_message += 'MIME-Version: 1.0\n'
         new_message += 'This is a multi-part message in MIME format.\n'
         new_message += '-----NOTIFICATION_BOUNDARY\nContent-Type: text/html; charset="utf-8"\n'
-        new_message += 'Content-Transfer-Encoding: base64\n\n'
-        new_message += base64.b64encode(email_html)
-
-        # Want to do this really.
-        # new_message += 'Content-Transfer-Encoding: utf-8\n\n'
-        # new_message += email_html.replace("\n\n\n", "\n").replace("\n\n", "\n").encode('utf-8', 'replace')
+        new_message += 'Content-Transfer-Encoding: utf-8\n\n'
+        new_message += email_html.replace("\n\n\n", "\n").replace("\n\n", "\n").encode('utf-8', 'replace')
 
         # Delete previous email, and write replacement
         if has_previous_message:
