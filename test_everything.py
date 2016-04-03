@@ -17,32 +17,8 @@ class TestEverything(TestCase):
         sys.setdefaultencoding('utf8')
 
     def test_two_related_github_notifications_can_be_rolled_up(self):
-
-        notification_store = {}
-
-        store_writer = Mock()
-        store_writer.get_from_binary.side_effect = stub(
-            (call('github-notifications'), notification_store),
-            (call('most-recently-seen'), 0)
-        )
-        store_writer.store_as_binary.side_effect = stub(
-            (call('github-notifications', Any()), True),
-            (call('most-recently-seen', 0), True)
-        )
-
-        appended = \
-"""Subject: Github Rollup (2 new)
-From: P H <ph@example.com>
-Content-Transfer-Encoding: 8bit
-Content-Type: multipart/alternative; boundary="---NOTIFICATION_BOUNDARY"
-MIME-Version: 1.0
-This is a multi-part message in MIME format.
------NOTIFICATION_BOUNDARY
-Content-Type: text/html; charset="utf-7"
-Content-Transfer-Encoding: utf-7
-
-
-<table>
+        self.two_related_github_notifications_can_be_rolled_up(0, 2,
+"""<table>
   <tr style="background-color: #acf;">
     <th>When</th><th>Issues/Pull Requests &amp; Their Notifications</th>
   </tr>
@@ -64,10 +40,66 @@ Content-Transfer-Encoding: utf-7
        </table>
     </td>
   </tr>
-</table>"""
+</table>""")
+
+    def test_two_related_github_notifications_can_be_rolled_up2(self):
+        self.two_related_github_notifications_can_be_rolled_up(1459577657, 1,
+"""<span>You have previously read notifications up to: Apr 02 2016 02:14 AM</span>
+<table>
+  <tr style="background-color: #acf;">
+    <th>When</th><th>Issues/Pull Requests &amp; Their Notifications</th>
+  </tr>
+  <tr style="">
+    <td valign="top">Apr 02 2016<br/>03:14 AM</td>
+    <td>
+      <table style="border-top: none">
+        <tr>
+          <td style="border-bottom: 2px solid lightgrey;">
+            <a href="https://github.com/Homebrew/homebrew/pull/50441">Pull Request: [Homebrew/homebrew] ired 0.5.0 (#50441)</a>
+          </td>
+        </tr>
+        <tr>
+          <td style="font-weight: bold;">ppiper: Peter Piper (comment) Peter Piper picked a peck of pickled peppers....</td>
+        </tr>
+        <tr>
+          <td >dholm: David Holm (comment 60.0 mins earlier) [quoted block] @dunn Fixed....</td>
+        </tr>
+       </table>
+    </td>
+  </tr>
+</table>""")
+
+    def two_related_github_notifications_can_be_rolled_up(self, previously_seen_per_test, how_many_new_expected, expected_payload):
+
+        notification_store = {}
+        
+        store_writer = Mock()
+        store_writer.get_from_binary.side_effect = stub(
+            (call('github-notifications'), notification_store),
+            (call('most-recently-seen'), previously_seen_per_test)
+        )
+        store_writer.store_as_binary.side_effect = stub(
+            (call('github-notifications', Any()), True),
+            (call('most-recently-seen', previously_seen_per_test), True)
+        )
+
+        expected_message = \
+"""From: P H <ph@example.com>
+Content-Transfer-Encoding: 8bit
+Content-Type: multipart/alternative; boundary="---NOTIFICATION_BOUNDARY"
+MIME-Version: 1.0
+This is a multi-part message in MIME format.
+-----NOTIFICATION_BOUNDARY
+Content-Type: text/html; charset="utf-7"
+Content-Transfer-Encoding: utf-7
+
+
+"""
+
+        expected_message = "Subject: Github Rollup (" + str(how_many_new_expected) + " new)\n" + expected_message + expected_payload
 
         rollup_inbox_proxy = Mock()
-        rollup_inbox_proxy.append.side_effect = stub((call(appended), True))
+        rollup_inbox_proxy.append.side_effect = stub((call(expected_message), True))
 
         processors = []
         processor = GithubNotificationProcessor(store_writer)  ## What we are testing
@@ -86,9 +118,9 @@ Content-Transfer-Encoding: utf-7
             notification_2_content = myfile.read().replace('\n', '\r\n')
         digester.process_incoming_message(1235, processors, notification_2_content, to_delete_from_inqueue, unmatched_to_move, False)
 
-        processor.rewrite_rollup_emails(rollup_inbox_proxy, False, False, "P H <ph@example.com>")
+        processor.rewrite_rollup_emails(rollup_inbox_proxy, False, previously_seen_per_test > 0, "P H <ph@example.com>")
 
-        self.assertEquals(rollup_inbox_proxy.mock_calls, [call.append(appended)])
+        self.assertEquals(rollup_inbox_proxy.mock_calls, [call.append(expected_message)])
         self.assertEquals(store_writer.mock_calls, [
             call.get_from_binary('github-notifications'),
             call.get_from_binary('most-recently-seen'),
@@ -112,7 +144,7 @@ Content-Transfer-Encoding: utf-7
                     u'mostRecent': 1459581256
                 }
             }),
-            call.store_as_binary('most-recently-seen', 0)])
+            call.store_as_binary('most-recently-seen', previously_seen_per_test)])
         self.assertEquals(len(unmatched_to_move), 0)
         self.assertEquals(str(to_delete_from_inqueue), "[1234, 1235]")
         self.assertEquals(len(notification_store), 0)
