@@ -104,7 +104,7 @@ class GithubNotificationProcessor(BaseNotificationProcessor):
             ddd = True
             break
         if quoted:
-            message = "[quoted] " + message
+            message = "[quoted block] " + message
         if ddd:
             message += "..."
         return message
@@ -259,4 +259,4 @@ class GithubNotificationProcessor(BaseNotificationProcessor):
         return 'Github Rollup'
 
     def print_summary(self):
-        print "Github: New GH messages: " + str(self.new_message_count)
+        print "Github: New Github notifications: " + str(self.new_message_count)
