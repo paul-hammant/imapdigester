@@ -2,11 +2,12 @@ from __future__ import unicode_literals
 import re
 import arrow as arrow
 import dateutil
-from base_notification_processor import BaseNotificationProcessor
 from decimal import Decimal
 
+from processors.charges.base_charge_card_processor import BaseChargeCardProcessor
 
-class ChaseNotificationProcessor(BaseNotificationProcessor):
+
+class ChaseNotificationProcessor(BaseChargeCardProcessor):
     def __init__(self, charges):
         self.charges = charges
         self.new_message_count = 0
@@ -87,11 +88,5 @@ class ChaseNotificationProcessor(BaseNotificationProcessor):
     def matching_incoming_headers(self):
         return ["Subject: (.*) Alert from Chase"]
 
-    def matching_rollup_subject(self):
-        raise Exception("Should never get here")
-
     def print_summary(self):
         print "New Chase Messages/Charges: " + str(self.new_chase)
-
-    def rewrite_rollup_emails(self, rollup_inbox_proxy, has_previous_message, previously_seen, sender_to_implicate):
-        raise Exception("Should never get here")

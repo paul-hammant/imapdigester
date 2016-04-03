@@ -1,12 +1,13 @@
 import re
 import arrow
 import sys
-from base_notification_processor import BaseNotificationProcessor
 from bs4 import BeautifulSoup
 from decimal import Decimal
 
+from processors.charges.base_charge_card_processor import BaseChargeCardProcessor
 
-class AmexNotificationProcessor(BaseNotificationProcessor):
+
+class AmexNotificationProcessor(BaseChargeCardProcessor):
     def __init__(self, charges):
         self.charges = charges
         self.new_amex = 0
@@ -17,12 +18,6 @@ class AmexNotificationProcessor(BaseNotificationProcessor):
     def matching_incoming_headers(self):
         return ["From: \"American Express\" <AmericanExpress@welcome.aexp.com>",
                 "From: \"American Express\" <americanexpress@member.americanexpress.com>"]
-
-    def matching_rollup_subject(self):
-        raise Exception("Should never get here")
-
-    def rewrite_rollup_emails(self, rollup_inbox_proxy, has_previous_message, previously_seen, sender_to_implicate):
-        raise Exception("Should never get here")
 
     def process_new_notification(self, rfc822content, msg, html_message, text_message):
 

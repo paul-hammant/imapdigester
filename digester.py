@@ -15,7 +15,12 @@ class RollupServer(object):
         self.rollup_inbox.delete_messages([self.previous_message_id])
 
     def append(self, message):
-        self.rollup_inbox.append("INBOX", message)
+        try:
+            self.rollup_inbox.append("INBOX", message)
+        except UnicodeEncodeError:
+            print ">>>>" + message + "<<<<"
+            raise
+
 
 
 class Digester(object):

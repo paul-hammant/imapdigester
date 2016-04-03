@@ -184,7 +184,7 @@ class GithubNotificationProcessor(BaseNotificationProcessor):
         new_message += 'This is a multi-part message in MIME format.\n'
         new_message += '-----NOTIFICATION_BOUNDARY\nContent-Type: text/html; charset="utf-8"\n'
         new_message += 'Content-Transfer-Encoding: utf-8\n\n'
-        new_message += email_html.replace("\n\n\n", "\n").replace("\n\n", "\n").encode('utf-8', 'replace')
+        new_message += email_html.decode('string-escape').replace("\n\n\n", "\n").replace("\n\n", "\n").encode('utf-8', 'replace')
 
         # Delete previous email, and write replacement
         if has_previous_message:

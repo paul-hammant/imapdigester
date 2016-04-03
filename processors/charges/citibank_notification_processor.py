@@ -1,10 +1,11 @@
 import re
 import arrow
-from base_notification_processor import BaseNotificationProcessor
 from decimal import Decimal
 
+from processors.charges.base_charge_card_processor import BaseChargeCardProcessor
 
-class CitibankNotificationProcessor(BaseNotificationProcessor):
+
+class CitibankNotificationProcessor(BaseChargeCardProcessor):
     def __init__(self, charges):
         self.charges = charges
         self.new_citi = 0
@@ -14,12 +15,6 @@ class CitibankNotificationProcessor(BaseNotificationProcessor):
 
     def matching_incoming_headers(self):
         return ["From: alerts@citibank.com"]
-
-    def matching_rollup_subject(self):
-        raise Exception("Should never get here")
-
-    def rewrite_rollup_emails(self, rollup_inbox_proxy, has_previous_message, previously_seen, sender_to_implicate):
-        raise Exception("Should never get here")
 
     def process_new_notification(self, rfc822content, msg, html_message, text_message):
         cdate = msg["Date"].split(',', 1)[1].strip()
