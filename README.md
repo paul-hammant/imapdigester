@@ -42,6 +42,7 @@ pip install imapclient==0.13
 pip install arrow
 pip install jinja2
 pip install simplejson
+pip install mockextras
 ```
 
 ## Imapclient sadness
