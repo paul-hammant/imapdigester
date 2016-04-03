@@ -16,9 +16,9 @@ class GithubNotificationProcessor(BaseNotificationProcessor):
         if self.github_notifications is None:
             self.github_notifications = {}
 
-        self.mostRecentlySeen = self.store_writer.get_from_binary("most-recently-seen")
-        if self.mostRecentlySeen is None:
-            self.mostRecentlySeen = 0
+        self.most_recently_seen = self.store_writer.get_from_binary("most-recently-seen")
+        if self.most_recently_seen is None:
+            self.most_recently_seen = 0
 
         self.newNotifications = {}
 
@@ -123,8 +123,8 @@ class GithubNotificationProcessor(BaseNotificationProcessor):
         # If the last mail has been read, then everything in it has been seen
         if previously_seen:
             for topic, detail in self.github_notifications.iteritems():
-                if (detail["mostRecent"] > self.mostRecentlySeen):
-                    self.mostRecentlySeen = detail["mostRecent"]
+                if (detail["mostRecent"] > self.most_recently_seen):
+                    self.most_recently_seen = detail["mostRecent"]
 
         # print ">>> newNotifications: " + json.dumps(self.newNotifications, sort_keys=True) + "\n\n"
 
@@ -169,10 +169,10 @@ class GithubNotificationProcessor(BaseNotificationProcessor):
 </table>"""
 
         template = Template(templ)
-        seen_formated = arrow.get(self.mostRecentlySeen).to("local").format("MMM DD YYYY hh:mm A")
+        seen_formated = arrow.get(self.most_recently_seen).to("local").format("MMM DD YYYY hh:mm A")
         email_html = template.render(notifsToPrint=notifsToPrint,
-                                     most_recent_seen=self.mostRecentlySeen,
-                                     most_recent_seen_str=seen_formated, not_first_email=(self.mostRecentlySeen > 0))
+                                     most_recent_seen=self.most_recently_seen,
+                                     most_recent_seen_str=seen_formated, not_first_email=(self.most_recently_seen > 0))
 
         new_message = 'Subject: ' + self.matching_rollup_subject() + ' (' + str(
             num_messages_since_last_seen) + ' new)\n'
@@ -191,7 +191,7 @@ class GithubNotificationProcessor(BaseNotificationProcessor):
         rollup_inbox_proxy.append(new_message)
         # Save
         self.store_writer.store_as_binary("github-notifications", self.github_notifications)
-        self.store_writer.store_as_binary("most-recently-seen", self.mostRecentlySeen)
+        self.store_writer.store_as_binary("most-recently-seen", self.most_recently_seen)
 
     def add_new_notifications_to_those_grouped_by_topic_and_calc_most_recent_for_each_topic(self):
         for ts, notif in self.newNotifications.iteritems():
@@ -228,12 +228,12 @@ class GithubNotificationProcessor(BaseNotificationProcessor):
         mostRecentNotification = None
         for ts0, notif in sorted(notifsToPrint.iteritems(), reverse=False):
             mostRecentNotification = notif
-            if ts0 >= self.mostRecentlySeen and line_here_done == False:
+            if ts0 >= self.most_recently_seen and line_here_done == False:
                 notif['line_here'] = True
                 line_here_done = True
             lastTs = 0
             for ts, detail in sorted(notif["ts"].iteritems(), reverse=True):
-                if (ts > self.mostRecentlySeen):
+                if (ts > self.most_recently_seen):
                     num_messages_since_last_seen += 1
                 if lastTs != 0:
                     secsDiff = abs(ts - lastTs)

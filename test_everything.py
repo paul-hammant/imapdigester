@@ -70,7 +70,7 @@ Content-Transfer-Encoding: utf-7
         rollup_inbox_proxy.append.side_effect = stub((call(appended), True))
 
         processors = []
-        processor = GithubNotificationProcessor(store_writer)
+        processor = GithubNotificationProcessor(store_writer)  ## What we are testing
         processors.append(processor)
 
         digester = Digester(None, None, processors, False, "P H <ph@example.com>", False)
@@ -114,7 +114,5 @@ Content-Transfer-Encoding: utf-7
             }),
             call.store_as_binary('most-recently-seen', 0)])
         self.assertEquals(len(unmatched_to_move), 0)
-        self.assertEquals(len(to_delete_from_inqueue), 2)
-        self.assertEquals(to_delete_from_inqueue[0], 1234)
-        self.assertEquals(to_delete_from_inqueue[1], 1235)
+        self.assertEquals(str(to_delete_from_inqueue), "[1234, 1235]")
         self.assertEquals(len(notification_store), 0)
