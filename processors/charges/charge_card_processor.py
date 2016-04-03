@@ -1,12 +1,17 @@
 import re
 from time import gmtime
-from jinja2 import Template
+
 import arrow
+from jinja2 import Template
+
 from base_notification_processor import BaseNotificationProcessor
-from processors.charges.barclaycard.barclaycard_notification_processor import BarclaycardNotificationProcessor
-from processors.charges.citi.citibank_notification_processor import CitibankNotificationProcessor
-from processors.charges.amex.amex_notification_processor import AmexNotificationProcessor
-from processors.charges.chase.chase_notification_processor import ChaseNotificationProcessor
+from processors.charges.amex_notification_processor import AmexNotificationProcessor
+from processors.charges.barclaycard_notification_processor import BarclaycardNotificationProcessor
+from processors.charges.bofa_notification_processor import BankOfAmericaNotificationProcessor
+from processors.charges.capitalone_notification_processor import CapitalOneNotificationProcessor
+from processors.charges.chase_notification_processor import ChaseNotificationProcessor
+from processors.charges.citibank_notification_processor import CitibankNotificationProcessor
+from processors.charges.jpm_notification_processor import JPMorganNotificationProcessor
 
 
 class ChargeCardProcessor(BaseNotificationProcessor):
@@ -30,6 +35,18 @@ class ChargeCardProcessor(BaseNotificationProcessor):
 
     def with_barclaycard(self):
         self.processors.append(BarclaycardNotificationProcessor(self.new_charge_summary))
+        return self
+
+    def with_bofa(self):
+        self.processors.append(BankOfAmericaNotificationProcessor(self.new_charge_summary))
+        return self
+
+    def with_capitalone(self):
+        self.processors.append(CapitalOneNotificationProcessor(self.new_charge_summary))
+        return self
+
+    def with_jpmorgan(self):
+        self.processors.append(JPMorganNotificationProcessor(self.new_charge_summary))
         return self
 
     def with_amex(self):
