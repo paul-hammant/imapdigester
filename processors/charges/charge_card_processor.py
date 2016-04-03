@@ -3,6 +3,7 @@ from time import gmtime
 from jinja2 import Template
 import arrow
 from base_notification_processor import BaseNotificationProcessor
+from processors.charges.barclaycard.barclaycard_notification_processor import BarclaycardNotificationProcessor
 from processors.charges.citi.citibank_notification_processor import CitibankNotificationProcessor
 from processors.charges.amex.amex_notification_processor import AmexNotificationProcessor
 from processors.charges.chase.chase_notification_processor import ChaseNotificationProcessor
@@ -25,6 +26,10 @@ class ChargeCardProcessor(BaseNotificationProcessor):
 
     def with_chase(self):
         self.processors.append(ChaseNotificationProcessor(self.new_charge_summary))
+        return self
+
+    def with_barclaycard(self):
+        self.processors.append(BarclaycardNotificationProcessor(self.new_charge_summary))
         return self
 
     def with_amex(self):
@@ -72,7 +77,7 @@ class ChargeCardProcessor(BaseNotificationProcessor):
 
         all_the_same_year = True
         max_date = arrow.get(gmtime(0))
-        if len(self.charge_summary["charges"]) >0:
+        if len(self.charge_summary["charges"]) > 0:
             min_date = min(self.charge_summary["charges"])
             max_date = max(self.charge_summary["charges"])
             if arrow.get(min_date).year == arrow.get(max_date).year:
