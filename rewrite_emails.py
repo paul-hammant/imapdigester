@@ -5,6 +5,7 @@ import time
 from socket import gaierror
 
 from digester import Digester
+from my_processor_setup import add_processors
 
 if __name__ == '__main__':
 
@@ -53,6 +54,11 @@ if __name__ == '__main__':
     rollup_folder.login(options.rollup_user, options.rollup_pw)
     rollup_folder.select_folder('INBOX')
 
-    Digester(inqueue_folder, rollup_folder, options.print_summary,
+    # Add Processors
+    processors = []
+    add_processors(processors)
+
+
+    Digester(inqueue_folder, rollup_folder, processors, options.print_summary,
              options.sender_to_implicate, options.move_unmatched).doit()
 

@@ -2,7 +2,6 @@ import email
 import imaplib
 import re
 
-from my_processor_setup import add_processors
 from utils import Utils
 
 
@@ -21,18 +20,14 @@ class RollupServer(object):
 
 class Digester(object):
 
-    def __init__(self, inqueue_folder, rollup_folder, print_summary, sender_to_implicate, move_unmatched):
+    def __init__(self, inqueue_folder, rollup_folder, processors, print_summary, sender_to_implicate, move_unmatched):
         super(Digester, self)
+        self.processors = processors
         self.move_unmatched = move_unmatched
         self.sender_to_implicate = sender_to_implicate
         self.print_summary = print_summary
         self.rollup_folder = rollup_folder
         self.inqueue_folder = inqueue_folder
-
-        # Add Processors
-        self.processors = []
-        add_processors(self.processors)
-
 
     def doit(self):
 
