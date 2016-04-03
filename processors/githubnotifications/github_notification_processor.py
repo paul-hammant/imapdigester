@@ -12,9 +12,9 @@ class GithubNotificationProcessor(BaseNotificationProcessor):
         self.store_writer = store_writer
         self.new_message_count = 0
         self.new_articles = 0
-        self.githubNotifications = self.store_writer.get_from_binary("github-notifications")
-        if self.githubNotifications is None:
-            self.githubNotifications = {}
+        self.github_notifications = self.store_writer.get_from_binary("github-notifications")
+        if self.github_notifications is None:
+            self.github_notifications = {}
 
         self.mostRecentlySeen = self.store_writer.get_from_binary("most-recently-seen")
         if self.mostRecentlySeen is None:
@@ -118,11 +118,11 @@ class GithubNotificationProcessor(BaseNotificationProcessor):
 
         # Deleted email (by the user) means they don't want to see THOSE notifications listed in a Rollup again.
         if has_previous_message == False:
-            self.githubNotifications = {}
+            self.github_notifications = {}
 
         # If the last mail has been read, then everything in it has been seen
         if previously_seen:
-            for topic, detail in self.githubNotifications.iteritems():
+            for topic, detail in self.github_notifications.iteritems():
                 if (detail["mostRecent"] > self.mostRecentlySeen):
                     self.mostRecentlySeen = detail["mostRecent"]
 
@@ -190,17 +190,17 @@ class GithubNotificationProcessor(BaseNotificationProcessor):
             rollup_inbox_proxy.delete_previous_message()
         rollup_inbox_proxy.append(new_message)
         # Save
-        self.store_writer.store_as_binary("github-notifications", self.githubNotifications)
+        self.store_writer.store_as_binary("github-notifications", self.github_notifications)
         self.store_writer.store_as_binary("most-recently-seen", self.mostRecentlySeen)
 
     def add_new_notifications_to_those_grouped_by_topic_and_calc_most_recent_for_each_topic(self):
         for ts, notif in self.newNotifications.iteritems():
-            if (notif["topic"] not in self.githubNotifications):
-                self.githubNotifications[notif["topic"]] = {"ts": {}, "mostRecent": 0}
-            if (ts > self.githubNotifications[notif["topic"]]["mostRecent"]):
-                self.githubNotifications[notif["topic"]]["mostRecent"] = ts
-            self.githubNotifications[notif["topic"]]["subj"] = notif["subj"]
-            self.githubNotifications[notif["topic"]]["ts"][ts] = {
+            if (notif["topic"] not in self.github_notifications):
+                self.github_notifications[notif["topic"]] = {"ts": {}, "mostRecent": 0}
+            if (ts > self.github_notifications[notif["topic"]]["mostRecent"]):
+                self.github_notifications[notif["topic"]]["mostRecent"] = ts
+            self.github_notifications[notif["topic"]]["subj"] = notif["subj"]
+            self.github_notifications[notif["topic"]]["ts"][ts] = {
                 "who": notif["who"],
                 "what": notif["what"],
                 "msg": notif["msg"]
@@ -209,7 +209,7 @@ class GithubNotificationProcessor(BaseNotificationProcessor):
     def map_topics_by_their_most_recent_notification(self):
         # map topics by their most recent notification
         notifsToPrint = {}
-        for topic, detail in self.githubNotifications.iteritems():
+        for topic, detail in self.github_notifications.iteritems():
             notifsToPrint[detail["mostRecent"]] = {
                 "when": arrow.get(detail["mostRecent"]).to("local").format("MMM DD YYYY---hh:mm A"),
                 "path": topic[:topic.index("@")],

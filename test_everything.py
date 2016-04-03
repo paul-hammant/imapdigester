@@ -3,7 +3,7 @@ from unittest import TestCase
 import sys
 
 from mock import Mock, call
-from mockextras import stub
+from mockextras import stub, Any
 from digester import Digester
 from processors.githubnotifications.github_notification_processor import GithubNotificationProcessor
 
@@ -16,17 +16,19 @@ class TestEverything(TestCase):
         reload(sys)
         sys.setdefaultencoding('utf8')
 
-    def test_github_notifications(self):
+    def test_two_related_github_notifications_can_be_rolled_up(self):
 
         notification_store = {}
 
-        store_writer = Mock(
-            get_from_binary = stub(
-                (call(u'github-notifications'), notification_store),
-                (call('most-recently-seen'), 0)
-            )
+        store_writer = Mock()
+        store_writer.get_from_binary.side_effect = stub(
+            (call('github-notifications'), notification_store),
+            (call('most-recently-seen'), 0)
         )
-        rollup_inbox_proxy = Mock()
+        store_writer.store_as_binary.side_effect = stub(
+            (call('github-notifications', Any()), True),
+            (call('most-recently-seen', 0), True)
+        )
 
         appended = \
 """Subject: Github Rollup (2 new)
@@ -64,6 +66,7 @@ Content-Transfer-Encoding: utf-7
   </tr>
 </table>"""
 
+        rollup_inbox_proxy = Mock()
         rollup_inbox_proxy.append.side_effect = stub((call(appended), True))
 
         processors = []
@@ -83,11 +86,35 @@ Content-Transfer-Encoding: utf-7
             notification_2_content = myfile.read().replace('\n', '\r\n')
         digester.process_incoming_message(1235, processors, notification_2_content, to_delete_from_inqueue, unmatched_to_move, False)
 
-
         processor.rewrite_rollup_emails(rollup_inbox_proxy, False, False, "P H <ph@example.com>")
 
         self.assertEquals(rollup_inbox_proxy.mock_calls, [call.append(appended)])
+        self.assertEquals(store_writer.mock_calls, [
+            call.get_from_binary('github-notifications'),
+            call.get_from_binary('most-recently-seen'),
+            call.store_as_binary('github-notifications', {
+                'Homebrew/homebrew/pull/50441@github.com': {
+                    u'subj': u'[Homebrew/homebrew] ired 0.5.0 (#50441)',
+                    u'ts': {
+                        1459577656: {
+                        u'msg': u'[quoted block] @dunn Fixed....',
+                        u'diff': u' 60.0 mins earlier',
+                        u'what': u'comment',
+                        u'who': u'dholm: David Holm'
+                    },
+                        1459581256: {
+                            u'msg': u'Peter Piper picked a peck of pickled peppers....',
+                            u'diff': u'',
+                            u'what': u'comment',
+                            u'who': u'ppiper: Peter Piper'
+                        }
+                    },
+                    u'mostRecent': 1459581256
+                }
+            }),
+            call.store_as_binary('most-recently-seen', 0)])
         self.assertEquals(len(unmatched_to_move), 0)
         self.assertEquals(len(to_delete_from_inqueue), 2)
         self.assertEquals(to_delete_from_inqueue[0], 1234)
         self.assertEquals(to_delete_from_inqueue[1], 1235)
+        self.assertEquals(len(notification_store), 0)
