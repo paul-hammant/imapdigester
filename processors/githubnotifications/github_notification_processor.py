@@ -146,9 +146,9 @@ class GithubNotificationProcessor(BaseNotificationProcessor):
     <th>When</th><th>Issues/Pull Requests &amp; Their Notifications</th>
   </tr>
 {% for when, topic in notifsToPrint|dictsort(false, by='key')|reverse %}
-  {% if topic['line_here'] %}
+{% if topic['line_here'] %}
   <tr><td colspan="2" style="border-bottom: 1pt solid red; border-top: 1pt solid red;"><center>^ New/Updated Notifications Since You Last Checked ^</center></td></tr>
-  {% endif %}
+{% endif %}
   <tr style="{{loop.cycle('','background-color: #def;')}}">
     <td valign="top">{{ topic.when.replace('---','<br/>') }}</td>
     <td>
@@ -186,6 +186,10 @@ class GithubNotificationProcessor(BaseNotificationProcessor):
         new_message += '-----NOTIFICATION_BOUNDARY\nContent-Type: text/html; charset="utf-8"\n'
         new_message += 'Content-Transfer-Encoding: base64\n\n'
         new_message += base64.b64encode(email_html)
+
+        # Want to do this really.
+        # new_message += 'Content-Transfer-Encoding: utf-8\n\n'
+        # new_message += email_html.replace("\n\n\n", "\n").replace("\n\n", "\n").encode('utf-8', 'replace')
 
         # Delete previous email, and write replacement
         if has_previous_message:

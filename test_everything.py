@@ -28,15 +28,7 @@ class TestEverything(TestCase):
         )
         rollup_inbox_proxy = Mock()
 
-        appended = u'Subject: Github Rollup (1 new)\n' \
-            u'From: P H <ph@example.com>\n' \
-            u'Content-Transfer-Encoding: 8bit\n' \
-            u'Content-Type: multipart/alternative; boundary="---NOTIFICATION_BOUNDARY"\n' \
-            u'MIME-Version: 1.0\nThis is a multi-part message in MIME format.\n' \
-            u'-----NOTIFICATION_BOUNDARY\n' \
-            u'Content-Type: text/html; charset="utf-8"\nContent-Transfer-Encoding: base64\n' \
-            u'\n' \
-            u'Cgo8dGFibGU+CiAgPHRyIHN0eWxlPSJiYWNrZ3JvdW5kLWNvbG9yOiAjYWNmOyI+CiAgICA8dGg+V2hlbjwvdGg+PHRoPklzc3Vlcy9QdWxsIFJlcXVlc3RzICZhbXA7IFRoZWlyIE5vdGlmaWNhdGlvbnM8L3RoPgogIDwvdHI+CgogIAogIDx0ciBzdHlsZT0iIj4KICAgIDx0ZCB2YWxpZ249InRvcCI+QXByIDAyIDIwMTY8YnIvPjAyOjE0IEFNPC90ZD4KICAgIDx0ZD4KICAgICAgPHRhYmxlIHN0eWxlPSJib3JkZXItdG9wOiBub25lIj4KICAgICAgICA8dHI+CiAgICAgICAgICA8dGQgc3R5bGU9ImJvcmRlci1ib3R0b206IDJweCBzb2xpZCBsaWdodGdyZXk7Ij4KICAgICAgICAgICAgPGEgaHJlZj0iaHR0cHM6Ly9naXRodWIuY29tL0hvbWVicmV3L2hvbWVicmV3L3B1bGwvNTA0NDEiPlB1bGwgUmVxdWVzdDogW0hvbWVicmV3L2hvbWVicmV3XSBpcmVkIDAuNS4wICgjNTA0NDEpPC9hPgogICAgICAgICAgPC90ZD4KICAgICAgICA8L3RyPgoKICAgICAgICA8dHI+CiAgICAgICAgICA8dGQgc3R5bGU9ImZvbnQtd2VpZ2h0OiBib2xkOyI+ZGhvbG06IERhdmlkIEhvbG0gKGNvbW1lbnQpIEBkdW5uIEZpeGVkLjwvdGQ+CiAgICAgICAgPC90cj4KCiAgICAgICA8L3RhYmxlPgogICAgPC90ZD4KICA8L3RyPgoKPC90YWJsZT4='
+        appended = u'Subject: Github Rollup (1 new)\nFrom: P H <ph@example.com>\nContent-Transfer-Encoding: 8bit\nContent-Type: multipart/alternative; boundary="---NOTIFICATION_BOUNDARY"\nMIME-Version: 1.0\nThis is a multi-part message in MIME format.\n-----NOTIFICATION_BOUNDARY\nContent-Type: text/html; charset="utf-8"\nContent-Transfer-Encoding: base64\n\nCgo8dGFibGU+CiAgPHRyIHN0eWxlPSJiYWNrZ3JvdW5kLWNvbG9yOiAjYWNmOyI+CiAgICA8dGg+V2hlbjwvdGg+PHRoPklzc3Vlcy9QdWxsIFJlcXVlc3RzICZhbXA7IFRoZWlyIE5vdGlmaWNhdGlvbnM8L3RoPgogIDwvdHI+CgoKICA8dHIgc3R5bGU9IiI+CiAgICA8dGQgdmFsaWduPSJ0b3AiPkFwciAwMiAyMDE2PGJyLz4wMjoxNCBBTTwvdGQ+CiAgICA8dGQ+CiAgICAgIDx0YWJsZSBzdHlsZT0iYm9yZGVyLXRvcDogbm9uZSI+CiAgICAgICAgPHRyPgogICAgICAgICAgPHRkIHN0eWxlPSJib3JkZXItYm90dG9tOiAycHggc29saWQgbGlnaHRncmV5OyI+CiAgICAgICAgICAgIDxhIGhyZWY9Imh0dHBzOi8vZ2l0aHViLmNvbS9Ib21lYnJldy9ob21lYnJldy9wdWxsLzUwNDQxIj5QdWxsIFJlcXVlc3Q6IFtIb21lYnJldy9ob21lYnJld10gaXJlZCAwLjUuMCAoIzUwNDQxKTwvYT4KICAgICAgICAgIDwvdGQ+CiAgICAgICAgPC90cj4KCiAgICAgICAgPHRyPgogICAgICAgICAgPHRkIHN0eWxlPSJmb250LXdlaWdodDogYm9sZDsiPmRob2xtOiBEYXZpZCBIb2xtIChjb21tZW50KSBAZHVubiBGaXhlZC48L3RkPgogICAgICAgIDwvdHI+CgogICAgICAgPC90YWJsZT4KICAgIDwvdGQ+CiAgPC90cj4KCjwvdGFibGU+'
 
         rollup_inbox_proxy.append.side_effect = stub((call(appended), True))
 
