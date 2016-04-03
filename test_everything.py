@@ -28,7 +28,41 @@ class TestEverything(TestCase):
         )
         rollup_inbox_proxy = Mock()
 
-        appended = 'Subject: Github Rollup (2 new)\nFrom: P H <ph@example.com>\nContent-Transfer-Encoding: 8bit\nContent-Type: multipart/alternative; boundary="---NOTIFICATION_BOUNDARY"\nMIME-Version: 1.0\nThis is a multi-part message in MIME format.\n-----NOTIFICATION_BOUNDARY\nContent-Type: text/html; charset="utf-7"\nContent-Transfer-Encoding: utf-7\n\n\n<table>\n  <tr style="background-color: #acf;">\n    <th>When</th><th>Issues/Pull Requests &amp; Their Notifications</th>\n  </tr>\n  <tr style="">\n    <td valign="top">Apr 02 2016<br/>03:14 AM</td>\n    <td>\n      <table style="border-top: none">\n        <tr>\n          <td style="border-bottom: 2px solid lightgrey;">\n            <a href="https://github.com/Homebrew/homebrew/pull/50441">Pull Request: [Homebrew/homebrew] ired 0.5.0 (#50441)</a>\n          </td>\n        </tr>\n        <tr>\n          <td style="font-weight: bold;">ppiper: Peter Piper (comment) Peter Piper picked a peck of pickled peppers....</td>\n        </tr>\n        <tr>\n          <td style="font-weight: bold;">dholm: David Holm (comment 60.0 mins earlier) [quoted block] @dunn Fixed....</td>\n        </tr>\n       </table>\n    </td>\n  </tr>\n</table>'
+        appended = \
+"""Subject: Github Rollup (2 new)
+From: P H <ph@example.com>
+Content-Transfer-Encoding: 8bit
+Content-Type: multipart/alternative; boundary="---NOTIFICATION_BOUNDARY"
+MIME-Version: 1.0
+This is a multi-part message in MIME format.
+-----NOTIFICATION_BOUNDARY
+Content-Type: text/html; charset="utf-7"
+Content-Transfer-Encoding: utf-7
+
+
+<table>
+  <tr style="background-color: #acf;">
+    <th>When</th><th>Issues/Pull Requests &amp; Their Notifications</th>
+  </tr>
+  <tr style="">
+    <td valign="top">Apr 02 2016<br/>03:14 AM</td>
+    <td>
+      <table style="border-top: none">
+        <tr>
+          <td style="border-bottom: 2px solid lightgrey;">
+            <a href="https://github.com/Homebrew/homebrew/pull/50441">Pull Request: [Homebrew/homebrew] ired 0.5.0 (#50441)</a>
+          </td>
+        </tr>
+        <tr>
+          <td style="font-weight: bold;">ppiper: Peter Piper (comment) Peter Piper picked a peck of pickled peppers....</td>
+        </tr>
+        <tr>
+          <td style="font-weight: bold;">dholm: David Holm (comment 60.0 mins earlier) [quoted block] @dunn Fixed....</td>
+        </tr>
+       </table>
+    </td>
+  </tr>
+</table>"""
 
         rollup_inbox_proxy.append.side_effect = stub((call(appended), True))
 
