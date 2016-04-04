@@ -1,9 +1,9 @@
-# imapdigester
+# ImapDigester
 
 Reads all* your robot-sent notifications and digests them into a single rollup email, that has some smarts how much
 you've read previously or not.
 
- * all, cough, means three types of credit card alerts, and notifications from github and stackexchange
+ * all, cough, means three types of credit card alerts, and notifications from github and stackexchange so far
 
 For this to work, you need two dedicated email addresses:
 
@@ -57,7 +57,7 @@ https://github.com/alekstorm/backports.ssl/issues/16
 
 # Running it on Pi with Cron
 
-Git clone this repo in `/home/pi`:
+In `/home/pi`, git clone this repo.
 
 Make a script `run_imapdigester.sh`, and customize as appropriate below for your email provider and account details:
 
@@ -93,13 +93,17 @@ sudo /etc/init.d/rsyslog restart
 
 You should be able to see it running by tailing `imapdigester_output.txt`.
 
+If that file does not appear within 10 mins (zero bytes), then you can change cron to log by editing a line in `/etc/rsyslog.conf` that is about cron's logging, then tail `/var/log/cron.log` which may give an insight as to what is wrong.
+
 # Rewritten emails are available for:
 
 ## Credit Card usages.
 
 A single email that can, so far, pull in transactions from American Express (US), Citibank (US) and Chase (US).
 Ordered by most recent first. These guys made it hard. For want of a text/json multi-part chunk (that includes a 
-transaction ref for correlation)
+transaction ref for correlation).
+
+I've left placeholders for [Barclaycard](https://github.com/paul-hammant/imapdigester/blob/master/processors/charges/barclaycard_notification_processor.py) [Bank of America](https://github.com/paul-hammant/imapdigester/blob/master/processors/charges/bofa_notification_processor.py), [CapitalOne](https://github.com/paul-hammant/imapdigester/blob/master/processors/charges/capitalone_notification_processor.py) and [JP Morgan](https://github.com/paul-hammant/imapdigester/blob/master/processors/charges/jpm_notification_processor.py) cards.
 
 ## Stack Exchange Notifications
 
@@ -138,5 +142,5 @@ Note - there is grouping around topic (repo-issue, repo-PR, repo-commit-comment)
 
 - Separate Github Enterprise (ghe.yourcompany.com) and Github (github.com) notifications.
 - HipChat notifications (no second notifications email address)
-- Linkedin (no second notifications email address, though it does have second/third/fourth addresses)
-- Unit tests (which I paired with someone who knew what they were doing for this).
+- Linkedin (sadly has no separate notifications email address, even though it can capture second/third/fourth addresses)
+- More Integration tests (samples of emails need to be sanitized and copied into `testdata/`).
