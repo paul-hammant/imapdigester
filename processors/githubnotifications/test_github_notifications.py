@@ -25,14 +25,14 @@ class NotifsStore(object):
         return "NotifsStore(..)"
 
 
-class TestEverything(TestCase):
+class TestGithubNotifications(TestCase):
 
     def __init__(self, methodName='runTest'):
-        super(TestEverything, self).__init__(methodName)
+        super(TestGithubNotifications, self).__init__(methodName)
         reload(sys)
         sys.setdefaultencoding('utf8')
 
-    def test_two_related_github_notifications_can_be_rolled_up(self):
+    def test_two_related_notifs_can_be_rolled_up(self):
 
         expected_payload = """<table>
   <tr style="background-color: #acf;">
@@ -141,7 +141,7 @@ Content-Transfer-Encoding: utf-7
         self.assertEquals(str(to_delete_from_inqueue), "[1234, 1235]")
         self.assertEquals(len(final_notifs_store.notifs), 1)
 
-    def test_two_related_github_notifications_can_be_rolled_up_with_a_prior_notification(self):
+    def test_two_related_notifis_can_be_rolled_up_with_a_prior_notification(self):
 
         expected_payload = """<span>You have previously read notifications up to: Apr 01 2016 09:20 PM</span>
 <table>
@@ -292,7 +292,7 @@ Content-Transfer-Encoding: utf-7
         self.assertEquals(str(to_delete_from_inqueue), "[1234, 1235]")
         self.assertEquals(len(final_notifs_store.notifs), 2)
 
-    def test_two_related_github_notifications_can_be_rolled_up_where_one_was_previously_seen(self):
+    def test_two_related_notifs_can_be_rolled_up_where_one_was_previously_seen(self):
 
         expected_payload = """<span>You have previously read notifications up to: Apr 02 2016 02:14 AM</span>
 <table>
