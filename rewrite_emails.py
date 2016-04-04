@@ -21,14 +21,14 @@ if __name__ == '__main__':
                       help="User ID for incoming notifications mail server")
     parser.add_option("--notifications_pw", dest="notifications_pw",
                       help="User's password for incoming notifications mail server")
-    parser.add_option("--notifications_folder", dest="notifications_folder_name",
+    parser.add_option("--notifications_folder", dest="notifications_folder_name", default="INBOX",
                       help="The Imap folder to pull notification from, e.g. INBOX")
     parser.add_option("--rollup_imap", dest="rollup_imap",
                       help="IMAP to use for outgoing rollup (rewrite) mail server (SSL assumed)")
     parser.add_option("--rollup_user", dest="rollup_user", help="User ID for outgoing rollup (rewrite) mail server")
     parser.add_option("--rollup_pw", dest="rollup_pw",
                       help="User's password for outgoing rollup (rewrite) mail server")
-    parser.add_option("--rollup_folder", dest="rollup_folder_name",
+    parser.add_option("--rollup_folder", dest="rollup_folder_name", default="INBOX",
                   help="The Imap folder to pull/push rollup from/to, e.g. INBOX")
     parser.add_option("--implicate", dest="sender_to_implicate",
                       help="Who to name in rollup emails, e.g. \"Imap Digester\" <imapdigester@example.com>")
