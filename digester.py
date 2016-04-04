@@ -18,34 +18,35 @@ class RollupServer(object):
         try:
             self.rollup_inbox.append("INBOX", message)
         except UnicodeEncodeError:
-            print ">>>>" + message + "<<<<"
+            # Found this with attempts to utf-8 encode, but not utf-7
+            print ">>>>UnicodeError>>>>" + message + "\n\n"
             raise
-
 
 
 class Digester(object):
 
-    def __init__(self, inqueue_folder, rollup_folder, processors, print_summary, sender_to_implicate, move_unmatched):
+    def __init__(self, notification_folder, rollup_folder, processors,
+                 print_summary, sender_to_implicate, move_unmatched):
         super(Digester, self)
         self.processors = processors
         self.move_unmatched = move_unmatched
         self.sender_to_implicate = sender_to_implicate
         self.print_summary = print_summary
         self.rollup_folder = rollup_folder
-        self.inqueue_folder = inqueue_folder
+        self.notification_folder = notification_folder
 
     def doit(self):
 
-        messages = self.inqueue_folder.search(['NOT DELETED'])
-        response = self.inqueue_folder.fetch(messages, ['FLAGS', 'RFC822.SIZE'])
+        messages = self.notification_folder.search(['NOT DELETED'])
+        response = self.notification_folder.fetch(messages, ['FLAGS', 'RFC822.SIZE'])
         unmatched_to_move = []
         to_delete = []
 
-        # Loop through email in inqueue folder
+        # Loop through email in notification folder
         for msgid, data in response.iteritems():
-            rfc822content = self.inqueue_folder.fetch(msgid, ["INTERNALDATE", "BODY", "RFC822"])[msgid]['RFC822']
-            self.process_incoming_message(msgid, self.processors, rfc822content, to_delete,
-                                          unmatched_to_move, self.move_unmatched)
+            rfc822content = self.notification_folder.fetch(msgid, ["INTERNALDATE", "BODY", "RFC822"])[msgid]['RFC822']
+            self.process_incoming_notification(msgid, self.processors, rfc822content, to_delete,
+                                               unmatched_to_move, self.move_unmatched)
 
         # Rewrite emails in the rollup folder (the one the end-user actually reads)
         for processor in self.processors:
@@ -78,9 +79,9 @@ class Digester(object):
 
         # Delete Originals
 
-        self.inqueue_folder.delete_messages(to_delete)
-        self.inqueue_folder.expunge()
-        self.inqueue_folder.logout()
+        self.notification_folder.delete_messages(to_delete)
+        self.notification_folder.expunge()
+        self.notification_folder.logout()
 
         # Print summary for posterity
 
@@ -88,8 +89,8 @@ class Digester(object):
             for processor in self.processors:
                 processor.print_summary()
 
-    def process_incoming_message(self, msgid, processors, rfc822content, to_delete,
-                                 unmatched_to_move, move_unmatched):
+    def process_incoming_notification(self, msgid, processors, rfc822content, to_delete,
+                                      unmatched_to_move, move_unmatched):
         msg = email.message_from_string(rfc822content)
         html_message = Utils.get_decoded_email_body(msg, True)
         text_message = Utils.get_decoded_email_body(msg, False)

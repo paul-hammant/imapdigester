@@ -31,24 +31,24 @@ if __name__ == '__main__':
     (options, args) = parser.parse_args()
 
     # Read and mark for deletion items from notification inbox.
-    inqueue_folder = None
+    notification_folder = None
     try:
-        inqueue_folder = IMAPClient(options.notifications_imap, use_uid=True, ssl=(True))
+        notification_folder = IMAPClient(options.notifications_imap, use_uid=True, ssl=(True))
     except gaierror:
         print "CAN'T FIND IMAP SERVER"
         exit(10)
     try:
-        inqueue_folder.login(options.notifications_user, options.notifications_pw)
+        notification_folder.login(options.notifications_user, options.notifications_pw)
     except:
         time.sleep(5)
-        inqueue_folder = IMAPClient(options.notifications_imap, use_uid=True, ssl=(True))
+        notification_folder = IMAPClient(options.notifications_imap, use_uid=True, ssl=(True))
         try:
-            inqueue_folder.login(options.notifications_user, options.notifications_pw)
+            notification_folder.login(options.notifications_user, options.notifications_pw)
         except:
             print "CAN'T LOG IN to IN IMAP SERVER"
             exit(10)
     time.sleep(1)
-    inqueue_folder.select_folder('INBOX')
+    notification_folder.select_folder('INBOX')
 
     rollup_folder = IMAPClient(options.rollup_imap, use_uid=True, ssl=(True))
     rollup_folder.login(options.rollup_user, options.rollup_pw)
@@ -59,6 +59,6 @@ if __name__ == '__main__':
     add_processors(processors)
 
 
-    Digester(inqueue_folder, rollup_folder, processors, options.print_summary,
+    Digester(notification_folder, rollup_folder, processors, options.print_summary,
              options.sender_to_implicate, options.move_unmatched).doit()
 

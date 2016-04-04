@@ -3,7 +3,7 @@ from unittest import TestCase
 import sys
 
 from mock import Mock, call
-from mockextras import stub, Any
+from mockextras import stub
 from digester import Digester
 from processors.githubnotifications.github_notification_processor import GithubNotificationProcessor
 
@@ -97,12 +97,12 @@ class TestGithubNotifications(TestCase):
         digester = Digester(None, None, processors, False, "P H <ph@example.com>", False)
 
         unmatched_to_move = []
-        to_delete_from_inqueue = []
+        to_delete_from_notification_folder = []
 
         notification_1_content, notification_2_content = self.get_gh_emailed_notifications()
 
-        digester.process_incoming_message(1234, processors, notification_1_content, to_delete_from_inqueue, unmatched_to_move, False)
-        digester.process_incoming_message(1235, processors, notification_2_content, to_delete_from_inqueue, unmatched_to_move, False)
+        digester.process_incoming_notification(1234, processors, notification_1_content, to_delete_from_notification_folder, unmatched_to_move, False)
+        digester.process_incoming_notification(1235, processors, notification_2_content, to_delete_from_notification_folder, unmatched_to_move, False)
 
         processor.rewrite_rollup_emails(rollup_inbox_proxy, has_previous_message=True,
                                         previously_seen=False, sender_to_implicate="P H <ph@example.com>")
@@ -134,7 +134,7 @@ class TestGithubNotifications(TestCase):
             }),
             call.store_as_binary('most-recently-seen', 0)])
         self.assertEquals(len(unmatched_to_move), 0)
-        self.assertEquals(str(to_delete_from_inqueue), "[1234, 1235]")
+        self.assertEquals(str(to_delete_from_notification_folder), "[1234, 1235]")
         self.assertEquals(len(final_notifs_store.notifs), 1)
 
     def get_gh_emailed_notifications(self):
@@ -227,12 +227,12 @@ class TestGithubNotifications(TestCase):
         digester = Digester(None, None, processors, False, "P H <ph@example.com>", False)
 
         unmatched_to_move = []
-        to_delete_from_inqueue = []
+        to_delete_from_notification_folder = []
 
         notification_1_content, notification_2_content = self.get_gh_emailed_notifications()
 
-        digester.process_incoming_message(1234, processors, notification_1_content, to_delete_from_inqueue, unmatched_to_move, False)
-        digester.process_incoming_message(1235, processors, notification_2_content, to_delete_from_inqueue, unmatched_to_move, False)
+        digester.process_incoming_notification(1234, processors, notification_1_content, to_delete_from_notification_folder, unmatched_to_move, False)
+        digester.process_incoming_notification(1235, processors, notification_2_content, to_delete_from_notification_folder, unmatched_to_move, False)
 
         processor.rewrite_rollup_emails(rollup_inbox_proxy, has_previous_message=True,
                                         previously_seen=True, sender_to_implicate="P H <ph@example.com>")
@@ -276,7 +276,7 @@ class TestGithubNotifications(TestCase):
             }),
             call.store_as_binary('most-recently-seen', 1459560000)])
         self.assertEquals(len(unmatched_to_move), 0)
-        self.assertEquals(str(to_delete_from_inqueue), "[1234, 1235]")
+        self.assertEquals(str(to_delete_from_notification_folder), "[1234, 1235]")
         self.assertEquals(len(final_notifs_store.notifs), 2)
 
     def test_two_related_notifs_can_be_rolled_up_where_one_was_previously_seen(self):
@@ -333,12 +333,12 @@ class TestGithubNotifications(TestCase):
         digester = Digester(None, None, processors, False, "P H <ph@example.com>", False)
 
         unmatched_to_move = []
-        to_delete_from_inqueue = []
+        to_delete_from_notification_folder = []
 
         notification_1_content, notification_2_content = self.get_gh_emailed_notifications()
 
-        digester.process_incoming_message(1234, processors, notification_1_content, to_delete_from_inqueue, unmatched_to_move, False)
-        digester.process_incoming_message(1235, processors, notification_2_content, to_delete_from_inqueue, unmatched_to_move, False)
+        digester.process_incoming_notification(1234, processors, notification_1_content, to_delete_from_notification_folder, unmatched_to_move, False)
+        digester.process_incoming_notification(1235, processors, notification_2_content, to_delete_from_notification_folder, unmatched_to_move, False)
 
         processor.rewrite_rollup_emails(rollup_inbox_proxy, has_previous_message=True,
                                         previously_seen=False, sender_to_implicate="P H <ph@example.com>")
@@ -370,5 +370,5 @@ class TestGithubNotifications(TestCase):
             }),
             call.store_as_binary('most-recently-seen', 1459577657)])
         self.assertEquals(len(unmatched_to_move), 0)
-        self.assertEquals(str(to_delete_from_inqueue), "[1234, 1235]")
+        self.assertEquals(str(to_delete_from_notification_folder), "[1234, 1235]")
         self.assertEquals(len(final_notifs_store.notifs), 1)
