@@ -15,13 +15,21 @@ if __name__ == '__main__':
     # Command Line Args
 
     parser = OptionParser()
-    parser.add_option("--notifications_imap", dest="notifications_imap", help="IMAP to use for incoming notifications mail server (SSL assumed)")
-    parser.add_option("--notifications_user", dest="notifications_user", help="User ID for incoming notifications mail server")
-    parser.add_option("--notifications_pw", dest="notifications_pw", help="User's password for incoming notifications mail server")
+    parser.add_option("--notifications_imap", dest="notifications_imap",
+                      help="IMAP to use for incoming notifications mail server (SSL assumed)")
+    parser.add_option("--notifications_user", dest="notifications_user",
+                      help="User ID for incoming notifications mail server")
+    parser.add_option("--notifications_pw", dest="notifications_pw",
+                      help="User's password for incoming notifications mail server")
+    parser.add_option("--notifications_folder", dest="notifications_folder_name",
+                      help="The Imap folder to pull notification from, e.g. INBOX")
     parser.add_option("--rollup_imap", dest="rollup_imap",
                       help="IMAP to use for outgoing rollup (rewrite) mail server (SSL assumed)")
     parser.add_option("--rollup_user", dest="rollup_user", help="User ID for outgoing rollup (rewrite) mail server")
-    parser.add_option("--rollup_pw", dest="rollup_pw", help="User's password for outgoing rollup (rewrite) mail server")
+    parser.add_option("--rollup_pw", dest="rollup_pw",
+                      help="User's password for outgoing rollup (rewrite) mail server")
+    parser.add_option("--rollup_folder", dest="rollup_folder_name",
+                  help="The Imap folder to pull/push rollup from/to, e.g. INBOX")
     parser.add_option("--implicate", dest="sender_to_implicate",
                       help="Who to name in rollup emails, e.g. \"Imap Digester\" <imapdigester@example.com>")
     parser.add_option("--move_unmatched", action="store_true", dest="move_unmatched",
@@ -48,11 +56,11 @@ if __name__ == '__main__':
             print "CAN'T LOG IN to IN IMAP SERVER"
             exit(10)
     time.sleep(1)
-    notification_folder.select_folder('INBOX')
+    notification_folder.select_folder(options.notifications_folder_name)
 
     rollup_folder = IMAPClient(options.rollup_imap, use_uid=True, ssl=(True))
     rollup_folder.login(options.rollup_user, options.rollup_pw)
-    rollup_folder.select_folder('INBOX')
+    rollup_folder.select_folder(options.rollup_folder_name)
 
     # Add Processors
     processors = []
@@ -60,5 +68,5 @@ if __name__ == '__main__':
 
 
     Digester(notification_folder, rollup_folder, processors, options.print_summary,
-             options.sender_to_implicate, options.move_unmatched).doit()
+             options.sender_to_implicate, options.move_unmatched, options.rollup_folder_name).doit()
 

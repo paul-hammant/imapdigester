@@ -7,7 +7,8 @@ from utils import Utils
 
 class RollupServer(object):
 
-    def __init__(self, server, mid):
+    def __init__(self, server, mid, rollup_folder_name):
+        self.rollup_folder_name = rollup_folder_name
         self.rollup_inbox = server
         self.previous_message_id = mid
 
@@ -16,7 +17,7 @@ class RollupServer(object):
 
     def append(self, message):
         try:
-            self.rollup_inbox.append("INBOX", message)
+            self.rollup_inbox.append(self.rollup_folder_name, message)
         except UnicodeEncodeError:
             # Found this with attempts to utf-8 encode, but not utf-7
             print ">>>>UnicodeError>>>>" + message + "\n\n"
@@ -26,8 +27,9 @@ class RollupServer(object):
 class Digester(object):
 
     def __init__(self, notification_folder, rollup_folder, processors,
-                 print_summary, sender_to_implicate, move_unmatched):
+                 print_summary, sender_to_implicate, move_unmatched, rollup_folder_name):
         super(Digester, self)
+        self.rollup_folder_name = rollup_folder_name
         self.processors = processors
         self.move_unmatched = move_unmatched
         self.sender_to_implicate = sender_to_implicate
@@ -63,7 +65,7 @@ class Digester(object):
             for msgid, data in response.iteritems():
                 previous_message_id = msgid
                 previously_seen = '\\Seen' in data[b'FLAGS']
-            rollup_inbox_proxy = RollupServer(self.rollup_folder, previous_message_id)
+            rollup_inbox_proxy = RollupServer(self.rollup_folder, previous_message_id, self.rollup_folder_name)
             processor.rewrite_rollup_emails(rollup_inbox_proxy, previous_message_id is not None, previously_seen,
                                             self.sender_to_implicate)
 
@@ -72,7 +74,7 @@ class Digester(object):
         for unm in unmatched_to_move:
             unm = re.sub("\nFrom: .*\r\n", "\nFrom: " + self.sender_to_implicate + "\r\n", unm)
             unm = re.sub("\nTo: .*\r\n", "\nTo: " + self.sender_to_implicate + "\r\n", unm)
-            self.rollup_folder.append("INBOX", unm)
+            self.rollup_folder.append(self.rollup_folder_name, unm)
 
         self.rollup_folder.expunge()
         self.rollup_folder.logout()
