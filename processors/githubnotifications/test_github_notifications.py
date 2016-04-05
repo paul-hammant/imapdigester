@@ -94,7 +94,7 @@ class TestGithubNotifications(TestCase):
         processor = GithubNotificationProcessor(store_writer)  ## What we are testing
         processors.append(processor)
 
-        digester = Digester(None, None, processors, False, "P H <ph@example.com>", False)
+        digester = Digester(None, None, processors, False, "P H <ph@example.com>", False, "INBOX")
 
         unmatched_to_move = []
         to_delete_from_notification_folder = []
@@ -138,9 +138,9 @@ class TestGithubNotifications(TestCase):
         self.assertEquals(len(final_notifs_store.notifs), 1)
 
     def get_gh_emailed_notifications(self):
-        with open('testdata/github_1.txt', 'r') as myfile:
+        with open('../../testdata/github_1.txt', 'r') as myfile:
             notification_1_content = myfile.read().replace('\n', '\r\n')
-        with open('testdata/github_2.txt', 'r') as myfile:
+        with open('../../testdata/github_2.txt', 'r') as myfile:
             notification_2_content = myfile.read().replace('\n', '\r\n')
         return notification_1_content, notification_2_content
 
@@ -224,7 +224,7 @@ class TestGithubNotifications(TestCase):
         processor = GithubNotificationProcessor(store_writer)  ## What we are testing
         processors.append(processor)
 
-        digester = Digester(None, None, processors, False, "P H <ph@example.com>", False)
+        digester = Digester(None, None, processors, False, "P H <ph@example.com>", False, "INBOX")
 
         unmatched_to_move = []
         to_delete_from_notification_folder = []
@@ -330,7 +330,7 @@ class TestGithubNotifications(TestCase):
         processor = GithubNotificationProcessor(store_writer)  ## What we are testing
         processors.append(processor)
 
-        digester = Digester(None, None, processors, False, "P H <ph@example.com>", False)
+        digester = Digester(None, None, processors, False, "P H <ph@example.com>", False, "INBOX")
 
         unmatched_to_move = []
         to_delete_from_notification_folder = []

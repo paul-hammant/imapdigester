@@ -1,4 +1,5 @@
 from processors.githubnotifications.github_notification_processor import GithubNotificationProcessor
+from processors.hipchat.hipchat_notification_processor import HipchatNotificationProcessor
 from processors.stackexchange.stack_exchange_notification_processor import StackExchangeNotificationProcessor
 
 from metastore import MetaStore
@@ -15,3 +16,4 @@ def add_processors(processors):
                       .with_capitalone()
                       .with_citi())
     processors.append(GithubNotificationProcessor(MetaStore("github_notifications")))
+    processors.append(HipchatNotificationProcessor(MetaStore("hipchat_notifications")))
