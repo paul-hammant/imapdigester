@@ -141,6 +141,5 @@ Note - there is grouping around topic (repo-issue, repo-PR, repo-commit-comment)
 # TODO
 
 - Separate Github Enterprise (ghe.yourcompany.com) and Github (github.com) notifications.
-- HipChat notifications (no second notifications email address)
 - Linkedin (sadly has no separate notifications email address, even though it can capture second/third/fourth addresses)
 - More Integration tests (samples of emails need to be sanitized and copied into `testdata/`).
