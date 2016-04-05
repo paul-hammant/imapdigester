@@ -1,3 +1,5 @@
+import getpass
+
 from imapclient import IMAPClient
 from optparse import OptionParser
 import sys
@@ -37,6 +39,17 @@ if __name__ == '__main__':
     parser.add_option("--print_summary", action="store_true", dest="print_summary", help="Print Summary")
 
     (options, args) = parser.parse_args()
+
+    if options.notifications_pw == None:
+        print "Enter notifications user password:"
+        options.notifications_pw = getpass.getpass()
+
+    if options.rollup_pw == None:
+        if options.notifications_imap == options.rollup_imap and options.notifications_user == options.rollup_user:
+            options.rollup_pw = options.notifications_pw
+        else:
+            print "Enter rollup user password:"
+            options.rollup_pw = getpass.getpass()
 
     # Read and mark for deletion items from notification inbox.
     notification_folder = None
