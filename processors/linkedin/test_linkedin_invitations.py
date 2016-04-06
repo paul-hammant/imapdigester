@@ -5,7 +5,7 @@ import sys
 from mock import Mock, call
 from mockextras import stub
 from digester import Digester
-from processors.linkedin.linkedin_invitation_processor import LinkedinInvitationsProcessor
+from processors.linkedin.linkedin_invitation_processor import LinkedinInvitationProcessor
 
 MAIL_HDR = """From: P H <ph@example.com>
 Content-Transfer-Encoding: 8bit
@@ -98,7 +98,7 @@ class TestLinkedinInvitations(TestCase):
         rollup_inbox_proxy.append.side_effect = stub((call(expected_message), True))
 
         processors = []
-        processor = LinkedinInvitationsProcessor(store_writer)  ## What we are testing
+        processor = LinkedinInvitationProcessor(store_writer)  ## What we are testing
         processors.append(processor)
 
         digester = Digester(None, None, processors, False, "P H <ph@example.com>", False, "INBOX")
