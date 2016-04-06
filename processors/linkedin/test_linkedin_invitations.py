@@ -48,10 +48,10 @@ class TestLinkedinInvitations(TestCase):
         expected_payload = """<span>You have previously read invitations up to: Apr 01 2016 06:13 PM</span>
           <table>
             <tr style="background-color: #acf;">
-              <th>When/who/spiel</th>
+              <th colspan="2">Who &plus; spiel &plus; actions</th>
             </tr>
                     <tr style="">
-              <td><ing src="https://media.licdn.com/mpr/mpr/shrinknp_100_100/p/4/000/17b/3db/1dbe948.jpg"/></td>
+              <td><img src="https://media.licdn.com/mpr/mpr/shrinknp_100_100/p/4/000/17b/3db/1dbe948.jpg"/></td>
               <td>
                 <strong>Steven Footle</strong><br>
                 Hi Paul,<br/>
@@ -63,7 +63,7 @@ class TestLinkedinInvitations(TestCase):
                 <a href="https://www.linkedin.com/comm/profile/view?id=AAsAAAAIW1gBCVPJFcvlZjm6AtEfNiLTNya_HqA&authType=name&authToken=F40O&invAcpt=2197625_I6122153999904439999_500&midToken=AQHQ1w999ws4wA&trk=eml-M2M_Invitation-hero-1-text%7Eprofile&trkEmail=eml-M2M_Invitation-hero-1-text%7Eprofile-null-1b3p5%7Eimjp489e%999k">View Profile</a>
               </td>
             </tr>          <tr><td colspan="2" style="border-bottom: 1pt solid red; border-top: 1pt solid red;"><center>^ New Invitations Since You Last Checked ^</center></td></tr>          <tr style="background-color: #def;">
-              <td><ing src="https://media.licdn.com/mpr/mpr/shrinknp_100_100/p/4/000/17b/3db/1dbe948.jpg"/></td>
+              <td><img src="https://media.licdn.com/mpr/mpr/shrinknp_100_100/p/4/000/17b/3db/1dbe948.jpg"/></td>
               <td>
                 <strong>Steven Blipvert</strong><br>
                 Hi Paul,<br/>

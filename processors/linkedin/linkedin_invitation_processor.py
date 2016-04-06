@@ -35,36 +35,12 @@ class LinkedinInvitationProcessor(BaseNotificationProcessor):
     def process_new_notification(self, rfc822content, msg, html_message, text_message):
 
         self.new_message_count += 1
-        subject = msg['Subject']
-        # if "sent you a 1-1 message" in subject:
-        #     room = "Direct Message"
-        # else:
-        #     room = "Room: " + subject.split('"')[1]
         when = arrow.get(msg['Date'].split(',', 1)[1].strip(), 'D MMM YYYY HH:mm:ss ZZ').timestamp
-
-#>>>Hi Paul,
-#I'd like to join your LinkedIn network.
-#
-#Steven Footle
-#Principal Test Architect and Agile Leader - Certified ScrumMaster
-#
-#Accept: https://www.linkedin.com/comm/people/invite-accept?mboxid=I6122153781204434944_500&sharedKey=-aWVMgrZ&fr=false&invitationId=6122153757049446400&fe=true&trk=eml-comm_invm-b-accept-newinvite&midToken=AQHQ1w5V4ws4wA&trkEmail=eml-M2M_Invitation-null-5-null-null-1b3p5%7Eimjp489e%7Ejk
-#
-#View Steven Footle's profile: https://www.linkedin.com/comm/profile/view?id=AAsAAAAIW1gBCVPJFcvlZjm6AtEfNiLTNya_HqA&authType=name&authToken=F40O&invAcpt=2197625_I6122153781204434944_500&midToken=AQHQ1w5V4ws4wA&trk=eml-M2M_Invitation-hero-1-text%7Eprofile&trkEmail=eml-M2M_Invitation-hero-1-text%7Eprofile-null-1b3p5%7Eimjp489e%7Ejk
-
-
-
-        #print ">0>>" + text_message.strip() + "<0<0<"
 
         who = re.search('\nView (.*)\'s profile:', text_message).group(1)
         spiel = text_message[:text_message.find('\r\nAccept:')].replace("\r\n\r\n","\r\n").replace("\r\n","\n")
         accept_url = "https://" + re.search('\nAccept: https://(.*)\r\n', text_message).group(1)
         profile_url = "https://" + re.search('\nView ' + who + '\'s profile: https://(.*)\r\n', text_message).group(1)
-
-        # print "who =" + who + "<<"
-        # print "accept_url =" + accept_url + "<<"
-        # print "profile_url =" + profile_url + "<<\n\n"
-
 
         if html_message:
             soup = BeautifulSoup(html_message, 'html.parser')
@@ -95,10 +71,10 @@ class LinkedinInvitationProcessor(BaseNotificationProcessor):
         templ = """{% if not_first_email %}<span>You have previously read invitations up to: {{most_recent_seen_str}}</span>{% endif %}
         <table>
           <tr style="background-color: #acf;">
-            <th>When/who/spiel</th>
+            <th colspan="2">Who &plus; spiel &plus; actions</th>
           </tr>
 {% for when, inv in invsToPrint|dictsort(false, by='key')|reverse %}{% if inv['line_here'] %}          <tr><td colspan="2" style="border-bottom: 1pt solid red; border-top: 1pt solid red;"><center>^ New Invitations Since You Last Checked ^</center></td></tr>{% endif %}          <tr style="{{loop.cycle('','background-color: #def;')}}">
-            <td><ing src="{{ inv['img_src']}}"/></td>
+            <td><img src="{{ inv['img_src']}}"/></td>
             <td>
               <strong>{{inv['who']}}</strong><br>
               {{inv['spiel'].replace('\n','<br/>\n')}}<br>
