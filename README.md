@@ -103,6 +103,8 @@ A single email that can, so far, pull in transactions from American Express (US)
 Ordered by most recent first. These guys made it hard. For want of a text/json multi-part chunk (that includes a 
 transaction ref for correlation).
 
+![](http://paulhammant.com/images/cc_rollup.jpg)
+
 I've left placeholders for [Barclaycard](https://github.com/paul-hammant/imapdigester/blob/master/processors/charges/barclaycard_notification_processor.py) [Bank of America](https://github.com/paul-hammant/imapdigester/blob/master/processors/charges/bofa_notification_processor.py), [CapitalOne](https://github.com/paul-hammant/imapdigester/blob/master/processors/charges/capitalone_notification_processor.py) and [JP Morgan](https://github.com/paul-hammant/imapdigester/blob/master/processors/charges/jpm_notification_processor.py) cards.
 
 ## Stack Exchange Notifications
@@ -111,6 +113,8 @@ In the StackOverflow/StackExchange web interface you'll need to setup a notifica
 email address (#1 above), and remember to confirm you filter changes, by clicking in a confirmation email (that SE/SO 
 does't explicitly inform you about in the web interface). If you want, you can choose the every-15-mins varient of 
 SO/SE notifications.
+
+![](http://paulhammant.com//images/so_rollup.jpg)
 
 If you're going to do the every-15-mins varient of SO/SE notifications run this python script every 15 mins or less 
 so you're never too far behind.
@@ -126,6 +130,8 @@ Whatever you're watching in terms of repo, will be distilled into a single email
 email, with new notification gravitating to the top of the email. Versus the last time the email 
 was written:
 
+![](http://paulhammant.com/images/gh_rollup.jpg)
+
 - If there's new notifications the email will be rewitten. 
 - If not the email is left alone (including the date of the email, which means it drifts down your inbox)
 
@@ -140,13 +146,13 @@ Note - there is grouping around topic (repo-issue, repo-PR, repo-commit-comment)
 
 ## Hipchat Notifications
 
-### 1-1 messages
+Both 1-1 messages and Room mentions are rolled up into a single most-recent-first email.
 
-TODO
+## Linkedin Invitations
 
-### Room mentions
+Invitations are rolled up into a single most-recent-first email.
 
-TODO
+TODO - unilaterally add "reject" button.
 
 # Yet to do
 
