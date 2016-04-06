@@ -152,10 +152,11 @@ Both 1-1 messages and Room mentions are rolled up into a single most-recent-firs
 
 Invitations are rolled up into a single most-recent-first email.
 
+Even though Linkedin can capture second/third/fourth addresses, it only allows you to use your "primary" for notifications :-(
+
 TODO - unilaterally add "reject" button.
 
 # Yet to do
 
 - Separate Github Enterprise (ghe.yourcompany.com) and Github (github.com) notifications.
-- Linkedin (sadly has no separate notifications email address, even though it can capture second/third/fourth addresses)
 - More Integration tests (samples of emails need to be sanitized and copied into `testdata/`).
