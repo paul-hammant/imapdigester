@@ -138,7 +138,17 @@ i.e. it appears to start over.
 
 Note - there is grouping around topic (repo-issue, repo-PR, repo-commit-comment).
 
-# TODO
+## Hipchat Notifications
+
+### 1-1 messages
+
+TODO
+
+### Room mentions
+
+TODO
+
+# Yet to do
 
 - Separate Github Enterprise (ghe.yourcompany.com) and Github (github.com) notifications.
 - Linkedin (sadly has no separate notifications email address, even though it can capture second/third/fourth addresses)
