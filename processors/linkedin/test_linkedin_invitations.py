@@ -54,10 +54,10 @@ class TestLinkedinInvitations(TestCase):
               <td><ing src="https://media.licdn.com/mpr/mpr/shrinknp_100_100/p/4/000/17b/3db/1dbe948.jpg"/></td>
               <td>
                 <strong>Steven Footle</strong><br>
-                Hi Paul,
-          I\'d like to join your LinkedIn network.
-          Steven Footle
-          Principal Test Architect and Agile Leader - Certified ScrumMaster
+                Hi Paul,<br/>
+          I\'d like to join your LinkedIn network.<br/>
+          Steven Footle<br/>
+          Principal Test Architect and Agile Leader - Certified ScrumMaster<br/>
           <br>
                 <a href="https://www.linkedin.com/comm/people/invite-accept?mboxid=I6122153999904439999_500&sharedKey=-aWVMgrZ&fr=false&invitationId=6122153757099996400&fe=true&trk=eml-comm_invm-b-accept-newinvite&midToken=AQHQ1w999ws4wA&trkEmail=eml-M2M_Invitation-null-5-null-null-1b3p5%7Eimjp489e%7Ejk">Accept Invitation</a>
                 <a href="https://www.linkedin.com/comm/profile/view?id=AAsAAAAIW1gBCVPJFcvlZjm6AtEfNiLTNya_HqA&authType=name&authToken=F40O&invAcpt=2197625_I6122153999904439999_500&midToken=AQHQ1w999ws4wA&trk=eml-M2M_Invitation-hero-1-text%7Eprofile&trkEmail=eml-M2M_Invitation-hero-1-text%7Eprofile-null-1b3p5%7Eimjp489e%999k">View Profile</a>
@@ -66,10 +66,10 @@ class TestLinkedinInvitations(TestCase):
               <td><ing src="https://media.licdn.com/mpr/mpr/shrinknp_100_100/p/4/000/17b/3db/1dbe948.jpg"/></td>
               <td>
                 <strong>Steven Blipvert</strong><br>
-                Hi Paul,
-          I\'d like to join your LinkedIn network.
-          Steven Blipvert
-          Principal Test Architect and Agile Leader - Certified ScrumMaster
+                Hi Paul,<br/>
+          I\'d like to join your LinkedIn network.<br/>
+          Steven Blipvert<br/>
+          Principal Test Architect and Agile Leader - Certified ScrumMaster<br/>
           <br>
                 <a href="https://www.linkedin.com/comm/people/invite-accept?mboxid=I6122153999904439999_500&sharedKey=-aWVMgrZ&fr=false&invitationId=6122153757099996400&fe=true&trk=eml-comm_invm-b-accept-newinvite&midToken=AQHQ1w999ws4wA&trkEmail=eml-M2M_Invitation-null-5-null-null-1b3p5%7Eimjp489e%7Ejk">Accept Invitation</a>
                 <a href="https://www.linkedin.com/comm/profile/view?id=AAsAAAAIW1gBCVPJFcvlZjm6AtEfNiLTNya_HqA&authType=name&authToken=F40O&invAcpt=2197625_I6122153999904439999_500&midToken=AQHQ1w999ws4wA&trk=eml-M2M_Invitation-hero-1-text%7Eprofile&trkEmail=eml-M2M_Invitation-hero-1-text%7Eprofile-null-1b3p5%7Eimjp489e%999k">View Profile</a>

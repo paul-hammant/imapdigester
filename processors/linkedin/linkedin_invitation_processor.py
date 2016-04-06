@@ -101,7 +101,7 @@ class LinkedinInvitationsProcessor(BaseNotificationProcessor):
             <td><ing src="{{ inv['img_src']}}"/></td>
             <td>
               <strong>{{inv['who']}}</strong><br>
-              {{inv['spiel']}}<br>
+              {{inv['spiel'].replace('\n','<br/>\n')}}<br>
               <a href="{{inv['accept_url']}}">Accept Invitation</a>
               <a href="{{inv['profile_url']}}">View Profile</a>
             </td>
