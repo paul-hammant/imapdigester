@@ -109,6 +109,7 @@ class StackExchangeNotificationProcessor(BaseNotificationProcessor):
         new_message += '-----NOTIFICATION_BOUNDARY\nContent-Type: text/html; charset="utf-8"\n'
         new_message += 'Content-Transfer-Encoding: base64\n\n'
         new_message += base64.b64encode(email_html)
+        new_message += '\n\n-----NOTIFICATION_BOUNDARY'
         return new_message
 
     def make_html_payload(self, template_end, template_start, article_dict):

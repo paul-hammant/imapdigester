@@ -8,13 +8,14 @@ from digester import Digester
 from processors.linkedin.linkedin_invitation_processor import LinkedinInvitationProcessor
 
 MAIL_HDR = """From: P H <ph@example.com>
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 Content-Type: multipart/alternative; boundary="---NOTIFICATION_BOUNDARY"
 MIME-Version: 1.0
 This is a multi-part message in MIME format.
 -----NOTIFICATION_BOUNDARY
 Content-Type: text/html; charset="utf-7"
-Content-Transfer-Encoding: utf-7
+Content-Transfer-Encoding: 7bit
+
 
 """
 
@@ -45,13 +46,13 @@ class TestLinkedinInvitations(TestCase):
 
     def test_two_related_invitations_can_be_rolled_up(self):
 
-        expected_payload = """<span>You have previously read invitations up to: Apr 01 2016 06:13 PM</span>
+        expected_payload = """<html><body><span>You have previously read invitations up to: Apr 01 2016 06:13 PM</span>
           <table>
             <tr style="background-color: #acf;">
               <th colspan="2">Who &plus; spiel &plus; actions</th>
             </tr>
                     <tr style="">
-              <td><img src="https://media.licdn.com/mpr/mpr/shrinknp_100_100/p/4/000/17b/3db/1dbe948.jpg"/></td>
+              <td><img style="max-width:100px;height:auto" src="https://media.licdn.com/mpr/mpr/shrinknp_100_100/p/4/000/17b/3db/1dbe948.jpg"/></td>
               <td>
                 <strong>Steven Footle</strong><br>
                 Hi Paul,<br/>
@@ -63,7 +64,7 @@ class TestLinkedinInvitations(TestCase):
                 <a href="https://www.linkedin.com/comm/profile/view?id=AAsAAAAIW1gBCVPJFcvlZjm6AtEfNiLTNya_HqA&authType=name&authToken=F40O&invAcpt=2197625_I6122153999904439999_500&midToken=AQHQ1w999ws4wA&trk=eml-M2M_Invitation-hero-1-text%7Eprofile&trkEmail=eml-M2M_Invitation-hero-1-text%7Eprofile-null-1b3p5%7Eimjp489e%999k">View Profile</a>
               </td>
             </tr>          <tr><td colspan="2" style="border-bottom: 1pt solid red; border-top: 1pt solid red;"><center>^ New Invitations Since You Last Checked ^</center></td></tr>          <tr style="background-color: #def;">
-              <td><img src="https://media.licdn.com/mpr/mpr/shrinknp_100_100/p/4/000/17b/3db/1dbe948.jpg"/></td>
+              <td><img style="max-width:100px;height:auto" src="https://media.licdn.com/mpr/mpr/shrinknp_100_100/p/4/000/17b/3db/1dbe948.jpg"/></td>
               <td>
                 <strong>Steven Blipvert</strong><br>
                 Hi Paul,<br/>
@@ -75,7 +76,7 @@ class TestLinkedinInvitations(TestCase):
                 <a href="https://www.linkedin.com/comm/profile/view?id=AAsAAAAIW1gBCVPJFcvlZjm6AtEfNiLTNya_HqA&authType=name&authToken=F40O&invAcpt=2197625_I6122153999904439999_500&midToken=AQHQ1w999ws4wA&trk=eml-M2M_Invitation-hero-1-text%7Eprofile&trkEmail=eml-M2M_Invitation-hero-1-text%7Eprofile-null-1b3p5%7Eimjp489e%999k">View Profile</a>
               </td>
             </tr>
-          </table>""".replace("\n          ","\n")
+          </table></body></html>""".replace("\n          ","\n")
 
         notification_store = {}
 
@@ -91,7 +92,8 @@ class TestLinkedinInvitations(TestCase):
             (call('most-recently-seen', 1459548811), True)
         )
 
-        expected_message = "Subject: Linkedin Inv. Rollup: 1 new invitation(s)\n" + MAIL_HDR + expected_payload
+        expected_message = ("Subject: Linkedin Inv. Rollup: 1 new invitation(s)\n" + MAIL_HDR + expected_payload + \
+                           "\n\n-----NOTIFICATION_BOUNDARY").replace("\n", "\r\n")
 
         rollup_inbox_proxy = Mock()
         rollup_inbox_proxy.delete_previous_message.side_effect = stub((call(), True))

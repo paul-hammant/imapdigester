@@ -42,9 +42,15 @@ class LinkedinInvitationProcessor(BaseNotificationProcessor):
         accept_url = "https://" + re.search('\nAccept: https://(.*)\r\n', text_message).group(1)
         profile_url = "https://" + re.search('\nView ' + who + '\'s profile: https://(.*)\r\n', text_message).group(1)
 
+        src = "x"
         if html_message:
             soup = BeautifulSoup(html_message, 'html.parser')
-            src = soup.find("img", {"alt": who})['src']
+            headshot_img = soup.find("img", {"alt": who})
+            if headshot_img:
+                src_ = headshot_img['src']
+                src = src_
+            else:
+                src = "https://upload.wikimedia.org/wikipedia/commons/8/85/Border_collie.jpg"
 
             self.linkedin_invitations[when] = {
                  "img_src": src,
@@ -68,13 +74,13 @@ class LinkedinInvitationProcessor(BaseNotificationProcessor):
             if self.previously_notified_article_count > 0:
                 self.most_recently_seen = self.previously_notified_article_most_recent
 
-        templ = """{% if not_first_email %}<span>You have previously read invitations up to: {{most_recent_seen_str}}</span>{% endif %}
+        templ = """<html><body>{% if not_first_email %}<span>You have previously read invitations up to: {{most_recent_seen_str}}</span>{% endif %}
         <table>
           <tr style="background-color: #acf;">
             <th colspan="2">Who &plus; spiel &plus; actions</th>
           </tr>
 {% for when, inv in invsToPrint|dictsort(false, by='key')|reverse %}{% if inv['line_here'] %}          <tr><td colspan="2" style="border-bottom: 1pt solid red; border-top: 1pt solid red;"><center>^ New Invitations Since You Last Checked ^</center></td></tr>{% endif %}          <tr style="{{loop.cycle('','background-color: #def;')}}">
-            <td><img src="{{ inv['img_src']}}"/></td>
+            <td><img style="max-width:100px;height:auto" src="{{ inv['img_src']}}"/></td>
             <td>
               <strong>{{inv['who']}}</strong><br>
               {{inv['spiel'].replace('\n','<br/>\n')}}<br>
@@ -82,7 +88,7 @@ class LinkedinInvitationProcessor(BaseNotificationProcessor):
               <a href="{{inv['profile_url']}}">View Profile</a>
             </td>
           </tr>{% endfor %}
-        </table>""".replace("\n        ","\n")
+        </table></body></html>""".replace("\n        ","\n")
 
         template = Template(templ)
 
@@ -102,7 +108,7 @@ class LinkedinInvitationProcessor(BaseNotificationProcessor):
         # Delete previous email, and write replacement
         if has_previous_message:
             rollup_inbox_proxy.delete_previous_message()
-        rollup_inbox_proxy.append(self.make_new_raw_so_email(email_html, num_messages_since_last_seen, sender_to_implicate))
+        rollup_inbox_proxy.append(self.make_new_raw_li_email(email_html, num_messages_since_last_seen, sender_to_implicate))
         # Save
         self.store_writer.store_as_binary("linkedin-invitations", self.linkedin_invitations)
         self.store_writer.store_as_binary("most-recently-seen", self.most_recently_seen)
@@ -111,13 +117,13 @@ class LinkedinInvitationProcessor(BaseNotificationProcessor):
     def add_line_for_invitations_seen_already(self):
         num_messages_since_last_seen = 0
         line_here_done = False
-        mostRecentNotification = None
         for ts0, inv in sorted(self.linkedin_invitations.iteritems(), reverse=False):
-            mostRecentNotification = inv
-            if ts0 >= self.most_recently_seen and line_here_done == False:
+            if self.most_recently_seen != 0 and ts0 >= self.most_recently_seen and line_here_done == False:
                 inv['line_here'] = True
                 line_here_done = True
                 num_messages_since_last_seen = num_messages_since_last_seen +1
+        if self.most_recently_seen == 0:
+            num_messages_since_last_seen = len(self.linkedin_invitations)
 
         return num_messages_since_last_seen
 
@@ -149,14 +155,16 @@ class LinkedinInvitationProcessor(BaseNotificationProcessor):
 
         return email_html
 
-    def make_new_raw_so_email(self, email_html, count, sender_to_implicate):
+    def make_new_raw_li_email(self, email_html, count, sender_to_implicate):
         new_message = 'Subject: ' + self.matching_rollup_subject() + ": " + str(count) + ' new invitation(s)\n'
         new_message += 'From: ' + sender_to_implicate + '\n'
-        new_message += 'Content-Transfer-Encoding: 8bit\n'
+        new_message += 'Content-Transfer-Encoding: 7bit\n'
         new_message += 'Content-Type: multipart/alternative; boundary="---NOTIFICATION_BOUNDARY"\n'
         new_message += 'MIME-Version: 1.0\n'
         new_message += 'This is a multi-part message in MIME format.\n'
         new_message += '-----NOTIFICATION_BOUNDARY\nContent-Type: text/html; charset="utf-7"\n'
-        new_message += 'Content-Transfer-Encoding: utf-7\n\n'
+        new_message += 'Content-Transfer-Encoding: 7bit\n\n\n'
         new_message += email_html.replace("\n\n\n", "\n").replace("\n\n", "\n").encode('utf-7', 'replace')
-        return new_message
+        new_message += '\n\n-----NOTIFICATION_BOUNDARY'
+
+        return new_message.replace("\n", "\r\n")
