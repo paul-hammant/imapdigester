@@ -149,11 +149,11 @@ Note - there is grouping around topic (repo-issue, repo-PR, repo-commit-comment)
 In `my_processor_setup.py` have a line like so:
 
 ```
-processors.append(GithubNotificationProcessor(MetaStore("ghe_notifications",
+processors.append(GithubNotificationProcessor(MetaStore("ghe_notifications"),
         return_path_email="noreply-ghe@yourcompany.com",
         from_email="ghe-notifications@yourcompany.com",
         site="ghe.yourcompany.com",
-        known_as="GHE")))
+        known_as="GHE"))
 ```
 
 ## Hipchat Notifications
