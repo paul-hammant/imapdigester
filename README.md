@@ -55,7 +55,7 @@ Also refer https://bitbucket.org/mjs0/imapclient/issues/201/segfault-11-on-mac-1
 https://github.com/alekstorm/backports.ssl/issues/14, https://github.com/alekstorm/backports.ssl/issues/15, 
 https://github.com/alekstorm/backports.ssl/issues/16
 
-# Running it on Pi with Cron
+# Running it on the Pi Zero for less than $2/year in electricity
 
 In `/home/pi`, git clone this repo.
 
@@ -75,6 +75,12 @@ cd /home/pi/imapdigester/
 
 Make it executable: `chmod +x run_imapdigester.sh`
 
+If you run that shell script, you should be able it's output in `imapdigester_output.txt`.
+
+Note the $2 is 0.8 Watt for 8760 (a year) at current electricity prices (18c/KWh), rounded up.
+
+## Scheduling it with Cron
+
 In `/etc/cron.d` make a file (sudo needed):
 
 ```
@@ -83,7 +89,7 @@ In `/etc/cron.d` make a file (sudo needed):
 
 Make sure you added a newline to the end of that line.
 
-**That cron job will run it every ten minutes.**
+The setup above will cause cron to run imapdigester every ten minutes.**
 
 Reboot the cron system, to start it, like so:
 
@@ -91,9 +97,18 @@ Reboot the cron system, to start it, like so:
 sudo /etc/init.d/rsyslog restart
 ```
 
-You should be able to see it running by tailing `imapdigester_output.txt`.
-
 If that file does not appear within 10 mins (zero bytes), then you can change cron to log by editing a line in `/etc/rsyslog.conf` that is about cron's logging, then tail `/var/log/cron.log` which may give an insight as to what is wrong.
+
+## Setup Choices
+
+The Inbox for the accounts is the default, but via `--notifications_folder` and `--rollup_folder` you could specify
+a different folder for processing. Case might be important.
+
+You can have the same email account for **notifications** and **rollup**. I choose not to, because I'm a chicken.
+Similarly, you can have the same folder within the same email account if you want to.
+
+If you leave out `--notifications_pw` or `--rollup_pw` you will be prompted at startup to enter them.
+If **notifications** and **rollup** use the same email account, you'll only be prompted once.
 
 # Rewritten emails are available for:
 
