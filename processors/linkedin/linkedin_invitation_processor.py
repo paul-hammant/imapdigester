@@ -77,7 +77,7 @@ class LinkedinInvitationProcessor(BaseNotificationProcessor):
         templ = """<html><body>{% if not_first_email %}<span>You have previously read invitations up to: {{most_recent_seen_str}}</span>{% endif %}
         <table>
           <tr style="background-color: #acf;">
-            <th colspan="2">Who &plus; spiel &plus; actions</th>
+            <th colspan="2">Invitations</th>
           </tr>
 {% for when, inv in invsToPrint|dictsort(false, by='key')|reverse %}{% if inv['line_here'] %}          <tr><td colspan="2" style="border-bottom: 1pt solid red; border-top: 1pt solid red;"><center>^ New Invitations Since You Last Checked ^</center></td></tr>{% endif %}          <tr style="{{loop.cycle('','background-color: #def;')}}">
             <td><img style="max-width:100px;height:auto" src="{{ inv['img_src']}}"/></td>

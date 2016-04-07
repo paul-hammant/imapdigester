@@ -49,7 +49,7 @@ class TestLinkedinInvitations(TestCase):
         expected_payload = """<html><body><span>You have previously read invitations up to: Apr 01 2016 06:13 PM</span>
           <table>
             <tr style="background-color: #acf;">
-              <th colspan="2">Who &plus; spiel &plus; actions</th>
+              <th colspan="2">Invitations</th>
             </tr>
                     <tr style="">
               <td><img style="max-width:100px;height:auto" src="https://media.licdn.com/mpr/mpr/shrinknp_100_100/p/4/000/17b/3db/1dbe948.jpg"/></td>
