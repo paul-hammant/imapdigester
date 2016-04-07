@@ -25,8 +25,8 @@ The Outlook client on the iPhone certainly can.
 # Deploying your daemon
 
 I have mine on a Raspberry Pi Zero that's just dangling out of a power socket at home.  If I were you I'd fork this
-repo, make mods for `my_processor_setup.py` for yourself (not for PR back to me until I can engineer a better 
-customization design).
+repo, make mods for `my_processor_setup.py` (or copy it, and change the ref in `rewrite_emails.py`) for yourself (not
+for PR back to me until I can engineer a better customization design).
 
 ## Installation Prerequisites
 
@@ -137,12 +137,24 @@ was written:
 
 Versus whether you've read the email or not:
 
-- A line appears in the email demarking what you have read versus what you have not.
+- A line appears in the email showing what notifications (relating to topics) that have you have read versus what you have not.
 
 If you delete the email, the server deletes all the things you've read from the accumlated list of notifications too. 
 i.e. it appears to start over.
 
 Note - there is grouping around topic (repo-issue, repo-PR, repo-commit-comment).
+
+### You can configure a GithubEnterprise usage too
+
+In `my_processor_setup.py` have a line like so:
+
+```
+processors.append(GithubNotificationProcessor(MetaStore("ghe_notifications",
+        return_path_email="noreply-ghe@yourcompany.com",
+        from_email="ghe-notifications@yourcompany.com",
+        site="ghe.yourcompany.com",
+        known_as="GHE")))
+```
 
 ## Hipchat Notifications
 
@@ -158,5 +170,5 @@ TODO - unilaterally add "reject" button.
 
 # Yet to do
 
-- Separate Github Enterprise (ghe.yourcompany.com) and Github (github.com) notifications.
+- Confluence Notifications
 - More Integration tests (samples of emails need to be sanitized and copied into `testdata/`).
