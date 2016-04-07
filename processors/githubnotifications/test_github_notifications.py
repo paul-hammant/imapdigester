@@ -8,13 +8,13 @@ from digester import Digester
 from processors.githubnotifications.github_notification_processor import GithubNotificationProcessor
 
 MAIL_HDR = """From: P H <ph@example.com>
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 Content-Type: multipart/alternative; boundary="---NOTIFICATION_BOUNDARY"
 MIME-Version: 1.0
 This is a multi-part message in MIME format.
 -----NOTIFICATION_BOUNDARY
 Content-Type: text/html; charset="utf-7"
-Content-Transfer-Encoding: utf-7
+Content-Transfer-Encoding: 7bit
 
 
 """
@@ -84,7 +84,8 @@ class TestGithubNotifications(TestCase):
             (call('most-recently-seen', 0), True)
         )
 
-        expected_message = "Subject: Github Rollup (2 new)\n" + MAIL_HDR + expected_payload
+        expected_message = "Subject: Github Rollup (2 new)\n" + MAIL_HDR + expected_payload \
+                           + '\n\n-----NOTIFICATION_BOUNDARY'
 
         rollup_inbox_proxy = Mock()
         rollup_inbox_proxy.delete_previous_message.side_effect = stub((call(), True))
@@ -180,7 +181,7 @@ class TestGithubNotifications(TestCase):
                     </td>
                   </tr>
                   <tr>
-                    <td >xxx: x xx (comment) Hello, how are you?</td>
+                    <td>xxx: x xx (comment) Hello, how are you?</td>
                   </tr>
                  </table>
               </td>
@@ -214,7 +215,8 @@ class TestGithubNotifications(TestCase):
             (call('most-recently-seen', 1459560000), True)
         )
 
-        expected_message = "Subject: Github Rollup (2 new)\n" + MAIL_HDR + expected_payload
+        expected_message = "Subject: Github Rollup (2 new)\n" + MAIL_HDR + expected_payload \
+                           + '\n\n-----NOTIFICATION_BOUNDARY'
 
         rollup_inbox_proxy = Mock()
         rollup_inbox_proxy.delete_previous_message.side_effect = stub((call(), True))
@@ -299,7 +301,7 @@ class TestGithubNotifications(TestCase):
                     <td style="font-weight: bold;">ppiper: Peter Piper (comment) Peter Piper picked a peck of pickled peppers....</td>
                   </tr>
                   <tr>
-                    <td >dholm: David Holm (comment 60.0 mins earlier) [quoted block] @dunn Fixed....</td>
+                    <td>dholm: David Holm (comment 60.0 mins earlier) [quoted block] @dunn Fixed....</td>
                   </tr>
                  </table>
               </td>
@@ -320,7 +322,8 @@ class TestGithubNotifications(TestCase):
             (call('most-recently-seen', 1459577657), True)
         )
 
-        expected_message = "Subject: Github Rollup (1 new)\n" + MAIL_HDR + expected_payload
+        expected_message = "Subject: Github Rollup (1 new)\n" + MAIL_HDR + expected_payload \
+                           + '\n\n-----NOTIFICATION_BOUNDARY'
 
         rollup_inbox_proxy = Mock()
         rollup_inbox_proxy.delete_previous_message.side_effect = stub((call(), True))
