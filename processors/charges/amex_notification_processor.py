@@ -61,7 +61,7 @@ class AmexNotificationProcessor(BaseChargeCardProcessor):
         is_monitoring = re.search('Description: (.*) Date: (.*) Amount: \$(.*)  We will.*Account Ending: (\d{5})', text)
         if is_monitoring:
             desc = is_monitoring.group(1)
-            amt = Decimal(is_monitoring.group(3))
+            amt = Decimal(is_monitoring.group(3).replace(",", ""))
             card = is_monitoring.group(4)
             chg = self.make_or_get_charge_entry(when)
             if (amt is None or amt is "") or (desc is None or desc is ""):
@@ -85,7 +85,7 @@ class AmexNotificationProcessor(BaseChargeCardProcessor):
 
         if has_posted:
             desc = has_posted.group(1)
-            amt = Decimal(has_posted.group(3))
+            amt = Decimal(has_posted.group(3).replace(",", ""))
             card = has_posted.group(4)
             chg = self.make_or_get_charge_entry(when)
             if (amt is None or amt is "") or (desc is None or desc is ""):
@@ -110,7 +110,7 @@ class AmexNotificationProcessor(BaseChargeCardProcessor):
 
         if has_not_posted:
             desc = has_not_posted.group(2)
-            amt = Decimal(has_not_posted.group(1))
+            amt = Decimal(has_not_posted.group(1).replace(",", ""))
             card = has_not_posted.group(4)
             chg = self.make_or_get_charge_entry(when)
             if (amt is None or amt is "") or (desc is None or desc is ""):
@@ -173,7 +173,7 @@ class AmexNotificationProcessor(BaseChargeCardProcessor):
         is_merch_credit = re.search('Merchant Name:(.*)Credit Amount:(.*)Thank', text)
         if is_merch_credit:
             merchant = is_merch_credit.group(1).strip()
-            amt = (Decimal(is_merch_credit.group(2).strip()[1:]) * Decimal(-1))
+            amt = (Decimal(is_merch_credit.group(2).strip()[1:].replace(",", "")) * Decimal(-1))
             chg = self.make_or_get_charge_entry(when)
             # should prob do de-morgan's..
             if (amt is None or amt is "") or (merchant is None or merchant is ""):
@@ -204,12 +204,12 @@ class AmexNotificationProcessor(BaseChargeCardProcessor):
             if is_cnp_purchase:
                 merchant = is_cnp_purchase.group(2).strip()
                 location = is_cnp_purchase.group(3).strip()
-                amt = Decimal(is_cnp_purchase.group(1).strip())
+                amt = Decimal(is_cnp_purchase.group(1).strip().replace(",", ""))
                 chg = self.make_or_get_charge_entry(when)
                 # should prob do de-morgan's..
                 if (amt is None or amt is "") or (merchant is None or merchant is ""):
                     print "Amex.maybe_card_not_present_purchase amt is none or merch"
-                    pass
+                    return False
                 else:
                     chg["type"] = "Virtual Charge"
                     chg["amt"] = amt
@@ -219,7 +219,7 @@ class AmexNotificationProcessor(BaseChargeCardProcessor):
                     return True
             else:
                 print "Amex.maybe_card_not_present_purchase card_not_present regex didn't match"
-                pass
+                return False
         except:
             print "Amex.maybe_card_not_present_purchase: Unexpected error:", sys.exc_info()[0]
             print "--> " + plain_text
@@ -246,7 +246,7 @@ class AmexNotificationProcessor(BaseChargeCardProcessor):
             pass
         else:
             chg["type"] = "Charge"
-            chg["amt"] = Decimal(amt.strip())
+            chg["amt"] = Decimal(amt.strip().replace(",", ""))
             chg["curr"] = curr
             chg["vendor"] = vendor.strip()
             chg["card"] = "Amex " + acct.strip()
