@@ -8,13 +8,13 @@ from digester import Digester
 from processors.githubnotifications.github_notification_processor import GithubNotificationProcessor
 
 MAIL_HDR = """From: P H <ph@example.com>
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 Content-Type: multipart/alternative; boundary="---NOTIFICATION_BOUNDARY"
 MIME-Version: 1.0
 This is a multi-part message in MIME format.
 -----NOTIFICATION_BOUNDARY
-Content-Type: text/html; charset="utf-7"
-Content-Transfer-Encoding: 7bit
+Content-Type: text/html; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 
 
 """

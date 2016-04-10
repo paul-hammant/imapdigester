@@ -94,7 +94,11 @@ class HipchatNotificationProcessor(BaseNotificationProcessor):
         if self.previously_notified_article_count == len(self.hc_notifications):
             return
 
+
         # Deleted email (by the user) means they don't want to see THOSE notifications listed in a Rollup again.
+        if has_previous_message == False:
+            self.hc_notifications = {}
+
         if has_previous_message == False:
             if self.previously_notified_article_count > 0:
                 self.most_recently_seen = self.previously_notified_article_most_recent
