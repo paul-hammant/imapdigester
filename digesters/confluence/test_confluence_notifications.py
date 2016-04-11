@@ -585,7 +585,7 @@ import sys
 from mock import Mock, call
 from mockextras import stub
 from digester import Digester
-from processors.confluence.confluence_notification_processor import ConfluenceNotificationProcessor
+from digesters.confluence.confluence_notification_digester import ConfluenceNotificationDigester
 
 MAIL_HDR = """From: P H <ph@example.com>
 Content-Transfer-Encoding: 8bit
@@ -649,21 +649,21 @@ class TestConfluenceNotifications(TestCase):
         rollup_inbox_proxy.delete_previous_message.side_effect = stub((call(), True))
         rollup_inbox_proxy.append.side_effect = stub((call(expected_message), True))
 
-        processors = []
-        processor = ConfluenceNotificationProcessor(store_writer)  ## What we are testing
-        processors.append(processor)
+        digesters = []
+        digester = ConfluenceNotificationDigester(store_writer)  ## What we are testing
+        digesters.append(digester)
 
-        digester = Digester(None, None, processors, False, "P H <ph@example.com>", False, "INBOX")
+        digester = Digester(None, None, digesters, False, "P H <ph@example.com>", False, "INBOX")
 
         unmatched_to_move = []
         to_delete_from_notification_folder = []
 
         msg2 = msg1.replace("surya ferdy", "C0der Extraordinaire").replace("9 Apr 2016", "8 Apr 2016")
 
-        digester.process_incoming_notification(1234, processors, msg1, to_delete_from_notification_folder, unmatched_to_move, False)
-        digester.process_incoming_notification(1235, processors, msg2, to_delete_from_notification_folder, unmatched_to_move, False)
+        digester.process_incoming_notification(1234, digesters, msg1, to_delete_from_notification_folder, unmatched_to_move, False)
+        digester.process_incoming_notification(1235, digesters, msg2, to_delete_from_notification_folder, unmatched_to_move, False)
 
-        processor.rewrite_rollup_emails(rollup_inbox_proxy, has_previous_message=True,
+        digester.rewrite_rollup_emails(rollup_inbox_proxy, has_previous_message=True,
                                         previously_seen=False, sender_to_implicate="P H <ph@example.com>")
 
         self.assertEquals(rollup_inbox_proxy.mock_calls, [call.delete_previous_message(), call.append(expected_message)])

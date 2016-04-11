@@ -4,21 +4,21 @@ from time import gmtime
 import arrow
 from jinja2 import Template
 
-from base_notification_processor import BaseNotificationProcessor
-from processors.charges.amex_notification_processor import AmexNotificationProcessor
-from processors.charges.barclaycard_notification_processor import BarclaycardNotificationProcessor
-from processors.charges.bofa_notification_processor import BankOfAmericaNotificationProcessor
-from processors.charges.capitalone_notification_processor import CapitalOneNotificationProcessor
-from processors.charges.chase_notification_processor import ChaseNotificationProcessor
-from processors.charges.citibank_notification_processor import CitibankNotificationProcessor
-from processors.charges.jpm_notification_processor import JPMorganNotificationProcessor
+from base_notification_digester import BaseNotificationDigester
+from digesters.charges.amex_notification_digester import AmexNotificationDigester
+from digesters.charges.barclaycard_notification_digester import BarclaycardNotificationDigester
+from digesters.charges.bofa_notification_digester import BankOfAmericaNotificationDigester
+from digesters.charges.capitalone_notification_digester import CapitalOneNotificationDigester
+from digesters.charges.chase_notification_digester import ChaseNotificationDigester
+from digesters.charges.citibank_notification_digester import CitibankNotificationDigester
+from digesters.charges.jpm_notification_digester import JPMorganNotificationDigester
 
 
-class ChargeCardProcessor(BaseNotificationProcessor):
+class ChargeCardDigester(BaseNotificationDigester):
 
     def __init__(self, store_writer):
         self.store_writer = store_writer
-        self.processors = []
+        self.digesters = []
 
         self.charge_summary = store_writer.get_from_binary("charges")
 
@@ -30,42 +30,42 @@ class ChargeCardProcessor(BaseNotificationProcessor):
             self.charge_summary["most_recent_seen"] = arrow.utcnow().replace(days=-365)
 
     def with_chase(self):
-        self.processors.append(ChaseNotificationProcessor(self.new_charge_summary))
+        self.digesters.append(ChaseNotificationDigester(self.new_charge_summary))
         return self
 
     def with_barclaycard(self):
-        self.processors.append(BarclaycardNotificationProcessor(self.new_charge_summary))
+        self.digesters.append(BarclaycardNotificationDigester(self.new_charge_summary))
         return self
 
     def with_bofa(self):
-        self.processors.append(BankOfAmericaNotificationProcessor(self.new_charge_summary))
+        self.digesters.append(BankOfAmericaNotificationDigester(self.new_charge_summary))
         return self
 
     def with_capitalone(self):
-        self.processors.append(CapitalOneNotificationProcessor(self.new_charge_summary))
+        self.digesters.append(CapitalOneNotificationDigester(self.new_charge_summary))
         return self
 
     def with_jpmorgan(self):
-        self.processors.append(JPMorganNotificationProcessor(self.new_charge_summary))
+        self.digesters.append(JPMorganNotificationDigester(self.new_charge_summary))
         return self
 
     def with_amex(self):
-        self.processors.append(AmexNotificationProcessor(self.new_charge_summary))
+        self.digesters.append(AmexNotificationDigester(self.new_charge_summary))
         return self
 
     def with_citi(self):
-        self.processors.append(CitibankNotificationProcessor(self.new_charge_summary))
+        self.digesters.append(CitibankNotificationDigester(self.new_charge_summary))
         return self
 
     def print_summary(self):
-        for processor in self.processors:
-            processor.print_summary()
+        for digester in self.digesters:
+            digester.print_summary()
         print "Total Charges: " + str(len(self.charge_summary["charges"]))
 
     def matching_incoming_headers(self):
         matching_terms = []
-        for processor in self.processors:
-            subordinates_matching_header = processor.matching_incoming_headers()
+        for digester in self.digesters:
+            subordinates_matching_header = digester.matching_incoming_headers()
             for matching_header in subordinates_matching_header:
                 matching_terms.append(matching_header)
         return matching_terms
@@ -138,12 +138,12 @@ class ChargeCardProcessor(BaseNotificationProcessor):
 
     def process_new_notification(self, rfc822content, msg, html_message, text_message):
         processed = False
-        for processor in self.processors:
+        for digester in self.digesters:
             if not processed:
-                matching_headers =  processor.matching_incoming_headers()
+                matching_headers =  digester.matching_incoming_headers()
                 for matching_header in matching_headers:
                     if re.search(matching_header, rfc822content) is not None:
-                        processed = processor.process_new_notification(rfc822content, msg, html_message, text_message)
+                        processed = digester.process_new_notification(rfc822content, msg, html_message, text_message)
                         break
         return processed
 

@@ -5,8 +5,8 @@ import sys
 from mock import Mock, call
 from mockextras import stub
 from digester import Digester
-from processors.githubnotifications.github_notification_processor import GithubNotificationProcessor
-from processors.hipchat.hipchat_notification_processor import HipchatNotificationProcessor
+from digesters.githubnotifications.github_notification_digester import GithubNotificationDigester
+from digesters.hipchat.hipchat_notification_digester import HipchatNotificationDigester
 
 MAIL_HDR = """From: P H <ph@example.com>
 Content-Transfer-Encoding: 7bit
@@ -127,21 +127,21 @@ class TestGithubNotifications(TestCase):
         rollup_inbox_proxy.delete_previous_message.side_effect = stub((call(), True))
         rollup_inbox_proxy.append.side_effect = stub((call(expected_message), True))
 
-        processors = []
-        processor = HipchatNotificationProcessor(store_writer)  ## What we are testing
-        processors.append(processor)
+        digesters = []
+        digester = HipchatNotificationDigester(store_writer)  ## What we are testing
+        digesters.append(digester)
 
-        digester = Digester(None, None, processors, False, "P H <ph@example.com>", False, "INBOX")
+        digester = Digester(None, None, digesters, False, "P H <ph@example.com>", False, "INBOX")
 
         unmatched_to_move = []
         to_delete_from_notification_folder = []
 
         notification_1_content, notification_2_content = self.get_hc_emailed_notifications()
 
-        digester.process_incoming_notification(1234, processors, notification_1_content, to_delete_from_notification_folder, unmatched_to_move, False)
-        digester.process_incoming_notification(1235, processors, notification_2_content, to_delete_from_notification_folder, unmatched_to_move, False)
+        digester.process_incoming_notification(1234, digesters, notification_1_content, to_delete_from_notification_folder, unmatched_to_move, False)
+        digester.process_incoming_notification(1235, digesters, notification_2_content, to_delete_from_notification_folder, unmatched_to_move, False)
 
-        processor.rewrite_rollup_emails(rollup_inbox_proxy, has_previous_message=True,
+        digester.rewrite_rollup_emails(rollup_inbox_proxy, has_previous_message=True,
                                         previously_seen=False, sender_to_implicate="P H <ph@example.com>")
 
         self.assertEquals(rollup_inbox_proxy.mock_calls, [call.delete_previous_message(), call.append(expected_message)])

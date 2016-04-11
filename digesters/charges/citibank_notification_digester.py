@@ -2,10 +2,10 @@ import re
 import arrow
 from decimal import Decimal
 
-from processors.charges.base_charge_card_processor import BaseChargeCardProcessor
+from digesters.charges.base_charge_card_digester import BaseChargeCardDigester
 
 
-class CitibankNotificationProcessor(BaseChargeCardProcessor):
+class CitibankNotificationDigester(BaseChargeCardDigester):
     def __init__(self, charges):
         self.charges = charges
         self.new_citi = 0

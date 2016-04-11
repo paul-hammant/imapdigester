@@ -4,10 +4,10 @@ import arrow as arrow
 import dateutil
 from decimal import Decimal
 
-from processors.charges.base_charge_card_processor import BaseChargeCardProcessor
+from digesters.charges.base_charge_card_digester import BaseChargeCardDigester
 
 
-class ChaseNotificationProcessor(BaseChargeCardProcessor):
+class ChaseNotificationDigester(BaseChargeCardDigester):
     def __init__(self, charges):
         self.charges = charges
         self.new_message_count = 0

@@ -1,7 +1,7 @@
-from base_notification_processor import BaseNotificationProcessor
+from base_notification_digester import BaseNotificationDigester
 
 
-class BaseChargeCardProcessor(BaseNotificationProcessor):
+class BaseChargeCardDigester(BaseNotificationDigester):
 
      def matching_rollup_subject(self):
         raise Exception("Should never get here")

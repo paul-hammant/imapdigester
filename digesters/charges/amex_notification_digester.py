@@ -4,10 +4,10 @@ import sys
 from bs4 import BeautifulSoup
 from decimal import Decimal
 
-from processors.charges.base_charge_card_processor import BaseChargeCardProcessor
+from digesters.charges.base_charge_card_digester import BaseChargeCardDigester
 
 
-class AmexNotificationProcessor(BaseChargeCardProcessor):
+class AmexNotificationDigester(BaseChargeCardDigester):
     def __init__(self, charges):
         self.charges = charges
         self.new_amex = 0

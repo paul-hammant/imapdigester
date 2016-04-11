@@ -4,13 +4,13 @@ import re
 
 import simplejson
 
-from base_notification_processor import BaseNotificationProcessor
+from base_notification_digester import BaseNotificationDigester
 from jinja2 import Template
 import StringIO
 from email.header import decode_header
 
 
-class GithubNotificationProcessor(BaseNotificationProcessor):
+class GithubNotificationDigester(BaseNotificationDigester):
     def __init__(self, store_writer, return_path_email="noreply@github.com", from_email="notifications@github.com",
                  site="github.com", known_as="Github"):
         self.site = site

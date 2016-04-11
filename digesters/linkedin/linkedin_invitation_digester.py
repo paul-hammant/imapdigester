@@ -6,12 +6,12 @@ import re
 import simplejson
 from bs4 import BeautifulSoup
 
-from base_notification_processor import BaseNotificationProcessor
+from base_notification_digester import BaseNotificationDigester
 from jinja2 import Template
 import StringIO
 from email.header import decode_header
 
-class LinkedinInvitationProcessor(BaseNotificationProcessor):
+class LinkedinInvitationDigester(BaseNotificationDigester):
     def __init__(self, store_writer):
         self.store_writer = store_writer
         self.new_message_count = 0
@@ -108,7 +108,7 @@ class LinkedinInvitationProcessor(BaseNotificationProcessor):
         # Delete previous email, and write replacement
         if has_previous_message:
             rollup_inbox_proxy.delete_previous_message()
-        rollup_inbox_proxy.append(self.make_new_raw_li_email(email_html, num_messages_since_last_seen, sender_to_implicate))
+        rollup_inbox_proxy.append(self.make_new_raw_email(email_html, num_messages_since_last_seen, sender_to_implicate))
         # Save
         self.store_writer.store_as_binary("linkedin-invitations", self.linkedin_invitations)
         self.store_writer.store_as_binary("most-recently-seen", self.most_recently_seen)
@@ -155,7 +155,7 @@ class LinkedinInvitationProcessor(BaseNotificationProcessor):
 
         return email_html
 
-    def make_new_raw_li_email(self, email_html, count, sender_to_implicate):
+    def make_new_raw_email(self, email_html, count, sender_to_implicate):
         new_message = 'Subject: ' + self.matching_rollup_subject() + ": " + str(count) + ' new invitation(s)\n'
         new_message += 'From: ' + sender_to_implicate + '\n'
         new_message += 'Content-Transfer-Encoding: 7bit\n'

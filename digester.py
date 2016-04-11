@@ -26,11 +26,11 @@ class RollupServer(object):
 
 class Digester(object):
 
-    def __init__(self, notification_folder, rollup_folder, processors,
+    def __init__(self, notification_folder, rollup_folder, digesters,
                  print_summary, sender_to_implicate, move_unmatched, rollup_folder_name):
         super(Digester, self)
         self.rollup_folder_name = rollup_folder_name
-        self.processors = processors
+        self.digesters = digesters
         self.move_unmatched = move_unmatched
         self.sender_to_implicate = sender_to_implicate
         self.print_summary = print_summary
@@ -47,12 +47,12 @@ class Digester(object):
         # Loop through email in notification folder
         for msgid, data in response.iteritems():
             rfc822content = self.notification_folder.fetch(msgid, ["INTERNALDATE", "BODY", "RFC822"])[msgid]['RFC822']
-            self.process_incoming_notification(msgid, self.processors, rfc822content, to_delete,
+            self.process_incoming_notification(msgid, self.digesters, rfc822content, to_delete,
                                                unmatched_to_move, self.move_unmatched)
 
         # Rewrite emails in the rollup folder (the one the end-user actually reads)
-        for processor in self.processors:
-            subj_to_match = 'HEADER Subject "' + processor.matching_rollup_subject() + '"'
+        for digester in self.digesters:
+            subj_to_match = 'HEADER Subject "' + digester.matching_rollup_subject() + '"'
             from_to_match = 'HEADER From "' + self.sender_to_implicate.split(" ")[-1]\
                 .replace("<", "").replace(">", "") + '"'
             try:
@@ -66,7 +66,7 @@ class Digester(object):
                 previous_message_id = msgid
                 previously_seen = '\\Seen' in data[b'FLAGS']
             rollup_inbox_proxy = RollupServer(self.rollup_folder, previous_message_id, self.rollup_folder_name)
-            processor.rewrite_rollup_emails(rollup_inbox_proxy, previous_message_id is not None, previously_seen,
+            digester.rewrite_rollup_emails(rollup_inbox_proxy, previous_message_id is not None, previously_seen,
                                             self.sender_to_implicate)
 
         # Move Unmatched files so the human can see them
@@ -88,23 +88,23 @@ class Digester(object):
         # Print summary for posterity
 
         if self.print_summary:
-            for processor in self.processors:
-                processor.print_summary()
+            for digester in self.digesters:
+                digester.print_summary()
 
-    def process_incoming_notification(self, msgid, processors, rfc822content, to_delete,
+    def process_incoming_notification(self, msgid, digesters, rfc822content, to_delete,
                                       unmatched_to_move, move_unmatched):
         msg = email.message_from_string(rfc822content)
         html_message = Utils.get_decoded_email_body(msg, True)
         text_message = Utils.get_decoded_email_body(msg, False)
 
         processed = False
-        for processor in processors:
+        for digester in digesters:
             if processed:
                 break
-            matching_incoming_headers = processor.matching_incoming_headers()
+            matching_incoming_headers = digester.matching_incoming_headers()
             for matching_header in matching_incoming_headers:
                 if re.search(matching_header, rfc822content) is not None:
-                    processed = processor.process_new_notification(rfc822content, msg, html_message, text_message)
+                    processed = digester.process_new_notification(rfc822content, msg, html_message, text_message)
                     break
         if processed:
             to_delete.append(msgid)

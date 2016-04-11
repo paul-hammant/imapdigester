@@ -25,7 +25,7 @@ The Outlook client on the iPhone certainly can.
 # Deploying your daemon
 
 I have mine on a Raspberry Pi Zero that's just dangling out of a power socket at home.  If I were you I'd fork this
-repo, make mods for `my_processor_setup.py` (or copy it, and change the ref in `rewrite_emails.py`) for yourself (not
+repo, make mods for `my_digesters_setup.py` (or copy it, and change the ref in `rewrite_emails.py`) for yourself (not
 for PR back to me until I can engineer a better customization design).
 
 ## Installation Prerequisites
@@ -120,7 +120,7 @@ transaction ref for correlation).
 
 ![](http://paulhammant.com/images/cc_rollup.jpg)
 
-I've left placeholders for [Barclaycard](https://github.com/paul-hammant/imapdigester/blob/master/processors/charges/barclaycard_notification_processor.py) [Bank of America](https://github.com/paul-hammant/imapdigester/blob/master/processors/charges/bofa_notification_processor.py), [CapitalOne](https://github.com/paul-hammant/imapdigester/blob/master/processors/charges/capitalone_notification_processor.py) and [JP Morgan](https://github.com/paul-hammant/imapdigester/blob/master/processors/charges/jpm_notification_processor.py) cards.
+I've left placeholders for [Barclaycard](https://github.com/paul-hammant/imapdigester/blob/master/digesters/charges/barclaycard_notification_digester.py) [Bank of America](https://github.com/paul-hammant/imapdigester/blob/master/digesters/charges/bofa_notification_digester.py), [CapitalOne](https://github.com/paul-hammant/imapdigester/blob/master/digesters/charges/capitalone_notification_digester.py) and [JP Morgan](https://github.com/paul-hammant/imapdigester/blob/master/digesters/charges/jpm_notification_digester.py) cards.
 
 ## Stack Exchange Notifications
 
@@ -136,7 +136,7 @@ so you're never too far behind.
 
 Go to http://stackexchange.com/filters to see/setup your filters.
 
-Note if you filter on just one tag, this processor will not work (it won't recognize the subject line of the incoming
+Note if you filter on just one tag, this digester will not work (it won't recognize the subject line of the incoming
 emails. Therefore have AT LEAST TWO - like so http://imgur.com/YswesOB
 
 ## Github Repo Notifications
@@ -161,10 +161,10 @@ Note - there is grouping around topic (repo-issue, repo-PR, repo-commit-comment)
 
 ### You can configure a GithubEnterprise usage too
 
-In `my_processor_setup.py` have a line like so:
+In `my_digester_setup.py` have a line like so:
 
 ```
-processors.append(GithubNotificationProcessor(MetaStore("ghe_notifications"),
+digesters.append(GithubNotificationDigester(MetaStore("ghe_notifications"),
         return_path_email="noreply-ghe@yourcompany.com",
         from_email="ghe-notifications@yourcompany.com",
         site="ghe.yourcompany.com",
@@ -183,7 +183,13 @@ Even though Linkedin can capture second/third/fourth addresses, it only allows y
 
 TODO - unilaterally add "reject" button.
 
+## Confluence Notifications
+
+Motifications are rolled up into a single most-recent-first email:
+
+- User X commented on page (done)
+- User X changed a page (not done)
+
 # Yet to do
 
-- Confluence Notifications
 - More Integration tests (samples of emails need to be sanitized and copied into `testdata/`).

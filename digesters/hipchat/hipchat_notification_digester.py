@@ -5,7 +5,7 @@ import re
 
 from bs4 import BeautifulSoup
 
-from base_notification_processor import BaseNotificationProcessor
+from base_notification_digester import BaseNotificationDigester
 from jinja2 import Template
 import StringIO
 from email.header import decode_header
@@ -46,7 +46,7 @@ TEMPLATE = """<html>
 </html>"""
 
 
-class HipchatNotificationProcessor(BaseNotificationProcessor):
+class HipchatNotificationDigester(BaseNotificationDigester):
     def __init__(self, store_writer):
         self.store_writer = store_writer
         self.new_message_count = 0

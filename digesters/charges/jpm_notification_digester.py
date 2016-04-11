@@ -1,20 +1,19 @@
-from processors.charges.base_charge_card_processor import BaseChargeCardProcessor
+from digesters.charges.base_charge_card_digester import BaseChargeCardDigester
 
 
-class BarclaycardNotificationProcessor(BaseChargeCardProcessor):
+class JPMorganNotificationDigester(BaseChargeCardDigester):
     def __init__(self, charges):
         self.charges = charges
         self.new_notifs = 0
 
     def print_summary(self):
-        print "New Barclaycard Charges: " + str(self.new_notifs)
+        print "New JPMorgan Charges: " + str(self.new_notifs)
 
     def matching_incoming_headers(self):
-        return ["From: alerts@barclaycard.com"]
+        return ["From: alerts@jpmorgan.com"]
 
     def process_new_notification(self, rfc822content, msg, html_message, text_message):
-
-        # TODO - you'll need to understand the Barclaycard email alerts here.
+        # TODO - you'll need to understand the JPMorgan email alerts here.
 
         ## get 'when' (timestamp) from email
         # if when not in self.charges:
@@ -24,7 +23,7 @@ class BarclaycardNotificationProcessor(BaseChargeCardProcessor):
         # chg["amt"] = Decimal(amt)
         # chg["curr"] = curr
         # chg["vendor"] = vendor
-        # chg["card"] = "B/card " + acct
+        # chg["card"] = "JPM " + acct
         # self.new_notifs += 1
 
         return False  # True if processed
