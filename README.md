@@ -25,7 +25,7 @@ The Outlook client on the iPhone certainly can.
 # Deploying your daemon
 
 I have mine on a Raspberry Pi Zero that's just dangling out of a power socket at home.  If I were you I'd fork this
-repo, make mods for `my_digesters_setup.py` (or copy it, and change the ref in `rewrite_emails.py`) for yourself (not
+repo, make mods for `my_digesters_setup.py` (or copy it, and change the ref in `digest_emails.py`) for yourself (not
 for PR back to me until I can engineer a better customization design).
 
 ## Installation Prerequisites
@@ -65,7 +65,7 @@ Make a script `run_imapdigester.sh`, and customize as appropriate below for your
 #!/bin/sh
 
 cd /home/pi/imapdigester/
-/usr/bin/python rewrite_emails.py --notifications_imap imap-mail.emailprovider.com \
+/usr/bin/python digest_emails.py --notifications_imap imap-mail.emailprovider.com \
      --notifications_user secret_email_address_for_notifications@emailprovider.com --notifications_pw '123456' \
      --rollup_imap imap-mail.emailprovider.com \
      --rollup_user another_email_address_for_rollups@emailprovider.com --rollup_pw p4ssw0rd \
