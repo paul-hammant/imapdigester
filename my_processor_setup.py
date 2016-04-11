@@ -1,3 +1,4 @@
+from processors.confluence.confluence_notification_processor import ConfluenceNotificationProcessor
 from processors.githubnotifications.github_notification_processor import GithubNotificationProcessor
 from processors.hipchat.hipchat_notification_processor import HipchatNotificationProcessor
 from processors.linkedin.linkedin_invitation_processor import LinkedinInvitationProcessor
@@ -19,3 +20,4 @@ def add_processors(processors):
     processors.append(GithubNotificationProcessor(MetaStore("github_notifications")))
     processors.append(HipchatNotificationProcessor(MetaStore("hipchat_notifications")))
     processors.append(LinkedinInvitationProcessor(MetaStore("linkedin_invitations")))
+    processors.append(ConfluenceNotificationProcessor(MetaStore("confluence_notifications")))
