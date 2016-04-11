@@ -120,7 +120,7 @@ transaction ref for correlation).
 
 ![](http://paulhammant.com/images/cc_rollup.jpg)
 
-[Read more](/paul-hammant/imapdigester/wiki/Charge-and-credit-card-alerts)
+[Read more](https://github.com/paul-hammant/imapdigester/wiki/Charge-and-credit-card-alerts)
 
 ## Stack Exchange Notifications
 
