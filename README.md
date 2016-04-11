@@ -120,7 +120,7 @@ transaction ref for correlation).
 
 ![](http://paulhammant.com/images/cc_rollup.jpg)
 
-I've left placeholders for [Barclaycard](https://github.com/paul-hammant/imapdigester/blob/master/digesters/charges/barclaycard_notification_digester.py) [Bank of America](https://github.com/paul-hammant/imapdigester/blob/master/digesters/charges/bofa_notification_digester.py), [CapitalOne](https://github.com/paul-hammant/imapdigester/blob/master/digesters/charges/capitalone_notification_digester.py) and [JP Morgan](https://github.com/paul-hammant/imapdigester/blob/master/digesters/charges/jpm_notification_digester.py) cards.
+[Read more](paul-hammant/imapdigester/wiki/Charge-and-credit-card-alerts)
 
 ## Stack Exchange Notifications
 
