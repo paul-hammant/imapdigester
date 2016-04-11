@@ -39,6 +39,7 @@ class Digester(object):
 
     def doit(self):
 
+        # messages = self.notification_folder.search(['NOT', 'DELETED']) for imapclient > 1.0.1
         messages = self.notification_folder.search(['NOT DELETED'])
         response = self.notification_folder.fetch(messages, ['FLAGS', 'RFC822.SIZE'])
         unmatched_to_move = []
