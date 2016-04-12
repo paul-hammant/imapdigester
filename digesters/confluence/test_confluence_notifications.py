@@ -619,21 +619,21 @@ class TestConfluenceNotifications(TestCase):
 
     def test_two_related_notifications_can_be_rolled_up(self):
 
-        expected_payload = """<html><body><span>You have previously read notifications up to: Apr 09 2016 02:37 AM</span>
+        expected_payload = """<html><body><span>You have previously read notifications up to: Apr 09 2016 01:37 AM</span>
 <table>
   <tr style="background-color: #acf;">
     <th>Notifications</th>
   </tr>
           <tr style="">
     <td>
-      Who: Hoss Man<br/>
+      What: Hoss Man deleted a comment<br/>
       Space: solr:<br/>
       Page: <a href="https://cwiki.apache.org/confluence/display/solr/Getting+Started?focusedCommentId=62691549">Re: Getting Started</a><br/>
       Excerpt: definitely a great post  jadibd.com
     </td>
   </tr>          <tr><td colspan="2" style="border-bottom: 1pt solid red; border-top: 1pt solid red;"><center>^ New Notifications Since You Last Checked ^</center></td></tr>          <tr style="background-color: #def;">
     <td>
-      Who: surya ferdy<br/>
+      What: surya ferdy commented on a page<br/>
       Space: solr:<br/>
       Page: <a href="https://cwiki.apache.org/confluence/display/solr/Getting+Started?focusedCommentId=62691549">Re: Getting Started</a><br/>
       Excerpt: definitely a great post  jadibd.com

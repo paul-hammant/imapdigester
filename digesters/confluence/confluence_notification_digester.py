@@ -50,7 +50,6 @@ class ConfluenceNotificationDigester(BaseNotificationDigester):
             space = re.search("display/(.*)/", docUrl).group(1)
             docText = find.text
 
-            print ">>>" + str(soup) + "<<<"
             excerpt = soup.find("table", {"class": "content-excerpt-pattern"}).text.strip()
 
             self.confluence_notifications[when] = {
@@ -83,7 +82,7 @@ class ConfluenceNotificationDigester(BaseNotificationDigester):
           </tr>
         {% for when, notif in notifsToPrint|dictsort(false, by='key')|reverse %}{% if notif['line_here'] %}          <tr><td colspan="2" style="border-bottom: 1pt solid red; border-top: 1pt solid red;"><center>^ New Notifications Since You Last Checked ^</center></td></tr>{% endif %}          <tr style="{{loop.cycle('','background-color: #def;')}}">
             <td>
-              Who: {{notif['who']}}<br/>
+              What: {{notif['event']}}<br/>
               Space: {{notif['space']}}:<br/>
               Page: <a href="{{notif['doc_url']}}">{{notif['doc_text'].replace('\n','<br/>')}}</a><br/>
               Excerpt: {{notif['excerpt'].replace('\n','<br/>')}}
