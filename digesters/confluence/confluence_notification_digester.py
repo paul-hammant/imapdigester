@@ -44,11 +44,14 @@ class ConfluenceNotificationDigester(BaseNotificationDigester):
             event_text = soup.find("td", {"id": "header-text-container"}).text
             find = soup.find("td", {"id": "page-title-pattern-header-container"}).find("span").find("a")
             docUrl = find.attrs["href"]
-            docUrl = docUrl[:docUrl.find("&src=")]
+            docUrl = docUrl[:docUrl.find("&")]
+            if "#" in docUrl:
+                docUrl = docUrl[:docUrl.find("#")]
             space = re.search("display/(.*)/", docUrl).group(1)
             docText = find.text
 
-            excerpt = soup.find("td", {"class": "content-excerpt-pattern-container mobile-resize-text "}).text.strip()
+            print ">>>" + str(soup) + "<<<"
+            excerpt = soup.find("table", {"class": "content-excerpt-pattern"}).text.strip()
 
             self.confluence_notifications[when] = {
                  "doc_url": docUrl,
@@ -80,8 +83,10 @@ class ConfluenceNotificationDigester(BaseNotificationDigester):
           </tr>
         {% for when, notif in notifsToPrint|dictsort(false, by='key')|reverse %}{% if notif['line_here'] %}          <tr><td colspan="2" style="border-bottom: 1pt solid red; border-top: 1pt solid red;"><center>^ New Notifications Since You Last Checked ^</center></td></tr>{% endif %}          <tr style="{{loop.cycle('','background-color: #def;')}}">
             <td>
-              <a href="{{notif['doc_url']}}">{{notif['doc_text'].replace('\n','<br/>')}}</a><br/>
-              {{notif['excerpt'].replace('\n','<br/>')}}
+              Who: {{notif['who']}}<br/>
+              Space: {{notif['space']}}:<br/>
+              Page: <a href="{{notif['doc_url']}}">{{notif['doc_text'].replace('\n','<br/>')}}</a><br/>
+              Excerpt: {{notif['excerpt'].replace('\n','<br/>')}}
             </td>
           </tr>{% endfor %}
         </table></body></html>""".replace("\n        ","\n")

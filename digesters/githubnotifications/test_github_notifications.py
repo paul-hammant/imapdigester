@@ -4,7 +4,7 @@ import sys
 
 from mock import Mock, call
 from mockextras import stub
-from digester import Digester
+from digestionprocessor import DigestionProcessor
 from digesters.githubnotifications.github_notification_digester import GithubNotificationDigester
 
 MAIL_HDR = """From: P H <ph@example.com>
@@ -95,15 +95,15 @@ class TestGithubNotifications(TestCase):
         digester = GithubNotificationDigester(store_writer)  ## What we are testing
         digesters.append(digester)
 
-        digester = Digester(None, None, digesters, False, "P H <ph@example.com>", False, "INBOX")
+        digestion_processor = DigestionProcessor(None, None, digesters, False, "P H <ph@example.com>", False, "INBOX")
 
         unmatched_to_move = []
         to_delete_from_notification_folder = []
 
         notification_1_content, notification_2_content = self.get_gh_emailed_notifications()
 
-        digester.process_incoming_notification(1234, digesters, notification_1_content, to_delete_from_notification_folder, unmatched_to_move, False)
-        digester.process_incoming_notification(1235, digesters, notification_2_content, to_delete_from_notification_folder, unmatched_to_move, False)
+        digestion_processor.process_incoming_notification(1234, digesters, notification_1_content, to_delete_from_notification_folder, unmatched_to_move, False)
+        digestion_processor.process_incoming_notification(1235, digesters, notification_2_content, to_delete_from_notification_folder, unmatched_to_move, False)
 
         digester.rewrite_rollup_emails(rollup_inbox_proxy, has_previous_message=True,
                                         previously_seen=False, sender_to_implicate="P H <ph@example.com>")
@@ -226,7 +226,7 @@ class TestGithubNotifications(TestCase):
         digester = GithubNotificationDigester(store_writer)  ## What we are testing
         digesters.append(digester)
 
-        digester = Digester(None, None, digesters, False, "P H <ph@example.com>", False, "INBOX")
+        digester = DigestionProcessor(None, None, digesters, False, "P H <ph@example.com>", False, "INBOX")
 
         unmatched_to_move = []
         to_delete_from_notification_folder = []
@@ -333,7 +333,7 @@ class TestGithubNotifications(TestCase):
         digester = GithubNotificationDigester(store_writer)  ## What we are testing
         digesters.append(digester)
 
-        digester = Digester(None, None, digesters, False, "P H <ph@example.com>", False, "INBOX")
+        digester = DigestionProcessor(None, None, digesters, False, "P H <ph@example.com>", False, "INBOX")
 
         unmatched_to_move = []
         to_delete_from_notification_folder = []

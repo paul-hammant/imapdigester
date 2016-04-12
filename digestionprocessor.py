@@ -24,11 +24,11 @@ class RollupServer(object):
             raise
 
 
-class Digester(object):
+class DigestionProcessor(object):
 
     def __init__(self, notification_folder, rollup_folder, digesters,
                  print_summary, sender_to_implicate, move_unmatched, rollup_folder_name):
-        super(Digester, self)
+        super(DigestionProcessor, self)
         self.rollup_folder_name = rollup_folder_name
         self.digesters = digesters
         self.move_unmatched = move_unmatched

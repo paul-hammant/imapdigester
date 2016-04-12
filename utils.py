@@ -33,8 +33,8 @@ class Utils(object):
 
         else:
             if html_needed == False:
-                text = unicode(msg.get_payload(decode=True), msg.get_content_charset(), 'ignore').encode('utf8',
-                                                                                                         'replace')
+                text = unicode(msg.get_payload(decode=True), msg.get_content_charset(), 'ignore') \
+                    .encode('utf8', 'replace')
                 return text.strip()
             else:
                 return None

@@ -6,7 +6,7 @@ import sys
 import time
 from socket import gaierror
 
-from digester import Digester
+from digestionprocessor import DigestionProcessor
 from my_digesters_setup import add_digesters
 
 if __name__ == '__main__':
@@ -75,11 +75,10 @@ if __name__ == '__main__':
     rollup_folder.login(options.rollup_user, options.rollup_pw)
     rollup_folder.select_folder(options.rollup_folder_name)
 
-    # Add Digesters
     digesters = []
+
+    # Get Digesters from my_digesters_setup.py
     add_digesters(digesters)
 
-
-    Digester(notification_folder, rollup_folder, digesters, options.print_summary,
-             options.sender_to_implicate, options.move_unmatched, options.rollup_folder_name).doit()
-
+    DigestionProcessor(notification_folder, rollup_folder, digesters, options.print_summary,
+                       options.sender_to_implicate, options.move_unmatched, options.rollup_folder_name).doit()
