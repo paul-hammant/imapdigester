@@ -1,13 +1,13 @@
 from __future__ import unicode_literals
-import arrow
-import re
 
-import simplejson
-
-from base_notification_digester import BaseNotificationDigester
-from jinja2 import Template
 import StringIO
+import re
 from email.header import decode_header
+
+import arrow
+from jinja2 import Template
+
+from digesters.base_notification_digester import BaseNotificationDigester
 
 
 class GithubNotificationDigester(BaseNotificationDigester):

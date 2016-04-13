@@ -1,15 +1,14 @@
 # coding=utf-8
 from __future__ import unicode_literals
-import arrow
+
 import re
 
-import simplejson
+import arrow
 from bs4 import BeautifulSoup
-
-from base_notification_digester import BaseNotificationDigester
 from jinja2 import Template
-import StringIO
-from email.header import decode_header
+
+from digesters.base_notification_digester import BaseNotificationDigester
+
 
 class ConfluenceNotificationDigester(BaseNotificationDigester):
     def __init__(self, store_writer):

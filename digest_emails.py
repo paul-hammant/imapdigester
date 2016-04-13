@@ -1,12 +1,12 @@
 import getpass
-
-from imapclient import IMAPClient
-from optparse import OptionParser
 import sys
 import time
+from optparse import OptionParser
 from socket import gaierror
 
-from digestionprocessor import DigestionProcessor
+from imapclient import IMAPClient
+
+from digesters.digestionprocessor import DigestionProcessor
 from my_digesters_setup import add_digesters
 
 if __name__ == '__main__':

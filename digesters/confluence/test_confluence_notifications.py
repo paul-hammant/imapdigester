@@ -1,11 +1,11 @@
-from unittest import TestCase
 import sys
+from unittest import TestCase
 
 from mock import Mock, call
 from mockextras import stub
-from digestionprocessor import DigestionProcessor
-from digesters.confluence.confluence_notification_digester import ConfluenceNotificationDigester
 
+from digesters.confluence.confluence_notification_digester import ConfluenceNotificationDigester
+from digesters.digestionprocessor import DigestionProcessor
 
 COMMENT_ADDED = """Date: Sat, 9 Apr 2016 06:37:04 +0000
 From: "surya ferdy (Confluence)" <confluence@apache.org>

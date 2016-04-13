@@ -1,10 +1,10 @@
-from unittest import TestCase
-
 import sys
+from unittest import TestCase
 
 from mock import Mock, call
 from mockextras import stub
-from digestionprocessor import DigestionProcessor
+
+from digesters.digestionprocessor import DigestionProcessor
 from digesters.linkedin.linkedin_invitation_digester import LinkedinInvitationDigester
 
 MAIL_HDR = """From: P H <ph@example.com>

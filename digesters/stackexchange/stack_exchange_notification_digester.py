@@ -1,9 +1,11 @@
 from __future__ import unicode_literals
 
-from base_notification_digester import BaseNotificationDigester
-from utils import Utils
-from bs4 import BeautifulSoup
 import re
+
+from bs4 import BeautifulSoup
+
+from digesters.base_notification_digester import BaseNotificationDigester
+from utils import Utils
 
 
 class StackExchangeNotificationDigester(BaseNotificationDigester):
