@@ -77,14 +77,9 @@ class DigestionProcessor(object):
             unm = re.sub("\nTo: .*\r\n", "\nTo: " + self.sender_to_implicate + "\r\n", unm)
             self.rollup_folder.append(self.rollup_folder_name, unm)
 
-        self.rollup_folder.expunge()
-        self.rollup_folder.logout()
-
         # Delete Originals
 
         self.notification_folder.delete_messages(to_delete)
-        self.notification_folder.expunge()
-        self.notification_folder.logout()
 
         # Print summary for posterity
 

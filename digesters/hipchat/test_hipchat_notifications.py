@@ -4,7 +4,7 @@ from unittest import TestCase
 from mock import Mock, call
 from mockextras import stub
 
-from digesters.digestionprocessor import DigestionProcessor
+from digesters.digestion_processor import DigestionProcessor
 from digesters.hipchat.hipchat_notification_digester import HipchatNotificationDigester
 
 MAIL_HDR = """From: P H <ph@example.com>

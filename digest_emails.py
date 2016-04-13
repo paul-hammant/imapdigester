@@ -6,8 +6,21 @@ from socket import gaierror
 
 from imapclient import IMAPClient
 
-from digesters.digestionprocessor import DigestionProcessor
+from digesters.digestion_processor import DigestionProcessor
 from my_digesters_setup import add_digesters
+
+
+def commands_instead():
+    retval = False
+    messages = rollup_folder.search('SUBJECT "git-pull"')
+    response = rollup_folder.fetch(messages, ['FLAGS', 'RFC822.SIZE'])
+    for msgid, data in response.iteritems():
+        file = open("imapdigester_commands_next_time.sh", 'w+')
+        file.write("\ngit pull")
+        file.close()
+        rollup_folder.delete_messages([msgid])
+        retval = True
+    return retval
 
 if __name__ == '__main__':
 
@@ -75,10 +88,19 @@ if __name__ == '__main__':
     rollup_folder.login(options.rollup_user, options.rollup_pw)
     rollup_folder.select_folder(options.rollup_folder_name)
 
-    digesters = []
+    if not commands_instead():
+        digesters = []
 
-    # Get Digesters from my_digesters_setup.py
-    add_digesters(digesters)
+        # Get Digesters from my_digesters_setup.py
+        add_digesters(digesters)
 
-    DigestionProcessor(notification_folder, rollup_folder, digesters, options.print_summary,
-                       options.sender_to_implicate, options.move_unmatched, options.rollup_folder_name).doit()
+        DigestionProcessor(notification_folder, rollup_folder, digesters, options.print_summary,
+                           options.sender_to_implicate, options.move_unmatched, options.rollup_folder_name)\
+            .doit()
+
+    rollup_folder.expunge()
+    rollup_folder.logout()
+
+    notification_folder.expunge()
+    notification_folder.logout()
+
