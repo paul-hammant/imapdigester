@@ -50,7 +50,23 @@ class ConfluenceNotificationDigester(BaseNotificationDigester):
             space = re.search("display/(.*)/", docUrl).group(1)
             docText = find.text
 
-            excerpt = soup.find("table", {"class": "content-excerpt-pattern"}).text.strip()
+#            print "\n\n>>>" + soup.prettify() + "<<<\n\n"
+
+            if "edited a page" in event_text:
+                if "?" in docUrl:
+                    docUrl = docUrl[:docUrl.find("?")]
+                added = len(soup.findAll("span", {"class", "diff-html-added"}))
+                added += len(soup.findAll("span", {"class", "x_diff-html-added"}))
+                removed = len(soup.findAll("span", {"class", "diff-html-removed"}))
+                removed += len(soup.findAll("span", {"class", "x_diff-html-removed"}))
+                changed = len(soup.findAll("span", {"class", "diff-html-changed"}))
+                changed += len(soup.findAll("span", {"class", "x_diff-html-changed"}))
+                excerpt = "Page nodes added: " + str(added) \
+                                               + ", removed: " + str(removed) \
+                                               + ", changed: " + str(changed)
+            else:
+                excerpt = soup.find("table", {"class": "content-excerpt-pattern"}).text.strip()
+
 
             self.confluence_notifications[when] = {
                  "doc_url": docUrl,
