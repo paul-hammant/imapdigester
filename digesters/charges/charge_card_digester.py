@@ -4,7 +4,7 @@ from time import gmtime
 import arrow
 from jinja2 import Template
 
-from digesters.base_digester import BaseNotificationDigester
+from digesters.base_digester import BaseDigester
 from digesters.charges.amex_notification_digester import AmexNotificationDigester
 from digesters.charges.barclaycard_notification_digester import BarclaycardNotificationDigester
 from digesters.charges.bofa_notification_digester import BankOfAmericaNotificationDigester
@@ -14,7 +14,7 @@ from digesters.charges.citibank_notification_digester import CitibankNotificatio
 from digesters.charges.jpm_notification_digester import JPMorganNotificationDigester
 
 
-class ChargeCardDigester(BaseNotificationDigester):
+class ChargeCardDigester(BaseDigester):
 
     def __init__(self, store_writer):
         self.store_writer = store_writer

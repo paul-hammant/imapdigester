@@ -4,7 +4,7 @@ from __future__ import unicode_literals
 import arrow
 from bs4 import BeautifulSoup
 
-from digesters.base_digester import BaseNotificationDigester
+from digesters.base_digester import BaseDigester
 
 TEMPLATE = """<html>
 <head>
@@ -42,7 +42,7 @@ TEMPLATE = """<html>
 </html>"""
 
 
-class HipchatNotificationDigester(BaseNotificationDigester):
+class HipchatNotificationDigester(BaseDigester):
     def __init__(self, store_writer):
         self.store_writer = store_writer
         self.new_message_count = 0

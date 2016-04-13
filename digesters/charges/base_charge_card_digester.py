@@ -1,7 +1,7 @@
-from digesters.base_digester import BaseNotificationDigester
+from digesters.base_digester import BaseDigester
 
 
-class BaseChargeCardDigester(BaseNotificationDigester):
+class BaseChargeCardDigester(BaseDigester):
 
      def matching_rollup_subject(self):
         raise Exception("Should never get here")
