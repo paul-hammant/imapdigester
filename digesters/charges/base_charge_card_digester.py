@@ -1,4 +1,4 @@
-from digesters.base_notification_digester import BaseNotificationDigester
+from digesters.base_digester import BaseNotificationDigester
 
 
 class BaseChargeCardDigester(BaseNotificationDigester):

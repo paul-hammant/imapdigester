@@ -7,10 +7,10 @@ from email.header import decode_header
 import arrow
 from jinja2 import Template
 
-from digesters.base_notification_digester import BaseNotificationDigester
+from digesters.base_digester import BaseDigester
 
 
-class GithubNotificationDigester(BaseNotificationDigester):
+class GithubNotificationDigester(BaseDigester):
     def __init__(self, store_writer, return_path_email="noreply@github.com", from_email="notifications@github.com",
                  site="github.com", known_as="Github"):
         self.site = site

@@ -4,11 +4,11 @@ import re
 
 from bs4 import BeautifulSoup
 
-from digesters.base_notification_digester import BaseNotificationDigester
+from digesters.base_digester import BaseDigester
 from utils import Utils
 
 
-class StackExchangeNotificationDigester(BaseNotificationDigester):
+class StackExchangeNotificationDigester(BaseDigester):
     # Go to http://stackexchange.com/filters to see/setup your filters.
 
     # Note if you filter on just one tag, this digester will not work

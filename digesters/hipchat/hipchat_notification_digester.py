@@ -4,7 +4,7 @@ from __future__ import unicode_literals
 import arrow
 from bs4 import BeautifulSoup
 
-from digesters.base_notification_digester import BaseNotificationDigester
+from digesters.base_digester import BaseNotificationDigester
 
 TEMPLATE = """<html>
 <head>

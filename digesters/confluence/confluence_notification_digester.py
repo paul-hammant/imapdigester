@@ -7,10 +7,10 @@ import arrow
 from bs4 import BeautifulSoup
 from jinja2 import Template
 
-from digesters.base_notification_digester import BaseNotificationDigester
+from digesters.base_digester import BaseDigester
 
 
-class ConfluenceNotificationDigester(BaseNotificationDigester):
+class ConfluenceNotificationDigester(BaseDigester):
     def __init__(self, store_writer):
         self.store_writer = store_writer
         self.new_message_count = 0

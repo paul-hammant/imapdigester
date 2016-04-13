@@ -1,7 +1,7 @@
 from abc import ABCMeta, abstractmethod
 
 
-class BaseNotificationDigester:
+class BaseDigester:
     __metaclass__ = ABCMeta
 
     @abstractmethod
