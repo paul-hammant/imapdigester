@@ -5,6 +5,19 @@ you've read previously or not.
 
  * all, cough, means three types of credit card alerts, and notifications from github and stackexchange so far
 
+# Rationale
+
+I've been blogging for a while towards this better **and pervasive** inbox:
+
+- April 4th, 2016 » [Reducing My Robo-Emails To A Handful of Rollup Emails Every Few Minutes (IMAP Rewriting With Python)](http://paulhammant.com/2016/04/04/reducing-my-robo-emails-to-a-handful-of-rollup-emails-every-few-minutes/)
+- September 3rd, 2015 » [Resurrecting a small piece of Google Wave](http://paulhammant.com/2015/09/03/resurrecting-a-small-piece-of-google-wave/)
+- May 4th, 2015 » [Treating IMAP as a store: rewriting emails](http://paulhammant.com/2015/05/04/treating-imap-as-a-store-rewriting-emails/)
+- October 27th, 2014 » [The Pervasive Inbox](http://paulhammant.com/2014/10/27/the-pervasive-inbox/)
+- January 30th, 2014 » [It is Time for Email Apps to Support JavaScript](http://paulhammant.com/2014/01/30/its-time-for-email-apps-to-support-javascript/)
+
+
+# General Setup
+
 For this to work, you need two dedicated email addresses:
 
 1. For incoming machine-to-human notifications to send to, you **don't ever tell anyone else about it**, as it is not 
@@ -193,7 +206,7 @@ Motifications are rolled up into a single most-recent-first email:
 - User X changed a page (done)
 - User X added a page (done)
 
-If you're interested in increasing the support for Hipchat - (please vote on feature request #41391](https://jira.atlassian.com/browse/CONF-41391)
+If you're interested in increasing the support for Confluence - (please vote on feature request #41391](https://jira.atlassian.com/browse/CONF-41391)
 
 # Yet to do
 
