@@ -78,6 +78,13 @@ Make a script `run_imapdigester.sh`, and customize as appropriate below for your
 #!/bin/sh
 
 cd /home/pi/imapdigester/
+
+if [ -f "imapdigester_commands_next_time.sh" ]; then
+    chmod +x imapdigester_commands_next_time.sh
+    ./imapdigester_commands_next_time.sh
+    rm imapdigester_commands_next_time.sh
+fi
+
 /usr/bin/python digest_emails.py --notifications_imap imap-mail.emailprovider.com \
      --notifications_user secret_email_address_for_notifications@emailprovider.com --notifications_pw '123456' \
      --rollup_imap imap-mail.emailprovider.com \
@@ -200,13 +207,17 @@ TODO - unilaterally add "reject" button.
 
 ## Confluence Notifications
 
-Motifications are rolled up into a single most-recent-first email:
+Notifications are rolled up into a single most-recent-first email:
 
 - User X commented on page (done)
 - User X changed a page (done)
 - User X added a page (done)
 
 If you're interested in increasing the support for Confluence - (please vote on feature request #41391](https://jira.atlassian.com/browse/CONF-41391)
+
+# Command emails
+
+If you email the subject line of `git-pull` to the rollup email address, the thing will update itself from git (provided there are no merge conflicts).
 
 # Yet to do
 
