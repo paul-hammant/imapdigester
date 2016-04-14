@@ -175,7 +175,7 @@ digesters.append(GithubNotificationDigester(MetaStore("ghe_notifications"),
 
 Both 1-1 messages and Room mentions are rolled up into a single most-recent-first email.
 
-If you're interested in increasing the support for Hipchat - (please vote on feature request 579](https://jira.atlassian.com/browse/HCPUB-579)
+If you're interested in increasing the support for Hipchat - (please vote on feature request #579](https://jira.atlassian.com/browse/HCPUB-579)
 
 ## Linkedin Invitations
 
@@ -193,6 +193,7 @@ Motifications are rolled up into a single most-recent-first email:
 - User X changed a page (done)
 - User X added a page (done)
 
+If you're interested in increasing the support for Hipchat - (please vote on feature request #41391](https://jira.atlassian.com/browse/CONF-41391)
 
 # Yet to do
 
