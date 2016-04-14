@@ -188,7 +188,8 @@ TODO - unilaterally add "reject" button.
 Motifications are rolled up into a single most-recent-first email:
 
 - User X commented on page (done)
-- User X changed a page (not done)
+- User X changed a page (done)
+- User X added a page (done)
 
 # Yet to do
 
