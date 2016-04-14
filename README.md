@@ -159,6 +159,9 @@ Go to http://stackexchange.com/filters to see/setup your filters.
 Note if you filter on just one tag, this digester will not work (it won't recognize the subject line of the incoming
 emails. Therefore have AT LEAST TWO - like so http://imgur.com/YswesOB
 
+You must configure `my_digesters_setup.py` to set the filters you similarly configured inside StackExchange, that it
+notifies you in respect of.
+
 ## Github Repo Notifications
 
 Whatever you're watching in terms of repo, will be distilled into a single email. This gets longer and longer as an 
@@ -179,17 +182,7 @@ i.e. it appears to start over.
 
 Note - there is grouping around topic (repo-issue, repo-PR, repo-commit-comment).
 
-### You can configure a GithubEnterprise usage too
-
-In `my_digester_setup.py` have a line like so:
-
-```
-digesters.append(GithubNotificationDigester(MetaStore("ghe_notifications"),
-        return_path_email="noreply-ghe@yourcompany.com",
-        from_email="ghe-notifications@yourcompany.com",
-        site="ghe.yourcompany.com",
-        known_as="GHE"))
-```
+You can configure a GithubEnterprise usage too - just edit `my_digesters_setup.py` - to set domain names, emails etc.
 
 ## Hipchat Notifications
 
@@ -212,6 +205,8 @@ Notifications are rolled up into a single most-recent-first email:
 - User X commented on page (done)
 - User X changed a page (done)
 - User X added a page (done)
+
+You must configure `my_digesters_setup.py` to set the emails confluence uses to notify you, and a short name for that instance.
 
 If you're interested in increasing the support for Confluence - (please vote on feature request #41391](https://jira.atlassian.com/browse/CONF-41391)
 

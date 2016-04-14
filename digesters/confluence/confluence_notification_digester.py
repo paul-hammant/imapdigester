@@ -13,7 +13,9 @@ from digesters.base_digester import BaseDigester
 
 
 class ConfluenceNotificationDigester(BaseDigester):
-    def __init__(self, store_writer):
+    def __init__(self, store_writer, from_email_address, confluence_short_name):
+        self.confluence_short_name = confluence_short_name
+        self.from_email_address = from_email_address
         self.store_writer = store_writer
         self.new_message_count = 0
         self.new_articles = 0
@@ -158,10 +160,10 @@ class ConfluenceNotificationDigester(BaseDigester):
         return num_messages_since_last_seen
 
     def matching_incoming_headers(self):
-        return ["From: .* <confluence@apache.org>"]
+        return ["From: .* <" + self.from_email_address + ">"]
 
     def matching_rollup_subject(self):
-        return 'Confluence Notif. Rollup'
+        return self.confluence_short_name + ' Confluence Notif. Rollup'
 
     def print_summary(self):
         print "Confluence: New Confluence notifications: " + str(self.new_message_count)

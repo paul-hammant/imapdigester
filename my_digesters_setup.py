@@ -9,34 +9,38 @@ from digesters.charges.charge_card_digester import ChargeCardDigester
 
 def add_digesters(digesters):
 
-    # StackExchange filtered notifications
+    # StackExchange site filtered notifications
+    # Customize for your filter(s) ...
     digesters.append(StackExchangeNotificationDigester(MetaStore("stack_exchange_1"), "My SO filters"))
 
     # Charge (Credit) card spenting alerts (and mmore)
     digesters.append(ChargeCardDigester(MetaStore("charge_cards"))
                       .with_amex()
                       .with_chase()
-                      .with_barclaycard()
-                      .with_bofa()
-                      .with_jpmorgan()
-                      .with_capitalone()
+                      .with_barclaycard()  # non-operational presently
+                      .with_bofa()  # non-operational presently
+                      .with_jpmorgan()  # non-operational presently
+                      .with_capitalone()  # non-operational presently
                       .with_citi())
 
     # Regular Github.com notifications (you are watching a repo)
     digesters.append(GithubNotificationDigester(MetaStore("github_notifications")))
 
-    # Github Enterprise notifications (you are watching a repo)
+    # Github Enterprise installation notifications (you are watching a repo)
+    # Note the params for this need customization, or nothing will match .....
     digesters.append(GithubNotificationDigester(MetaStore("ghe_notifications"),
                                             return_path_email="noreply-ghe@yourcompany.com",
                                             from_email="ghe-notifications@yourcompany.com",
                                             site="ghe.yourcompany.com",
                                             known_as="GHE"))
 
-    # HipChat notifications
+    # Atlassian HipChat (service) notifications
     digesters.append(HipchatNotificationDigester(MetaStore("hipchat_notifications")))
 
-    # Linkedin Invitations
+    # Linkedin (service) Invitations
     digesters.append(LinkedinInvitationDigester(MetaStore("linkedin_invitations")))
 
-    # Confluence Notifications
-    digesters.append(ConfluenceNotificationDigester(MetaStore("confluence_notifications")))
+    # Atlassian Confluence Installtion Notifications
+    # Customize to the Confluence you're aiming at .....
+    digesters.append(ConfluenceNotificationDigester(MetaStore("confluence_notifications"),
+                                                    "confluence@apache.org", "Apache"))
