@@ -44,10 +44,10 @@ class ConfluenceNotificationDigester(BaseDigester):
             soup = BeautifulSoup(html_message, 'html.parser')
             event_text = soup.find("td", {"id": "header-text-container"}).text
             doc_elem = soup.find("td", {"id": "page-title-pattern-header-container"}).find("span").find("a")
-            docUrl = doc_elem.attrs["href"]
-            docUrl = docUrl[:docUrl.find("&")]
-            if "#" in docUrl:
-                docUrl = docUrl[:docUrl.find("#")]
+            doc_url = doc_elem.attrs["href"]
+            doc_url = doc_url[:doc_url.find("&")]
+            if "#" in doc_url:
+                doc_url = doc_url[:doc_url.find("#")]
 
             anchors =  soup.findAll("a")
             space = "UNKNOWN"
@@ -62,8 +62,8 @@ class ConfluenceNotificationDigester(BaseDigester):
             doc_text = unicode(doc_elem.text)
 
             if "edited a page" in event_text:
-                if "?" in docUrl:
-                    docUrl = docUrl[:docUrl.find("?")]
+                if "?" in doc_url:
+                    doc_url = doc_url[:doc_url.find("?")]
                 added = len(soup.findAll("span", {"class", "diff-html-added"}))
                 added += len(soup.findAll("span", {"class", "x_diff-html-added"}))
                 removed = len(soup.findAll("span", {"class", "diff-html-removed"}))
@@ -81,7 +81,7 @@ class ConfluenceNotificationDigester(BaseDigester):
                 excerpt = unicode(soup.find("table", {"class": "content-excerpt-pattern"}).text.strip())
 
             self.confluence_notifications[when] = {
-                 "doc_url": docUrl,
+                 "doc_url": doc_url,
                  "who": who,
                  "space": space,
                  "doc_text": doc_text,
@@ -89,7 +89,7 @@ class ConfluenceNotificationDigester(BaseDigester):
                  "excerpt": excerpt
             }
 
-            #print simplejson.dumps(self.confluence_notifications[when], sort_keys=True) + "\n\n"
+            # print simplejson.dumps(self.confluence_notifications[when], sort_keys=True) + "\n\n"
 
             return True
 
@@ -101,7 +101,7 @@ class ConfluenceNotificationDigester(BaseDigester):
             return
 
         # Deleted email (by the user) means they don't want to see THOSE notifications listed in a Rollup again.
-        if has_previous_message == False:
+        if not has_previous_message:
             if self.previously_notified_article_count > 0:
                 self.most_recently_seen = self.previously_notified_article_most_recent
 
@@ -118,40 +118,40 @@ class ConfluenceNotificationDigester(BaseDigester):
               Excerpt: {{notif['excerpt'].replace('\n','<br/>')}}
             </td>
           </tr>{% endfor %}
-        </table></body></html>""".replace("\n        ","\n")
+        </table></body></html>""".replace("\n        ", "\n")
 
         template = Template(templ)
 
         cnt = 0
         for when in sorted(self.confluence_notifications.iterkeys(), reverse=True):
-            cnt = cnt + 1
-            if cnt > 90:  # only show thirty
+            cnt += 1
+            if 90 < cnt:  # only show thirty
                 self.confluence_notifications.pop(when, None)
 
         num_messages_since_last_seen = self.add_line_for_notifications_seen_already()
 
         seen_formated = arrow.get(self.most_recently_seen).to("local").format("MMM DD YYYY hh:mm A")
         email_html = template.render(notifs_to_print=self.confluence_notifications,
-                             most_recent_seen=self.most_recently_seen,
-                             most_recent_seen_str=seen_formated, not_first_email=(self.most_recently_seen > 0))
+                             most_recent_seen= self.most_recently_seen,
+                             most_recent_seen_str= seen_formated, not_first_email=(self.most_recently_seen > 0))
 
         # Delete previous email, and write replacement
         if has_previous_message:
             rollup_inbox_proxy.delete_previous_message()
-        rollup_inbox_proxy.append(self.make_new_raw_email(email_html, num_messages_since_last_seen, sender_to_implicate))
+        rollup_inbox_proxy.append(self.make_new_raw_email(email_html,
+                                                          num_messages_since_last_seen, sender_to_implicate))
         # Save
         self.store_writer.store_as_binary("confluence-notifications", self.confluence_notifications)
         self.store_writer.store_as_binary("most-recently-seen", self.most_recently_seen)
-
 
     def add_line_for_notifications_seen_already(self):
         num_messages_since_last_seen = 0
         line_here_done = False
         for ts0, notif in sorted(self.confluence_notifications.iteritems(), reverse=False):
-            if self.most_recently_seen != 0 and ts0 >= self.most_recently_seen and line_here_done == False:
+            if self.most_recently_seen != 0 and ts0 >= self.most_recently_seen and line_here_done is False:
                 notif['line_here'] = True
                 line_here_done = True
-                num_messages_since_last_seen = num_messages_since_last_seen +1
+                num_messages_since_last_seen += 1
         if self.most_recently_seen == 0:
             num_messages_since_last_seen = len(self.confluence_notifications)
 
@@ -166,13 +166,12 @@ class ConfluenceNotificationDigester(BaseDigester):
     def print_summary(self):
         print "Confluence: New Confluence notifications: " + str(self.new_message_count)
 
-
     def make_new_raw_email(self, email_html, count, sender_to_implicate):
 
         email_ascii = email_html.replace("\n\n\n", "\n").replace("\n\n", "\n").encode('utf-8', 'replace')
 
         # Ugly hack
-        email_html = "".join(i for i in email_html if ord(i) < 128)
+        email_ascii = "".join(i for i in email_ascii if ord(i) < 128)
 
         new_message = 'Subject: ' + self.matching_rollup_subject() + ": " + str(count) + ' new notification(s)\n'
         new_message += 'From: ' + sender_to_implicate + '\n'

@@ -15,9 +15,9 @@ def commands_instead():
     messages = rollup_folder.search('SUBJECT "git-pull"')
     response = rollup_folder.fetch(messages, ['FLAGS', 'RFC822.SIZE'])
     for msgid, data in response.iteritems():
-        file = open("imapdigester_commands_next_time.sh", 'w+')
-        file.write("\ngit pull")
-        file.close()
+        f = open("imapdigester_commands_next_time.sh", 'w+')
+        f.write("\ngit pull")
+        f.close()
         rollup_folder.delete_messages([msgid])
         retval = True
     return retval
@@ -44,7 +44,7 @@ if __name__ == '__main__':
     parser.add_option("--rollup_pw", dest="rollup_pw",
                       help="User's password for outgoing rollup (rewrite) mail server")
     parser.add_option("--rollup_folder", dest="rollup_folder_name", default="INBOX",
-                  help="The Imap folder to pull/push rollup from/to, e.g. INBOX")
+                      help="The Imap folder to pull/push rollup from/to, e.g. INBOX")
     parser.add_option("--implicate", dest="sender_to_implicate",
                       help="Who to name in rollup emails, e.g. \"Imap Digester\" <imapdigester@example.com>")
     parser.add_option("--move_unmatched", action="store_true", dest="move_unmatched",
@@ -53,11 +53,11 @@ if __name__ == '__main__':
 
     (options, args) = parser.parse_args()
 
-    if options.notifications_pw == None:
+    if options.notifications_pw is None:
         print "Enter notifications user password:"
         options.notifications_pw = getpass.getpass()
 
-    if options.rollup_pw == None:
+    if options.rollup_pw is None:
         if options.notifications_imap == options.rollup_imap and options.notifications_user == options.rollup_user:
             options.rollup_pw = options.notifications_pw
         else:
@@ -67,7 +67,7 @@ if __name__ == '__main__':
     # Read and mark for deletion items from notification inbox.
     notification_folder = None
     try:
-        notification_folder = IMAPClient(options.notifications_imap, use_uid=True, ssl=(True))
+        notification_folder = IMAPClient(options.notifications_imap, use_uid=True, ssl=True)
     except gaierror:
         print "CAN'T FIND IMAP SERVER"
         exit(10)
@@ -75,7 +75,7 @@ if __name__ == '__main__':
         notification_folder.login(options.notifications_user, options.notifications_pw)
     except:
         time.sleep(5)
-        notification_folder = IMAPClient(options.notifications_imap, use_uid=True, ssl=(True))
+        notification_folder = IMAPClient(options.notifications_imap, use_uid=True, ssl=True)
         try:
             notification_folder.login(options.notifications_user, options.notifications_pw)
         except:
@@ -84,7 +84,7 @@ if __name__ == '__main__':
     time.sleep(1)
     notification_folder.select_folder(options.notifications_folder_name)
 
-    rollup_folder = IMAPClient(options.rollup_imap, use_uid=True, ssl=(True))
+    rollup_folder = IMAPClient(options.rollup_imap, use_uid=True, ssl=True)
     rollup_folder.login(options.rollup_user, options.rollup_pw)
     rollup_folder.select_folder(options.rollup_folder_name)
 
@@ -103,4 +103,3 @@ if __name__ == '__main__':
 
     notification_folder.expunge()
     notification_folder.logout()
-

@@ -1,11 +1,8 @@
 from __future__ import unicode_literals
 
 import re
-
 from bs4 import BeautifulSoup
-
 from digesters.base_digester import BaseDigester
-from utils import Utils
 
 
 class StackExchangeNotificationDigester(BaseDigester):
@@ -38,9 +35,8 @@ class StackExchangeNotificationDigester(BaseDigester):
 
     def process_new_notification(self, rfc822content, msg, html_message, text_message):
 
-        body = Utils.get_decoded_email_body(msg, True)
         self.new_message_count += 1
-        self.extract_articles_from_html(body)
+        self.extract_articles_from_html(html_message)
         return True
 
     def extract_articles_from_html(self, html_email):
@@ -68,7 +64,7 @@ class StackExchangeNotificationDigester(BaseDigester):
             return
 
         # Deleted email (by the user) means they don't want to see THOSE notifications listed in a Rollup again.
-        if has_previous_message == False:
+        if not has_previous_message:
             if self.previously_notified_article_count > 0:
                 self.article_dict["most_recent_seen"] = self.previously_notified_article_most_recent
 
