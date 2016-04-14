@@ -4,8 +4,10 @@ from __future__ import unicode_literals
 import re
 
 import arrow
+import simplejson
 from bs4 import BeautifulSoup
 from jinja2 import Template
+from collections import Counter
 
 from digesters.base_digester import BaseDigester
 
@@ -41,15 +43,23 @@ class ConfluenceNotificationDigester(BaseDigester):
         if html_message:
             soup = BeautifulSoup(html_message, 'html.parser')
             event_text = soup.find("td", {"id": "header-text-container"}).text
-            find = soup.find("td", {"id": "page-title-pattern-header-container"}).find("span").find("a")
-            docUrl = find.attrs["href"]
+            doc_elem = soup.find("td", {"id": "page-title-pattern-header-container"}).find("span").find("a")
+            docUrl = doc_elem.attrs["href"]
             docUrl = docUrl[:docUrl.find("&")]
             if "#" in docUrl:
                 docUrl = docUrl[:docUrl.find("#")]
-            space = re.search("display/(.*)/", docUrl).group(1)
-            docText = find.text
 
-#            print "\n\n>>>" + soup.prettify() + "<<<\n\n"
+            anchors =  soup.findAll("a")
+            space = "UNKNOWN"
+            for anchor in anchors:
+                if "href" in anchor.attrs:
+                    href_ = anchor.attrs["href"]
+                    if "spaceKey=" in href_:
+                        space = re.search('spaceKey=(.*)', href_).group(1)
+                        if "&" in space:
+                            space = space[:space.index("&")]
+
+            doc_text = unicode(doc_elem.text)
 
             if "edited a page" in event_text:
                 if "?" in docUrl:
@@ -63,18 +73,23 @@ class ConfluenceNotificationDigester(BaseDigester):
                 excerpt = "Page nodes added: " + str(added) \
                                                + ", removed: " + str(removed) \
                                                + ", changed: " + str(changed)
+            elif "created a page" in event_text:
+                contents = soup.find("td", {"class": "email-content-main mobile-expand"})
+                words_in_new_page = Counter(contents.text).elements()
+                excerpt = "Page added with " + str(len(list(words_in_new_page))) + " words."
             else:
-                excerpt = soup.find("table", {"class": "content-excerpt-pattern"}).text.strip()
-
+                excerpt = unicode(soup.find("table", {"class": "content-excerpt-pattern"}).text.strip())
 
             self.confluence_notifications[when] = {
                  "doc_url": docUrl,
                  "who": who,
                  "space": space,
-                 "doc_text": docText,
+                 "doc_text": doc_text,
                  "event": event_text,
                  "excerpt": excerpt
             }
+
+            #print simplejson.dumps(self.confluence_notifications[when], sort_keys=True) + "\n\n"
 
             return True
 
@@ -90,12 +105,12 @@ class ConfluenceNotificationDigester(BaseDigester):
             if self.previously_notified_article_count > 0:
                 self.most_recently_seen = self.previously_notified_article_most_recent
 
-        templ = """<html><body>{% if not_first_email %}<span>You have previously read notifications up to: {{most_recent_seen_str}}</span>{% endif %}
+        templ = u"""<html><body>{% if not_first_email %}<span>You have previously read notifications up to: {{most_recent_seen_str}}</span>{% endif %}
         <table>
           <tr style="background-color: #acf;">
             <th>Notifications</th>
           </tr>
-        {% for when, notif in notifsToPrint|dictsort(false, by='key')|reverse %}{% if notif['line_here'] %}          <tr><td colspan="2" style="border-bottom: 1pt solid red; border-top: 1pt solid red;"><center>^ New Notifications Since You Last Checked ^</center></td></tr>{% endif %}          <tr style="{{loop.cycle('','background-color: #def;')}}">
+        {% for when, notif in notifs_to_print|dictsort(false, by='key')|reverse %}{% if notif['line_here'] %}          <tr><td colspan="2" style="border-bottom: 1pt solid red; border-top: 1pt solid red;"><center>^ New Notifications Since You Last Checked ^</center></td></tr>{% endif %}          <tr style="{{loop.cycle('','background-color: #def;')}}">
             <td>
               What: {{notif['event']}}<br/>
               Space: {{notif['space']}}:<br/>
@@ -110,13 +125,13 @@ class ConfluenceNotificationDigester(BaseDigester):
         cnt = 0
         for when in sorted(self.confluence_notifications.iterkeys(), reverse=True):
             cnt = cnt + 1
-            if cnt > 30:  # only show thirty
+            if cnt > 90:  # only show thirty
                 self.confluence_notifications.pop(when, None)
 
         num_messages_since_last_seen = self.add_line_for_notifications_seen_already()
 
         seen_formated = arrow.get(self.most_recently_seen).to("local").format("MMM DD YYYY hh:mm A")
-        email_html = template.render(notifsToPrint=self.confluence_notifications,
+        email_html = template.render(notifs_to_print=self.confluence_notifications,
                              most_recent_seen=self.most_recently_seen,
                              most_recent_seen_str=seen_formated, not_first_email=(self.most_recently_seen > 0))
 
@@ -151,26 +166,14 @@ class ConfluenceNotificationDigester(BaseDigester):
     def print_summary(self):
         print "Confluence: New Confluence notifications: " + str(self.new_message_count)
 
-    def get_template_start_and_end(self, template):
-        template_start = template[:template.find("<InsertHere/>")]
-        template_end = template[template.find("<InsertHere/>") + len("<InsertHere/>"):]
-        return template_end, template_start
-
-    def make_html_payload(self, template_end, template_start, hc_notifications):
-        email_html = template_start
-
-        ix = 0
-        for anum in sorted(hc_notifications.iterkeys(), reverse=True):
-            if anum == self.most_recently_seen and ix > 0:
-                email_html += '<div style="border-bottom: 1.5pt solid red; border-top: 1.5pt solid red;"><center>^ New Questions Since You Last Checked ^</center></div>\n'
-            email_html += '<div class="ecxhc-chat-from" style="margin-left: 150px;text-align:left;width:200px;padding:10px 0 10px 10px;">' + hc_notifications[anum]["room"] + '</div>\n'
-            email_html += "<div>\n" + hc_notifications[anum]["div"] + "</div>\n"
-            ix = + 1
-        email_html += template_end
-
-        return email_html
 
     def make_new_raw_email(self, email_html, count, sender_to_implicate):
+
+        email_ascii = email_html.replace("\n\n\n", "\n").replace("\n\n", "\n").encode('utf-8', 'replace')
+
+        # Ugly hack
+        email_html = "".join(i for i in email_html if ord(i) < 128)
+
         new_message = 'Subject: ' + self.matching_rollup_subject() + ": " + str(count) + ' new notification(s)\n'
         new_message += 'From: ' + sender_to_implicate + '\n'
         new_message += 'Content-Transfer-Encoding: 8bit\n'
@@ -179,7 +182,7 @@ class ConfluenceNotificationDigester(BaseDigester):
         new_message += 'This is a multi-part message in MIME format.\n'
         new_message += '-----NOTIFICATION_BOUNDARY\nContent-Type: text/html; charset="utf-8"\n'
         new_message += 'Content-Transfer-Encoding: 8bit\n\n\n'
-        new_message += email_html.replace("\n\n\n", "\n").replace("\n\n", "\n").encode('utf-8', 'replace')
+        new_message += email_ascii
         new_message += '\n\n-----NOTIFICATION_BOUNDARY'
 
         return new_message
