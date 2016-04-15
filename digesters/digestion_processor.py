@@ -39,8 +39,7 @@ class DigestionProcessor(object):
 
     def doit(self):
 
-        # messages = self.notification_folder.search(['NOT', 'DELETED']) for imapclient > 1.0.1
-        messages = self.notification_folder.search(['NOT DELETED'])
+        messages = self.notification_folder.search('NOT DELETED')
         response = self.notification_folder.fetch(messages, ['FLAGS', 'RFC822.SIZE'])
         unmatched_to_move = []
         to_delete = []
@@ -57,9 +56,9 @@ class DigestionProcessor(object):
             from_to_match = 'HEADER From "' + self.sender_to_implicate.split(" ")[-1]\
                 .replace("<", "").replace(">", "") + '"'
             try:
-                messages = self.rollup_folder.search(['NOT DELETED', subj_to_match, from_to_match])
+                messages = self.rollup_folder.search('NOT DELETED ' + subj_to_match + " " + from_to_match)
             except imaplib.IMAP4.abort:
-                messages = self.rollup_folder.search(['NOT DELETED', subj_to_match, from_to_match])
+                messages = self.rollup_folder.search('NOT DELETED ' + subj_to_match + " " + from_to_match)
             response = self.rollup_folder.fetch(messages, ['FLAGS', 'RFC822.SIZE'])
             previously_seen = False
             previous_message_id = None

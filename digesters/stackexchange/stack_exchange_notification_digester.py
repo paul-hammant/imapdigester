@@ -91,7 +91,6 @@ class StackExchangeNotificationDigester(BaseDigester):
             rollup_inbox_proxy.delete_previous_message()
 
         email = self.make_new_raw_email(email_html, unseen, sender_to_implicate)
-        print ">>>" + email + "<<<"
         rollup_inbox_proxy.append(email)
         # Save
         self.store_writer.store_as_binary("articles", self.article_dict)

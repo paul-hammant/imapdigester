@@ -194,7 +194,10 @@ class GithubNotificationDigester(BaseDigester):
         new_message += '-----NOTIFICATION_BOUNDARY' + self.notification_boundary_rand \
                        + '\nContent-Type: text/html; charset="utf-8"\n'
         new_message += 'Content-Transfer-Encoding: 8bit\n\n'
-        new_message += email_html.replace("\n\n\n", "\n").replace("\n\n", "\n").encode('utf-8', 'replace')
+        email_ascii = email_html.replace("\n\n\n", "\n").replace("\n\n", "\n").encode('utf-8', 'replace')
+        # Ugly hack
+        email_ascii = "".join(i for i in email_ascii if ord(i) < 128)
+        new_message += email_ascii
         new_message += '\n\n-----NOTIFICATION_BOUNDARY' + self.notification_boundary_rand
 
         # Delete previous email, and write replacement
