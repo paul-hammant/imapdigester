@@ -7,6 +7,7 @@ from digesters.charges.base_charge_card_digester import BaseChargeCardDigester
 
 class CitibankNotificationDigester(BaseChargeCardDigester):
     def __init__(self, charges):
+        super(CitibankNotificationDigester, self).__init__()
         self.charges = charges
         self.new_citi = 0
 

@@ -9,6 +9,7 @@ from digesters.charges.base_charge_card_digester import BaseChargeCardDigester
 
 class AmexNotificationDigester(BaseChargeCardDigester):
     def __init__(self, charges):
+        super(AmexNotificationDigester, self).__init__()
         self.charges = charges
         self.new_amex = 0
 

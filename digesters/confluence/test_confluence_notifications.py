@@ -582,45 +582,19 @@ so-table-rspace: 0pt; color: #333; display: none">=20
 
 MAIL_HDR = """From: P H <ph@example.com>
 Content-Transfer-Encoding: 8bit
-Content-Type: multipart/alternative; boundary="---NOTIFICATION_BOUNDARY"
+Content-Type: multipart/alternative; boundary="---NOTIFICATION_BOUNDARY-5678"
 MIME-Version: 1.0
 This is a multi-part message in MIME format.
------NOTIFICATION_BOUNDARY
+-----NOTIFICATION_BOUNDARY-5678
 Content-Type: text/html; charset="utf-8"
 Content-Transfer-Encoding: 8bit
 
 
 """
 
-PAGE_EDITED = """Received: from BY1PR20MB0103.namprd20.prod.outlook.com (10.161.92.19) by
- BY1PR20MB0103.namprd20.prod.outlook.com (10.161.92.19) with Microsoft SMTP
- Server (TLS) id 15.1.453.26 via Mailbox Transport; Wed, 13 Apr 2016 08:15:31
- +0000
-Received: from DM3PR20CA0036.namprd20.prod.outlook.com (10.165.25.49) by
- BY1PR20MB0103.namprd20.prod.outlook.com (10.161.92.19) with Microsoft SMTP
- Server (TLS) id 15.1.453.26; Wed, 13 Apr 2016 08:15:30 +0000
-Received: from SN1NAM01FT049.eop-nam01.prod.protection.outlook.com
- (2a01:111:f400:7e40::207) by DM3PR20CA0036.outlook.office365.com
- (2a01:111:e400:5a92::49) with Microsoft SMTP Server (TLS) id 15.1.447.15 via
- Frontend Transport; Wed, 13 Apr 2016 08:15:29 +0000
-Received: from COL004-MC1F21.hotmail.com (10.152.64.55) by
- SN1NAM01FT049.mail.protection.outlook.com (10.152.64.252) with Microsoft SMTP
- Server (TLS) id 15.1.453.6 via Frontend Transport; Wed, 13 Apr 2016 08:15:29
- +0000
-Received: from mail.apache.org ([140.211.11.3]) by COL004-MC1F21.hotmail.com with Microsoft SMTPSVC(7.5.7601.23143);
-	 Wed, 13 Apr 2016 01:15:28 -0700
-Received: (qmail 77182 invoked by uid 99); 13 Apr 2016 08:15:28 -0000
-Received: from mail-relay.apache.org (HELO mail-relay.apache.org) (140.211.11.15)
-    by apache.org (qpsmtpd/0.29) with ESMTP; Wed, 13 Apr 2016 08:15:28 +0000
-Received: from cwiki-vm4.apache.org (unknown [209.188.14.145])
-	by mail-relay.apache.org (ASF Mail Server at mail-relay.apache.org) with ESMTPS id 540501A00A8
-	for <paul_h555@outlook.com>; Wed, 13 Apr 2016 08:15:28 +0000 (UTC)
-Received: from cwiki-vm4.apache.org (localhost [127.0.0.1])
-	by cwiki-vm4.apache.org (ASF Mail Server at cwiki-vm4.apache.org) with ESMTP id E1DF5101155
-	for <paul_h555@outlook.com>; Wed, 13 Apr 2016 08:15:27 +0000 (UTC)
-Date: Wed, 13 Apr 2016 08:15:27 +0000
+PAGE_EDITED = """Date: Wed, 13 Apr 2016 08:15:27 +0000
 From: "Noble Paul (Confluence)" <confluence@apache.org>
-To: <paul_h555@outlook.com>
+To: <paul_hamm@example.com>
 Message-ID: <1334689970.1157938.1460535327926.JavaMail.confluence@cwiki-vm4>
 Subject: [CONF] Apache Solr Reference Guide > Config API
 Content-Type: multipart/related;
@@ -629,41 +603,6 @@ X-ATLASSIAN-NOTIFICATIONS-VERSION: 6.4.0
 Auto-Submitted: auto-generated
 Precedence: bulk
 Return-Path: confluence@apache.org
-X-OriginalArrivalTime: 13 Apr 2016 08:15:28.0789 (UTC) FILETIME=[A3C9B450:01D1955C]
-X-MS-Exchange-Organization-Network-Message-Id: 642bb34f-95f8-4893-8938-08d36373c6ea
-X-EOPAttributedMessage: 0
-X-EOPTenantAttributedMessage: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa:0
-X-MS-Exchange-Organization-MessageDirectionality: Incoming
-CMM-sender-ip: 140.211.11.3
-CMM-sending-ip: 140.211.11.3
-CMM-Authentication-Results: hotmail.com; spf=none (sender IP is 140.211.11.3)
- smtp.mailfrom=confluence@apache.org; dkim=none header.d=apache.org;
- x-hmca=none header.id=confluence@apache.org
-CMM-X-SID-PRA: confluence@apache.org
-CMM-X-AUTH-Result: NONE
-CMM-X-SID-Result: NONE
-CMM-X-Message-Status: n:n
-CMM-X-Message-Delivery: Vj0xLjE7dXM9MDtsPTE7YT0xO0Q9MTtHRD0xO1NDTD0w
-CMM-X-Message-Info: NhFq/7gR1vQRHV6jbdvQftN0PxydUVN9LTm7E2CQE586/Zm/T1I3hJGaSF+WLCTAKHzhZ3qvESZ9nq4h0xdktr0z/8GboBvcA8Tl1ig/WvSas8Uav0GlrQufxq4/y1RNdcqKVtOtcDXo7i06y+2PhFC86T+I6UPp/nNUw3Q2Y0zN6MW2f5DTfs0oI8Z/sNyZKYdKWLDwCt470XAStX5S/TlAYIeD4mAZG7WuG9/Zq1oPbXD1x4t7hQ==
-X-MS-Exchange-Organization-PCL: 2
-X-Forefront-Antispam-Report: EFV:NLI;SFV:NSPM;SFS:(98900003);DIR:INB;SFP:;SCL:1;SRVR:BY1PR20MB0103;H:COL004-MC1F21.hotmail.com;FPR:;SPF:None;MLV:ovrnspm;LANG:en;
-X-MS-Office365-Filtering-Correlation-Id: 642bb34f-95f8-4893-8938-08d36373c6ea
-X-Microsoft-Exchange-Diagnostics: 1;BY1PR20MB0103;2:3evjTI5vyVHBLwAGN9g9UIf5cam+YDN9iOD/DX88+hhGWURv9YDS2Wj+626UFdYlXweHvLMQE874PG1hjhyRJhJO/s+bFgK5IzXBs/tbGfCydK+EkzSjb5ke2bi9UouS5iRZzl63jX56OAsE63cep78ZvcjJBwrwWAjJg3ziWDqmvxmjnG18N3r0xTAKi1FJgz1wjrsMGViK9ypEzKzhzw==;3:F0aiZuT2DVqwZb+mbRMAP08cs0n8TsmuAZX+vOnw4X+wrsvi1hgx5YJ05NRpDhu8rItpkx9dqev802SXu4JUl7ZtSvIC5IfXFB1a+0/NadSnWdYxIGQyizsdD1Zj2AangA1g+zp1fw3iVOjfbdGWy6P3O3/h5vpO9Aeow1JtEfs=;25:5sQc+ApzyuQxekPTsaMV0UIByyfOg+SG7aY6Pg2nc46hKeVXDm/YdpCy39JWjeUOKlAla+1jLkSWQJqPH+Kr/DLQs1GYRh3KIDdpUYf9XO9FRc5z9F9WTHAl0xusESgP2/ctEHUYsDB5bYpF5L4KUhq3J0dIb+nnQe9islxQD6aMgQNdKJbRxYLJHR7RC4Fh+uO999ESUkCpkz/tP0O1fUo6FLloWp/6Q2VZJyx7RzzdtbJ+IfbYMvs+4sPyLQ1Nq7sJfPM5cwG+SVMkMiHtkHl5zsF9RT1V8VceEuCDpiEY3aVptiEyOmmW3CIapbaDxS2mvdcBLwl1BTUSgEeaC2IDkqyincWMCAMIUrgPHis=
-X-Microsoft-Antispam: BCL:0;PCL:0;RULEID:(8291501002);SRVR:BY1PR20MB0103;
-X-MS-Exchange-Organization-AVStamp-Service: 1.0
-X-Exchange-Antispam-Report-CFA-Test: BCL:0;PCL:0;RULEID:(102415293)(102615271)(82015046);SRVR:BY1PR20MB0103;BCL:0;PCL:0;RULEID:;SRVR:BY1PR20MB0103;
-X-Microsoft-Exchange-Diagnostics: 1;BY1PR20MB0103;4:hCfnaXkCqeY1djLPUvWudZJbfgAsQxtqWqHE7rJmnCjZlIEsF56P9sCSmXhuJwYys7TMvmAMcIS4iBJEKSdwZJ7dVKnoIKbbAXZ42s84UBpdT2pa7GqpMmjctTeuMUasvINm8vGKcvqtNck0dZ4ZaYslksiRXmyhJ65+rXpnrsQhWE1A9JEWXSX22crSw4NQVC+vgVK8ykDTCSRoXxvmEQX3WB3Wrowk+PQh4lx2tuamWSFry8oULM9mr784nxqu/w9FICd/y2tt3CIyDBTPyyDLFG2w5BdM/HkLXGQAmOCsnQp5ZiJxPXismNqKTkXt;23:klOSyeFcYXDNo3P9m9/CqZ0PqJj/kMYASbvqcBx2jhEdRW8V+B7t+TRWoRk7EGPpKsaVyWxWfpJE7EksqEPBSJ89QaRbS6wA/8nGeMpOC3J/92xUc2QFuzzKbzm/UQ/OgLpR2LpaKrn+yEkXNidxlhaBVcPcBiUeLkZHugLwgWmzAfcNI+NnsU+9WPCoqGLD;5:LT6qy/k988jNcYPYhvUKUIhXqFfQyTir3SOhXMwwWR6BzRoKJupt4arOhb92FPe93hlLn7ZVcoA4bcaW6QJn8mu1XCTi3ObD/GC5KUMDIRpyNJ3N3l5fmTH0ShlLyk6M6jFtcvEh+TBUCa/RHDwHrQ==;24:IcjOAH7PfXpNNVpl2yrZbwF6dSO5FCC457r9qplXXA4KzQs5ilBBRUGgvcJob9MHNqEfa/tCcAZrdl2ZTKFmD2dg3LAjfl4L1HZCFVITq/0=
-X-MS-Exchange-Organization-SCL: 1
-SpamDiagnosticOutput: 1:23
-SpamDiagnosticMetadata: NSPM
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 13 Apr 2016 08:15:29.4488
- (UTC)
-X-MS-Exchange-CrossTenant-Id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
-X-MS-Exchange-CrossTenant-FromEntityHeader: Internet
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BY1PR20MB0103
-X-MS-Exchange-Organization-AuthSource: SN1NAM01FT049.eop-nam01.prod.protection.outlook.com
-X-MS-Exchange-Organization-AuthAs: Anonymous
-X-MS-Exchange-Transport-EndToEndLatency: 00:00:02.3646936
 MIME-Version: 1.0
 
 ------=_Part_1157937_100703508.1460535327916
@@ -1109,15 +1048,16 @@ class TestConfluenceNotifications(TestCase):
             (call('most-recently-seen', 1460183824), True)
         )
 
-        expected_message = ("Subject: Confluence Notif. Rollup: 1 new notification(s)\n"
-                            + MAIL_HDR + expected_payload + "\n\n-----NOTIFICATION_BOUNDARY")
+        expected_message = ("Subject: Apache Confluence Notif. Rollup: 1 new notification(s)\n"
+                            + MAIL_HDR + expected_payload + "\n\n-----NOTIFICATION_BOUNDARY-5678")
 
         rollup_inbox_proxy = Mock()
         rollup_inbox_proxy.delete_previous_message.side_effect = stub((call(), True))
         rollup_inbox_proxy.append.side_effect = stub((call(expected_message), True))
 
         digesters = []
-        digester = ConfluenceNotificationDigester(store_writer)  ## What we are testing
+        digester = ConfluenceNotificationDigester(store_writer, "confluence@apache.org", "Apache")  ## What we are testing
+        digester.notification_boundary_rand = "-5678"  # no random number for the email's notification boundary
         digesters.append(digester)
 
         digestion_processor = DigestionProcessor(None, None, digesters, False, "P H <ph@example.com>", False, "INBOX")

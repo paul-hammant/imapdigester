@@ -14,6 +14,7 @@ from digesters.base_digester import BaseDigester
 
 class ConfluenceNotificationDigester(BaseDigester):
     def __init__(self, store_writer, from_email_address, confluence_short_name):
+        super(ConfluenceNotificationDigester, self).__init__()
         self.confluence_short_name = confluence_short_name
         self.from_email_address = from_email_address
         self.store_writer = store_writer
@@ -175,15 +176,18 @@ class ConfluenceNotificationDigester(BaseDigester):
         # Ugly hack
         email_ascii = "".join(i for i in email_ascii if ord(i) < 128)
 
+
         new_message = 'Subject: ' + self.matching_rollup_subject() + ": " + str(count) + ' new notification(s)\n'
         new_message += 'From: ' + sender_to_implicate + '\n'
         new_message += 'Content-Transfer-Encoding: 8bit\n'
-        new_message += 'Content-Type: multipart/alternative; boundary="---NOTIFICATION_BOUNDARY"\n'
+        new_message += 'Content-Type: multipart/alternative; boundary="---NOTIFICATION_BOUNDARY' \
+                       + self.notification_boundary_rand + '"\n'
         new_message += 'MIME-Version: 1.0\n'
         new_message += 'This is a multi-part message in MIME format.\n'
-        new_message += '-----NOTIFICATION_BOUNDARY\nContent-Type: text/html; charset="utf-8"\n'
+        new_message += '-----NOTIFICATION_BOUNDARY' + self.notification_boundary_rand \
+                       + '\nContent-Type: text/html; charset="utf-8"\n'
         new_message += 'Content-Transfer-Encoding: 8bit\n\n\n'
         new_message += email_ascii
-        new_message += '\n\n-----NOTIFICATION_BOUNDARY'
+        new_message += '\n\n-----NOTIFICATION_BOUNDARY' + self.notification_boundary_rand
 
         return new_message

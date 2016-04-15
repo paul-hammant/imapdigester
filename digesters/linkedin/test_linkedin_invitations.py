@@ -8,13 +8,13 @@ from digesters.digestion_processor import DigestionProcessor
 from digesters.linkedin.linkedin_invitation_digester import LinkedinInvitationDigester
 
 MAIL_HDR = """From: P H <ph@example.com>
-Content-Transfer-Encoding: 7bit
-Content-Type: multipart/alternative; boundary="---NOTIFICATION_BOUNDARY"
+Content-Transfer-Encoding: 8bit
+Content-Type: multipart/alternative; boundary="---NOTIFICATION_BOUNDARY-5678"
 MIME-Version: 1.0
 This is a multi-part message in MIME format.
------NOTIFICATION_BOUNDARY
-Content-Type: text/html; charset="utf-7"
-Content-Transfer-Encoding: 7bit
+-----NOTIFICATION_BOUNDARY-5678
+Content-Type: text/html; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 
 
 """
@@ -46,7 +46,7 @@ class TestLinkedinInvitations(TestCase):
 
     def test_two_related_invitations_can_be_rolled_up(self):
 
-        expected_payload = """<html><body><span>You have previously read invitations up to: Apr 01 2016 06:13 PM</span>
+        expected_payload = """<html><body><span>You have previously read invitations up to: Apr 01 2016 05:13 PM</span>
           <table>
             <tr style="background-color: #acf;">
               <th colspan="2">Invitations</th>
@@ -93,7 +93,7 @@ class TestLinkedinInvitations(TestCase):
         )
 
         expected_message = ("Subject: Linkedin Inv. Rollup: 1 new invitation(s)\n" + MAIL_HDR + expected_payload + \
-                           "\n\n-----NOTIFICATION_BOUNDARY").replace("\n", "\r\n")
+                           "\n\n-----NOTIFICATION_BOUNDARY-5678").replace("\n", "\r\n")
 
         rollup_inbox_proxy = Mock()
         rollup_inbox_proxy.delete_previous_message.side_effect = stub((call(), True))
@@ -101,6 +101,7 @@ class TestLinkedinInvitations(TestCase):
 
         digesters = []
         digester = LinkedinInvitationDigester(store_writer)  ## What we are testing
+        digester.notification_boundary_rand = "-5678"  # no random number for the email's notification boundary
         digesters.append(digester)
 
         digestion_processor = DigestionProcessor(None, None, digesters, False, "P H <ph@example.com>", False, "INBOX")

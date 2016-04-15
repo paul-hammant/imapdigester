@@ -13,6 +13,7 @@ from digesters.base_digester import BaseDigester
 class GithubNotificationDigester(BaseDigester):
     def __init__(self, store_writer, return_path_email="noreply@github.com", from_email="notifications@github.com",
                  site="github.com", known_as="Github"):
+        super(GithubNotificationDigester, self).__init__()
         self.site = site
         self.known_as = known_as
         self.from_email = from_email
@@ -185,14 +186,16 @@ class GithubNotificationDigester(BaseDigester):
         new_message = 'Subject: ' + self.matching_rollup_subject() + ' (' + str(
             num_messages_since_last_seen) + ' new)\n'
         new_message += 'From: ' + sender_to_implicate + '\n'
-        new_message += 'Content-Transfer-Encoding: 7bit\n'
-        new_message += 'Content-Type: multipart/alternative; boundary="---NOTIFICATION_BOUNDARY"\n'
+        new_message += 'Content-Transfer-Encoding: 8bit\n'
+        new_message += 'Content-Type: multipart/alternative; boundary="---NOTIFICATION_BOUNDARY' \
+                       + self.notification_boundary_rand + '"\n'
         new_message += 'MIME-Version: 1.0\n'
         new_message += 'This is a multi-part message in MIME format.\n'
-        new_message += '-----NOTIFICATION_BOUNDARY\nContent-Type: text/html; charset="utf-7"\n'
-        new_message += 'Content-Transfer-Encoding: 7bit\n\n'
-        new_message += email_html.replace("\n\n\n", "\n").replace("\n\n", "\n").encode('utf-7', 'replace')
-        new_message += '\n\n-----NOTIFICATION_BOUNDARY'
+        new_message += '-----NOTIFICATION_BOUNDARY' + self.notification_boundary_rand \
+                       + '\nContent-Type: text/html; charset="utf-8"\n'
+        new_message += 'Content-Transfer-Encoding: 8bit\n\n'
+        new_message += email_html.replace("\n\n\n", "\n").replace("\n\n", "\n").encode('utf-8', 'replace')
+        new_message += '\n\n-----NOTIFICATION_BOUNDARY' + self.notification_boundary_rand
 
         # Delete previous email, and write replacement
         if has_previous_message:

@@ -13,6 +13,7 @@ class StackExchangeNotificationDigester(BaseDigester):
     # Therefore have AT LEAST TWO - like so http://imgur.com/YswesOB
 
     def __init__(self, store_writer, filter_name):
+        super(StackExchangeNotificationDigester, self).__init__()
         self.store_writer = store_writer
         self.filter_name = filter_name
         self.new_message_count = 0

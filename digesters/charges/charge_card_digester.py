@@ -17,6 +17,7 @@ from digesters.charges.jpm_notification_digester import JPMorganNotificationDige
 class ChargeCardDigester(BaseDigester):
 
     def __init__(self, store_writer):
+        super(ChargeCardDigester, self).__init__()
         self.store_writer = store_writer
         self.digesters = []
 

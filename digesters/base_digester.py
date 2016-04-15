@@ -1,8 +1,20 @@
 from abc import ABCMeta, abstractmethod
+from random import random
 
 
-class BaseDigester:
+class BaseDigester(object):
     __metaclass__ = ABCMeta
+
+    def __init__(self):
+        self._notification_boundary_rand = str(random())
+
+    @property
+    def notification_boundary_rand(self):
+        return self._notification_boundary_rand
+
+    @notification_boundary_rand.setter
+    def notification_boundary_rand(self, value):
+        self._notification_boundary_rand = value
 
     @abstractmethod
     def process_new_notification(self, rfc822content, msg, html_message, text_message):

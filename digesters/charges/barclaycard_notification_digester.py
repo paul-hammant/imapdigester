@@ -3,6 +3,7 @@ from digesters.charges.base_charge_card_digester import BaseChargeCardDigester
 
 class BarclaycardNotificationDigester(BaseChargeCardDigester):
     def __init__(self, charges):
+        super(BarclaycardNotificationDigester, self).__init__()
         self.charges = charges
         self.new_notifs = 0
 

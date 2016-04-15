@@ -9,10 +9,10 @@ from digesters.githubnotifications.github_notification_digester import GithubNot
 
 MAIL_HDR = """From: P H <ph@example.com>
 Content-Transfer-Encoding: 8bit
-Content-Type: multipart/alternative; boundary="---NOTIFICATION_BOUNDARY"
+Content-Type: multipart/alternative; boundary="---NOTIFICATION_BOUNDARY-5678"
 MIME-Version: 1.0
 This is a multi-part message in MIME format.
------NOTIFICATION_BOUNDARY
+-----NOTIFICATION_BOUNDARY-5678
 Content-Type: text/html; charset="utf-8"
 Content-Transfer-Encoding: 8bit
 
@@ -51,7 +51,7 @@ class TestGithubNotifications(TestCase):
               <th>When</th><th>Issues/Pull Requests &amp; Their Notifications</th>
             </tr>
             <tr style="">
-              <td valign="top">Apr 02 2016<br/>03:14 AM</td>
+              <td valign="top">Apr 02 2016<br/>02:14 AM</td>
               <td>
                 <table style="border-top: none">
                   <tr>
@@ -85,7 +85,7 @@ class TestGithubNotifications(TestCase):
         )
 
         expected_message = "Subject: Github Rollup (2 new)\n" + MAIL_HDR + expected_payload \
-                           + '\n\n-----NOTIFICATION_BOUNDARY'
+                           + '\n\n-----NOTIFICATION_BOUNDARY-5678'
 
         rollup_inbox_proxy = Mock()
         rollup_inbox_proxy.delete_previous_message.side_effect = stub((call(), True))
@@ -93,6 +93,7 @@ class TestGithubNotifications(TestCase):
 
         digesters = []
         digester = GithubNotificationDigester(store_writer)  ## What we are testing
+        digester.notification_boundary_rand = "-5678"  # no random number for the email's notification boundary
         digesters.append(digester)
 
         digestion_processor = DigestionProcessor(None, None, digesters, False, "P H <ph@example.com>", False, "INBOX")
@@ -147,13 +148,13 @@ class TestGithubNotifications(TestCase):
 
     def test_two_related_notifis_can_be_rolled_up_with_a_prior_notification(self):
 
-        expected_payload = """<span>You have previously read notifications up to: Apr 01 2016 09:20 PM</span>
+        expected_payload = """<span>You have previously read notifications up to: Apr 01 2016 08:20 PM</span>
           <table>
             <tr style="background-color: #acf;">
               <th>When</th><th>Issues/Pull Requests &amp; Their Notifications</th>
             </tr>
             <tr style="">
-              <td valign="top">Apr 02 2016<br/>03:14 AM</td>
+              <td valign="top">Apr 02 2016<br/>02:14 AM</td>
               <td>
                 <table style="border-top: none">
                   <tr>
@@ -172,7 +173,7 @@ class TestGithubNotifications(TestCase):
             </tr>
             <tr><td colspan="2" style="border-bottom: 1pt solid red; border-top: 1pt solid red;"><center>^ New/Updated Notifications Since You Last Checked ^</center></td></tr>
             <tr style="background-color: #def;">
-              <td valign="top">Apr 01 2016<br/>09:20 PM</td>
+              <td valign="top">Apr 01 2016<br/>08:20 PM</td>
               <td>
                 <table style="border-top: none">
                   <tr>
@@ -216,7 +217,7 @@ class TestGithubNotifications(TestCase):
         )
 
         expected_message = "Subject: Github Rollup (2 new)\n" + MAIL_HDR + expected_payload \
-                           + '\n\n-----NOTIFICATION_BOUNDARY'
+                           + '\n\n-----NOTIFICATION_BOUNDARY-5678'
 
         rollup_inbox_proxy = Mock()
         rollup_inbox_proxy.delete_previous_message.side_effect = stub((call(), True))
@@ -224,17 +225,18 @@ class TestGithubNotifications(TestCase):
 
         digesters = []
         digester = GithubNotificationDigester(store_writer)  ## What we are testing
+        digester.notification_boundary_rand = "-5678"  # no random number for the email's notification boundary
         digesters.append(digester)
 
-        digester = DigestionProcessor(None, None, digesters, False, "P H <ph@example.com>", False, "INBOX")
+        digester_processor = DigestionProcessor(None, None, digesters, False, "P H <ph@example.com>", False, "INBOX")
 
         unmatched_to_move = []
         to_delete_from_notification_folder = []
 
         notification_1_content, notification_2_content = self.get_gh_emailed_notifications()
 
-        digester.process_incoming_notification(1234, digesters, notification_1_content, to_delete_from_notification_folder, unmatched_to_move, False)
-        digester.process_incoming_notification(1235, digesters, notification_2_content, to_delete_from_notification_folder, unmatched_to_move, False)
+        digester_processor.process_incoming_notification(1234, digesters, notification_1_content, to_delete_from_notification_folder, unmatched_to_move, False)
+        digester_processor.process_incoming_notification(1235, digesters, notification_2_content, to_delete_from_notification_folder, unmatched_to_move, False)
 
         digester.rewrite_rollup_emails(rollup_inbox_proxy, has_previous_message=True,
                                         previously_seen=True, sender_to_implicate="P H <ph@example.com>")
@@ -283,13 +285,13 @@ class TestGithubNotifications(TestCase):
 
     def test_two_related_notifs_can_be_rolled_up_where_one_was_previously_seen(self):
 
-        expected_payload = """<span>You have previously read notifications up to: Apr 02 2016 02:14 AM</span>
+        expected_payload = """<span>You have previously read notifications up to: Apr 02 2016 01:14 AM</span>
           <table>
             <tr style="background-color: #acf;">
               <th>When</th><th>Issues/Pull Requests &amp; Their Notifications</th>
             </tr>
             <tr style="">
-              <td valign="top">Apr 02 2016<br/>03:14 AM</td>
+              <td valign="top">Apr 02 2016<br/>02:14 AM</td>
               <td>
                 <table style="border-top: none">
                   <tr>
@@ -323,7 +325,7 @@ class TestGithubNotifications(TestCase):
         )
 
         expected_message = "Subject: Github Rollup (1 new)\n" + MAIL_HDR + expected_payload \
-                           + '\n\n-----NOTIFICATION_BOUNDARY'
+                           + '\n\n-----NOTIFICATION_BOUNDARY-5678'
 
         rollup_inbox_proxy = Mock()
         rollup_inbox_proxy.delete_previous_message.side_effect = stub((call(), True))
@@ -331,17 +333,18 @@ class TestGithubNotifications(TestCase):
 
         digesters = []
         digester = GithubNotificationDigester(store_writer)  ## What we are testing
+        digester.notification_boundary_rand = "-5678"  # no random number for the email's notification boundary
         digesters.append(digester)
 
-        digester = DigestionProcessor(None, None, digesters, False, "P H <ph@example.com>", False, "INBOX")
+        digester_processor = DigestionProcessor(None, None, digesters, False, "P H <ph@example.com>", False, "INBOX")
 
         unmatched_to_move = []
         to_delete_from_notification_folder = []
 
         notification_1_content, notification_2_content = self.get_gh_emailed_notifications()
 
-        digester.process_incoming_notification(1234, digesters, notification_1_content, to_delete_from_notification_folder, unmatched_to_move, False)
-        digester.process_incoming_notification(1235, digesters, notification_2_content, to_delete_from_notification_folder, unmatched_to_move, False)
+        digester_processor.process_incoming_notification(1234, digesters, notification_1_content, to_delete_from_notification_folder, unmatched_to_move, False)
+        digester_processor.process_incoming_notification(1235, digesters, notification_2_content, to_delete_from_notification_folder, unmatched_to_move, False)
 
         digester.rewrite_rollup_emails(rollup_inbox_proxy, has_previous_message=True,
                                         previously_seen=False, sender_to_implicate="P H <ph@example.com>")

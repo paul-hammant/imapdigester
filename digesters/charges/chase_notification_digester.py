@@ -9,6 +9,7 @@ from digesters.charges.base_charge_card_digester import BaseChargeCardDigester
 
 class ChaseNotificationDigester(BaseChargeCardDigester):
     def __init__(self, charges):
+        super(ChaseNotificationDigester, self).__init__()
         self.charges = charges
         self.new_message_count = 0
         self.new_chase = 0

@@ -3,6 +3,7 @@ from digesters.charges.base_charge_card_digester import BaseChargeCardDigester
 
 class JPMorganNotificationDigester(BaseChargeCardDigester):
     def __init__(self, charges):
+        super(JPMorganNotificationDigester, self).__init__()
         self.charges = charges
         self.new_notifs = 0
 

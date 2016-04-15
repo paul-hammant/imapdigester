@@ -12,6 +12,7 @@ from digesters.base_digester import BaseDigester
 
 class LinkedinInvitationDigester(BaseDigester):
     def __init__(self, store_writer):
+        super(LinkedinInvitationDigester, self).__init__()
         self.store_writer = store_writer
         self.new_message_count = 0
         self.new_articles = 0
@@ -157,13 +158,18 @@ class LinkedinInvitationDigester(BaseDigester):
     def make_new_raw_email(self, email_html, count, sender_to_implicate):
         new_message = 'Subject: ' + self.matching_rollup_subject() + ": " + str(count) + ' new invitation(s)\n'
         new_message += 'From: ' + sender_to_implicate + '\n'
-        new_message += 'Content-Transfer-Encoding: 7bit\n'
-        new_message += 'Content-Type: multipart/alternative; boundary="---NOTIFICATION_BOUNDARY"\n'
+        new_message += 'Content-Transfer-Encoding: 8bit\n'
+        new_message += 'Content-Type: multipart/alternative; boundary="---NOTIFICATION_BOUNDARY' \
+                       + self.notification_boundary_rand + '"\n'
         new_message += 'MIME-Version: 1.0\n'
         new_message += 'This is a multi-part message in MIME format.\n'
-        new_message += '-----NOTIFICATION_BOUNDARY\nContent-Type: text/html; charset="utf-7"\n'
-        new_message += 'Content-Transfer-Encoding: 7bit\n\n\n'
-        new_message += email_html.replace("\n\n\n", "\n").replace("\n\n", "\n").encode('utf-7', 'replace')
-        new_message += '\n\n-----NOTIFICATION_BOUNDARY'
+        new_message += '-----NOTIFICATION_BOUNDARY' + self.notification_boundary_rand \
+                       + '\nContent-Type: text/html; charset="utf-8"\n'
+        new_message += 'Content-Transfer-Encoding: 8bit\n\n\n'
+        email_ascii = email_html.replace("\n\n\n", "\n").replace("\n\n", "\n").encode('utf-8', 'replace')
+        # Ugly hack
+        email_ascii = "".join(i for i in email_ascii if ord(i) < 128)
+        new_message += email_ascii
+        new_message += '\n\n-----NOTIFICATION_BOUNDARY' + self.notification_boundary_rand
 
         return new_message.replace("\n", "\r\n")

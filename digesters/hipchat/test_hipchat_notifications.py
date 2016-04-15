@@ -8,13 +8,13 @@ from digesters.digestion_processor import DigestionProcessor
 from digesters.hipchat.hipchat_notification_digester import HipchatNotificationDigester
 
 MAIL_HDR = """From: P H <ph@example.com>
-Content-Transfer-Encoding: 7bit
-Content-Type: multipart/alternative; boundary="---NOTIFICATION_BOUNDARY"
+Content-Transfer-Encoding: 8bit
+Content-Type: multipart/alternative; boundary="---NOTIFICATION_BOUNDARY-5678"
 MIME-Version: 1.0
 This is a multi-part message in MIME format.
------NOTIFICATION_BOUNDARY
-Content-Type: text/html; charset="utf-7"
-Content-Transfer-Encoding: 7bit
+-----NOTIFICATION_BOUNDARY-5678
+Content-Type: text/html; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 
 """
 
@@ -63,7 +63,6 @@ class TestGithubNotifications(TestCase):
                               <td class="td top-spacer"
                                   style="font-size: 15px; line-height: 4px; padding-left: 20px; padding-right: 10px !important;"
                                   valign="top">
-                                  +AKA
                               </td>
                           </tr>
                           <tr>
@@ -120,7 +119,7 @@ class TestGithubNotifications(TestCase):
         )
 
         expected_message = "Subject: Hipchat Rollup: 2 new notification(s)\n" + MAIL_HDR + expected_payload + \
-                           "\n\n-----NOTIFICATION_BOUNDARY"
+                           "\n\n-----NOTIFICATION_BOUNDARY-5678"
 
         rollup_inbox_proxy = Mock()
         rollup_inbox_proxy.delete_previous_message.side_effect = stub((call(), True))
@@ -128,6 +127,7 @@ class TestGithubNotifications(TestCase):
 
         digesters = []
         digester = HipchatNotificationDigester(store_writer)  ## What we are testing
+        digester.notification_boundary_rand = "-5678"  # no random number for the email's notification boundary
         digesters.append(digester)
 
         digestion_processor = DigestionProcessor(None, None, digesters, False, "P H <ph@example.com>", False, "INBOX")
