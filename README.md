@@ -51,22 +51,13 @@ brew install python
 # you might have to force link that
 
 pip install BeautifulSoup4
-pip install imapclient==0.13
+pip install IMAPClient
 pip install arrow
 pip install jinja2
 pip install simplejson
 pip install mockextras
+pip install jsonpickle
 ```
-
-## Imapclient sadness
-
-Imapclient's latest release is broken for me, this I'm choosing a non-current imapclient library (0.13). 
-It is broken for others, too:
-http://stackoverflow.com/questions/34780726/imapclient-error-diff-version-python-and-windows
-
-Also refer https://bitbucket.org/mjs0/imapclient/issues/201/segfault-11-on-mac-10105-with-python-344 as well as 
-https://github.com/alekstorm/backports.ssl/issues/14, https://github.com/alekstorm/backports.ssl/issues/15, 
-https://github.com/alekstorm/backports.ssl/issues/16
 
 # Running it on the Pi Zero for less than $2/year in electricity
 
@@ -89,7 +80,7 @@ fi
      --notifications_user secret_email_address_for_notifications@emailprovider.com --notifications_pw '123456' \
      --rollup_imap imap-mail.emailprovider.com \
      --rollup_user another_email_address_for_rollups@emailprovider.com --rollup_pw p4ssw0rd \
-     --implicate '"ImapDigester" <imapdigester@it_does_not_matter>' \
+     --implicate '"ImapDigester" <imapdigester@it_does_not_matter.com>' \
      --move_unmatched  >> imapdigester_output.txt 2>&1
 ```
 
@@ -97,7 +88,7 @@ Make it executable: `chmod +x run_imapdigester.sh`
 
 If you run that shell script, you should be able it's output in `imapdigester_output.txt`.
 
-Note the $2 is 0.8 Watt for 8760 (a year) at current electricity prices (18c/KWh), rounded up.
+Note the $2 is 0.8 Watt for 8760 hours (a year) at current electricity prices (18c/KWh), rounded up.
 
 ## Scheduling it with Cron
 
