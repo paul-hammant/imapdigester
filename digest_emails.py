@@ -1,4 +1,5 @@
 import getpass
+import os
 import sys
 import time
 from optparse import OptionParser
@@ -7,7 +8,6 @@ from socket import gaierror
 from imapclient import IMAPClient
 
 from digesters.digestion_processor import DigestionProcessor
-from my_digesters_setup import add_digesters
 
 
 def commands_instead():
@@ -90,6 +90,12 @@ if __name__ == '__main__':
 
     if not commands_instead():
         digesters = []
+
+        if os.path.isfile("my_digesters_setup.py"):
+            from my_digesters_setup import add_digesters
+        else:
+            # Copy this to the above, if you're running ImapDigester and want to customize the digesters.
+            from my_digesters_setup_template import add_digesters
 
         # Get Digesters from my_digesters_setup.py
         add_digesters(digesters)

@@ -1,3 +1,4 @@
+my_digesters_setup.py
 *.pyc
 .DS_Store
 .idea

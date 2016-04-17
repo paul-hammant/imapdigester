@@ -3,7 +3,8 @@
 Reads all* your robot-sent notifications and digests them into a single rollup email, that has some smarts how much
 you've read previously or not.
 
- * all, cough, means three types of credit card alerts, and notifications from github and stackexchange so far
+ * all, cough, means three types of credit card alerts, and notifications from github, linkedin, hipchat, confluence
+  and stackexchange so far.
 
 # Rationale
 
@@ -37,9 +38,9 @@ The Outlook client on the iPhone certainly can.
 
 # Deploying your daemon
 
-I have mine on a Raspberry Pi Zero that's just dangling out of a power socket at home.  If I were you I'd fork this
-repo, make mods for `my_digesters_setup.py` (or copy it, and change the ref in `digest_emails.py`) for yourself (not
-for PR back to me until I can engineer a better customization design).
+I have mine on a Raspberry Pi Zero that's just dangling out of a power socket at home.  If I were you I would fork this
+repo, copy `my_digesters_setup_template.py` to `my_digesters_setup.py` and make mods for yourself. The latter is in the
+.gitignore file, so you'd have to go out of your way to accidentally push it back to me.
 
 ## Installation Prerequisites
 
