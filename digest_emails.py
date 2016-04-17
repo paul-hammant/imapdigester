@@ -10,14 +10,33 @@ from imapclient import IMAPClient
 from digesters.digestion_processor import DigestionProcessor
 
 
-def commands_instead():
-    retval = False
-    messages = rollup_folder.search('SUBJECT "git-pull"')
+def get_command():
+    retval = None
+
+    if check_for_command('git-pull'):
+        with open("imapdigester_commands_next_time.sh", 'w+') as f:
+            f.write("\ngit pull")
+        retval = "BASH-OPERATIONS"
+
+    elif check_for_command('pause'):
+        with open("pause_if_present.txt", 'w') as f:
+            f.write("")
+        retval = "PAUSE"
+
+    elif check_for_command('resume'):
+        os.remove('pause_if_present.txt')
+
+    elif os.path.isfile("pause_if_present.txt"):
+        retval = "PAUSE"
+
+    return retval
+
+
+def check_for_command(cmd):
+    messages = rollup_folder.search('SUBJECT "%s"' % cmd)
     response = rollup_folder.fetch(messages, ['FLAGS', 'RFC822.SIZE'])
+    retval = False
     for msgid, data in response.iteritems():
-        f = open("imapdigester_commands_next_time.sh", 'w+')
-        f.write("\ngit pull")
-        f.close()
         rollup_folder.delete_messages([msgid])
         retval = True
     return retval
@@ -88,13 +107,16 @@ if __name__ == '__main__':
     rollup_folder.login(options.rollup_user, options.rollup_pw)
     rollup_folder.select_folder(options.rollup_folder_name)
 
-    if not commands_instead():
+    command = get_command()
+
+    if command is None:
         digesters = []
 
         if os.path.isfile("my_digesters_setup.py"):
             from my_digesters_setup import add_digesters
         else:
-            # Copy this to the above, if you're running ImapDigester and want to customize the digesters.
+            # Copy my_digesters_setup_template.py to the my_digesters_setup.py,
+            # if you're wanting to customize the digesters.
             from my_digesters_setup_template import add_digesters
 
         # Get Digesters from my_digesters_setup.py
@@ -109,3 +131,6 @@ if __name__ == '__main__':
 
     notification_folder.expunge()
     notification_folder.logout()
+
+    if command is "BASH-OPERATIONS":
+        sys.exit(202)  ## HTTP 'accepted' (FYI)
