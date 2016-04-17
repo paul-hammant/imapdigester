@@ -39,7 +39,7 @@ The Outlook client on the iPhone certainly can.
 # Deploying your daemon
 
 I have mine on a Raspberry Pi Zero that's just dangling out of a power socket at home.  If I were you I would fork this
-repo, copy `my_digesters_setup_template.py` to `my_digesters_setup.py` and make mods for yourself. The latter is in the
+repo, copy `my_digesters_setup_sample.py` to `my_digesters_setup.py` and make mods for yourself. The latter is in the
 .gitignore file, so you'd have to go out of your way to accidentally push it back to me.
 
 ## Installation Prerequisites
@@ -151,7 +151,7 @@ Go to http://stackexchange.com/filters to see/setup your filters.
 Note if you filter on just one tag, this digester will not work (it won't recognize the subject line of the incoming
 emails. Therefore have AT LEAST TWO - like so http://imgur.com/YswesOB
 
-You must configure `my_digesters_setup.py` to set the filters you similarly configured inside StackExchange, that it
+You must configure `my_digesters_setup.py` (copy it from `my_digesters_setup_sample.py`) to set the filters you similarly configured inside StackExchange, that it
 notifies you in respect of.
 
 ## Github Repo Notifications
@@ -174,7 +174,7 @@ i.e. it appears to start over.
 
 Note - there is grouping around topic (repo-issue, repo-PR, repo-commit-comment).
 
-You can configure a GithubEnterprise usage too - just edit `my_digesters_setup.py` - to set domain names, emails etc.
+You can configure a GithubEnterprise usage too - just edit `my_digesters_setup.py` (hopefully you already copied it from `my_digesters_setup_sample.py`) - to set domain names, emails etc.
 
 ## Hipchat Notifications
 
@@ -198,7 +198,7 @@ Notifications are rolled up into a single most-recent-first email:
 - User X changed a page (done)
 - User X added a page (done)
 
-You must configure `my_digesters_setup.py` to set the emails confluence uses to notify you, and a short name for that instance.
+You must configure `my_digesters_setup.py` (hopefully you already copied it from `my_digesters_setup_sample.py`) to set the emails confluence uses to notify you, and a short name for that instance.
 
 If you're interested in increasing the support for Confluence - (please vote on feature request #41391](https://jira.atlassian.com/browse/CONF-41391)
 
