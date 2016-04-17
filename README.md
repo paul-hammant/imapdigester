@@ -62,38 +62,22 @@ pip install jsonpickle
 
 # Running it on the Pi Zero for less than $2/year in electricity
 
-In `/home/pi`, git clone this repo.
+- In `/home/pi`, git clone this repo, and cd into that folder.
+- Copy the [cron_run_imapdigester_sample.sh](https://github.com/paul-hammant/imapdigester/blob/master/cron_run_imapdigester_sample.sh)
+script and lose the '_sample' suffix, and customize as appropriate for your email provider and account details.
 
-Make a script `run_imapdigester.sh`, and customize as appropriate below for your email provider and account details:
-
-```
-#!/bin/sh
-
-cd /home/pi/imapdigester/
-
-if [ -f "imapdigester_commands_next_time.sh" ]; then
-    chmod +x imapdigester_commands_next_time.sh
-    ./imapdigester_commands_next_time.sh
-    rm imapdigester_commands_next_time.sh
-fi
-
-/usr/bin/python digest_emails.py --notifications_imap imap-mail.emailprovider.com \
-     --notifications_user secret_email_address_for_notifications@emailprovider.com --notifications_pw '123456' \
-     --rollup_imap imap-mail.emailprovider.com \
-     --rollup_user another_email_address_for_rollups@emailprovider.com --rollup_pw p4ssw0rd \
-     --implicate '"ImapDigester" <imapdigester@it_does_not_matter.com>' \
-     --move_unmatched  >> imapdigester_output.txt 2>&1
-```
-
-Make it executable: `chmod +x run_imapdigester.sh`
+- Make it executable via `chmod +x run_imapdigester.sh`
 
 If you run that shell script, you should be able it's output in `imapdigester_output.txt`.
 
-Note the $2 is 0.8 Watt for 8760 hours (a year) at current electricity prices (18c/KWh), rounded up.
+## Two Dollars?
+
+The $2 referenced is 0.8 Watt for 8760 hours (a year) at current electricity prices (18c/KWh), rounded up. The Pi Zero
+consumes a quarter of that, and the wifi dongle the rest.
 
 ## Scheduling it with Cron
 
-In `/etc/cron.d` make a file (sudo needed):
+In `/etc/cron.d` make a file `run_imapdigester` (sudo needed):
 
 ```
 */10 * * * * pi /home/pi/imapdigester/runimapdigester.sh
@@ -101,7 +85,7 @@ In `/etc/cron.d` make a file (sudo needed):
 
 Make sure you added a newline to the end of that line.
 
-The setup above will cause cron to run imapdigester every ten minutes.**
+The setup above will cause cron to run imapdigester every ten minutes.
 
 Reboot the cron system, to start it, like so:
 
