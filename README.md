@@ -168,11 +168,7 @@ If you're interested in increasing the support for Hipchat - (please vote on fea
 
 ## Linkedin Invitations
 
-Invitations are rolled up into a single most-recent-first email.
-
-Even though Linkedin can capture second/third/fourth addresses, it only allows you to use your "primary" for notifications :-(
-
-TODO - unilaterally add "reject" button.
+[See wiki page](https://github.com/paul-hammant/imapdigester/wiki/Linkedin-Invitations)
 
 ## Confluence Notifications
 
@@ -188,7 +184,12 @@ If you're interested in increasing the support for Confluence - (please vote on 
 
 # Command emails
 
-If you email the subject line of `git-pull` to the rollup email address, the thing will update itself from git (provided there are no merge conflicts).
+If you email the subject line `git-pull` to the rollup email address, the daemon will update itself from git
+(provided there are no merge conflicts).
+
+If you email the sibject-line `pause` to the rollup email address, the daemon will pause.
+
+If you email the sibject-line `resume` to the rollup email address, the daemon will resume from it's paused state.
 
 # Yet to do
 
