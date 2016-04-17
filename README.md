@@ -120,23 +120,7 @@ transaction ref for correlation).
 
 ## Stack Exchange Notifications
 
-In the StackOverflow/StackExchange web interface you'll need to setup a notification filter. Do that to the dedicated 
-email address (#1 above), and remember to confirm you filter changes, by clicking in a confirmation email (that SE/SO 
-does't explicitly inform you about in the web interface). If you want, you can choose the every-15-mins varient of 
-SO/SE notifications.
-
-![](http://paulhammant.com//images/so_rollup.jpg)
-
-If you're going to do the every-15-mins varient of SO/SE notifications run this python script every 15 mins or less 
-so you're never too far behind.
-
-Go to http://stackexchange.com/filters to see/setup your filters.
-
-Note if you filter on just one tag, this digester will not work (it won't recognize the subject line of the incoming
-emails. Therefore have AT LEAST TWO - like so http://imgur.com/YswesOB
-
-You must configure `my_digesters_setup.py` (copy it from `my_digesters_setup_sample.py`) to set the filters you similarly configured inside StackExchange, that it
-notifies you in respect of.
+[Read more](https://github.com/paul-hammant/imapdigester/wiki/StackExchange-Filter-Notifications)
 
 ## Github Repo Notifications
 
