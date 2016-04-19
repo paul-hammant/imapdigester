@@ -117,7 +117,7 @@ if __name__ == '__main__':
         else:
             # Copy my_digesters_setup_template.py to the my_digesters_setup.py,
             # if you're wanting to customize the digesters.
-            from my_digesters_setup_template import add_digesters
+            from my_digesters_setup_sample import add_digesters
 
         # Get Digesters from my_digesters_setup.py
         add_digesters(digesters)
