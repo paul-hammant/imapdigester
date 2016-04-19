@@ -2,7 +2,7 @@
 from __future__ import unicode_literals
 
 import re
-
+from email.header import decode_header
 import arrow
 import simplejson
 from bs4 import BeautifulSoup
@@ -41,7 +41,10 @@ class ConfluenceNotificationDigester(BaseDigester):
         self.new_message_count += 1
         when = arrow.get(msg['Date'].split(',', 1)[1].strip(), 'D MMM YYYY HH:mm:ss ZZ').timestamp
 
-        who = re.search('"(.*) \(Confluence\)', msg['From']).group(1)
+        from_ = msg['From']
+        if from_.startswith("=?"):
+            from_, encoding = decode_header(from_)[0]
+        who = re.search('(.*) \(Confluence\)', from_).group(1).replace('"','')
 
         if html_message:
             soup = BeautifulSoup(html_message, 'html.parser')
