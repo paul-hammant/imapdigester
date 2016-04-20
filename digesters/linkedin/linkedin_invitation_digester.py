@@ -34,6 +34,10 @@ class LinkedinInvitationDigester(BaseDigester):
 
     def process_new_notification(self, rfc822content, msg, html_message, text_message):
 
+        if msg["Subject"].endswith("invitation is waiting for your response"):
+            # No need to be reminded.
+            return True
+
         self.new_message_count += 1
         when = arrow.get(msg['Date'].split(',', 1)[1].strip(), 'D MMM YYYY HH:mm:ss ZZ').timestamp
 
@@ -128,7 +132,8 @@ class LinkedinInvitationDigester(BaseDigester):
         return num_messages_since_last_seen
 
     def matching_incoming_headers(self):
-        return ["From: .* <invitations@linkedin.com>"]
+        return ["From: .* <invitations@linkedin.com>",  ## The invitation
+                "From: .* <messages-noreply@linkedin.com>"]  ## Foo's invitation is waiting for your response ?
 
     def matching_rollup_subject(self):
         return 'Linkedin Inv. Rollup'
