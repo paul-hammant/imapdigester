@@ -17,6 +17,8 @@ class RollupServer(object):
 
     def append(self, message):
         try:
+            # Ugly hack
+            message = "".join(i for i in message if ord(i) < 128)
             self.rollup_inbox.append(self.rollup_folder_name, message)
         except UnicodeEncodeError:
             # Found this with attempts to utf-8 encode, but not utf-7
