@@ -172,6 +172,7 @@ Notifications are rolled up into a single most-recent-first email:
 
 - User X created an issue (done)
 - User X changed an issue (done)
+- User X commented on an issue (done)
 
 You must configure `my_digesters_setup.py` (hopefully you already copied it from `my_digesters_setup_sample.py`) to set the emails confluence uses to notify you, and a short name for that instance.
 

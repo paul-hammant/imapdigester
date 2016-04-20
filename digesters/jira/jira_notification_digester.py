@@ -51,30 +51,53 @@ class JiraNotificationDigester(BaseDigester):
             soup = BeautifulSoup(html_message, 'html.parser')
 
             event_text = soup.find("td", {"id": "header-text-container"}).text.strip()
-            kvtable = soup.find("table", {"class": "keyvalue-table"}).text.strip()\
-                .replace(":\n", ":")\
-                .replace("\n\n\n", "\n")
-            if "Reporter:" in kvtable:
-                kvtable = kvtable[:kvtable.index("Reporter:")].strip()
 
             key_vals = []
-            for kv in kvtable.split("\n"):
-                k_and_v = kv.split(":")
-                key_vals.append({ "k" : k_and_v[0].strip(), "v" : k_and_v[1].strip() })
 
-            project_td_anchors = soup.find("td", {"class": "page-title-pattern-first-line"}).find_all("a")
-            project_name = project_td_anchors[0].text
-            issue_url = project_td_anchors[2].attrs["href"]
-            issue_id = project_td_anchors[2].text.strip()
+            kvtable_elem = soup.find("table", {"class": "keyvalue-table"})
+            if kvtable_elem:
+                kvtable = kvtable_elem.text.strip()\
+                    .replace(":\n", ":")\
+                    .replace("\n\n\n", "\n")
+                if "Reporter:" in kvtable:
+                    kvtable = kvtable[:kvtable.index("Reporter:")].strip()
 
+                for kv in kvtable.split("\n"):
+                    k_and_v = kv.split(":")
+                    key_vals.append({ "k" : k_and_v[0].strip(), "v" : k_and_v[1].strip() })
+
+            print ">> " + str(soup) + "<<"
+
+            project_td = soup.find("td", {"class": "page-title-pattern-first-line"})
+            if project_td:
+                project_td_anchors = project_td.find_all("a")
+                project_name = project_td_anchors[0].text
+                issue_url = project_td_anchors[2].attrs["href"]
+                issue_id = project_td_anchors[2].text.strip()
+            else:
+                header_td = soup.find("td", {"id": "header-text-container"})
+                header_td_anchors = header_td.find_all("a")
+                project_name = "unknown"
+                issue_url = header_td_anchors[1].attrs["href"]
+                issue_id = header_td_anchors[1].text.strip()
+
+            comment = None
+            comment_td = soup.find("td", {"class": "text-paragraph-pattern-container"})
+            if comment_td:
+                raw_comment = comment_td.text.strip()
+                comment = raw_comment[:55].strip()
+                if len(raw_comment) > 55:
+                    comment += "..."
+
+            ##
             self.jira_notifications[when] = {
                  "project_name": project_name,
                  "who": who,
                  "issue_id": issue_id,
                  "issue_url": issue_url,
                  "event": event_text,
-                 "kvtable" : key_vals
-
+                 "kvtable" : key_vals,
+                 "comment" : comment
             }
 
             # print simplejson.dumps(self.jira_notifications[when], sort_keys=True) + "\n\n"
@@ -110,6 +133,7 @@ class JiraNotificationDigester(BaseDigester):
                     <tr>
                         <td>Issue:</td><td><a href="{{notif['issue_url']}}">{{notif['issue_id']}}</a></td>
                     </tr>
+                    {% if notif['kvtable']|length > 0 %}
                     <tr>
                         <td>Fields:</td>
                         <td>
@@ -120,6 +144,15 @@ class JiraNotificationDigester(BaseDigester):
                             </table>
                         </td>
                     </tr>
+                    {% endif %}
+                    {% if notif['comment'] %}
+                    <tr>
+                        <td>Comment:</td>
+                        <td>
+                            {{notif['comment'].replace('\\n','<br/>')}}
+                        </td>
+                    </tr>
+                    {% endif %}
                 </table>
             </td>
           </tr>{% endfor %}

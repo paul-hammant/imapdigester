@@ -455,6 +455,124 @@ enerated-image-static-footer-desktop-logo-86699106-420b-4201-9fbd-4f1a55a49=
 
 ------=_Part_72190_1168931742.1460652660051--"""
 
+COMMENTED_ISSUE = """Date: Wed, 20 Apr 2016 03:34:00 +0000 (UTC)
+From: "Paul Hammant (JIRA)" <jira@atlassian.com>
+To: ph@example.com
+Message-ID: <JIRA.590897.1460651689000.177651.1461123240081@Atlassian.JIRA>
+In-Reply-To: <JIRA.590897.1460651689000@Atlassian.JIRA>
+References: <JIRA.590897.1460651689000@Atlassian.JIRA> <JIRA.590897.1460651689064@node438>
+Subject: [JIRA] (JRA-60612) Data payload for notification emails.
+MIME-Version: 1.0
+Content-Type: multipart/related;
+	boundary="----=_Part_195733_1307700225.1461123240075"
+X-JIRA-FingerPrint: 34ed612e0c4ee035f333de85b64c81ec
+Auto-Submitted: auto-generated
+Precedence: bulk
+
+------=_Part_195733_1307700225.1461123240075
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+        <base href="https://jira.atlassian.com">
+        <title>Message Title</title>
+    </head>
+    <body class="jira" style="color: #333333; font-family: Arial, sans-serif; font-size: 14px; line-height: 1.429">
+        <table id="background-table" cellpadding="0" cellspacing="0" width="100%" style="border-collapse: collapse; mso-table-lspace: 0pt; mso-table-rspace: 0pt; background-color: #f5f5f5; border-collapse: collapse; mso-table-lspace: 0pt; mso-table-rspace: 0pt" bgcolor="#f5f5f5">
+            <!-- header here -->
+            <tbody>
+                <tr>
+                    <td id="header-pattern-container" style="padding: 0px; border-collapse: collapse; padding: 10px 20px">
+                        <table id="header-pattern" cellspacing="0" cellpadding="0" border="0" style="border-collapse: collapse; mso-table-lspace: 0pt; mso-table-rspace: 0pt">
+                            <tbody>
+                                <tr>
+                                    <td id="header-avatar-image-container" valign="top" style="padding: 0px; border-collapse: collapse; vertical-align: top; width: 32px; padding-right: 8px" width="32"> <img id="header-avatar-image" class="image_fix" src="cid:jira-generated-image-avatar-6f8acf53-c1e7-47f7-bb72-8671cff450a7" height="32" width="32" border="0" style="border-radius: 3px; vertical-align: top"> </td>
+                                    <td id="header-text-container" valign="middle" style="padding: 0px; border-collapse: collapse; vertical-align: middle; font-family: Arial, sans-serif; font-size: 14px; line-height: 20px; mso-line-height-rule: exactly; mso-text-raise: 1px"> <a class="user-hover" rel="paul230760403" id="email_paul230760403" href="https://jira.atlassian.com/secure/ViewProfile.jspa?name=paul230760403" style="color:#3b73af;; color: #3b73af; text-decoration: none">Paul Hammant</a> <strong>commented</strong> on <a href="https://jira.atlassian.com/browse/JRA-60612" style="color: #3b73af; text-decoration: none"><img src="cid:jira-generated-image-avatar-caffc6ec-733c-42bd-9e31-f88982fe37f2" height="16" width="16" border="0" align="absmiddle" alt="Suggestion"> JRA-60612</a> </td>
+                                </tr>
+                            </tbody>
+                        </table> </td>
+                </tr>
+                <tr>
+                    <td id="email-content-container" style="padding: 0px; border-collapse: collapse; padding: 0 20px">
+                        <table id="email-content-table" cellspacing="0" cellpadding="0" border="0" width="100%" style="border-collapse: collapse; mso-table-lspace: 0pt; mso-table-rspace: 0pt; border-spacing: 0; border-collapse: separate">
+                            <tbody>
+                                <tr>
+                                    <!-- there needs to be content in the cell for it to render in some clients -->
+                                    <td class="email-content-rounded-top mobile-expand" style="padding: 0px; border-collapse: collapse; color: #ffffff; padding: 0 15px 0 16px; height: 15px; background-color: #ffffff; border-left: 1px solid #cccccc; border-top: 1px solid #cccccc; border-right: 1px solid #cccccc; border-bottom: 0; border-top-right-radius: 5px; border-top-left-radius: 5px; height: 10px; line-height: 10px; padding: 0 15px 0 16px; mso-line-height-rule: exactly" height="10" bgcolor="#ffffff">&nbsp;</td>
+                                </tr>
+                                <tr>
+                                    <td class="email-content-main mobile-expand " style="padding: 0px; border-collapse: collapse; border-left: 1px solid #cccccc; border-right: 1px solid #cccccc; border-top: 0; border-bottom: 0; padding: 0 15px 0 16px; background-color: #ffffff" bgcolor="#ffffff">
+                                        <table class="page-title-pattern" cellspacing="0" cellpadding="0" border="0" width="100%" style="border-collapse: collapse; mso-table-lspace: 0pt; mso-table-rspace: 0pt">
+                                            <tbody>
+                                                <tr>
+                                                    <td style="vertical-align: top;; padding: 0px; border-collapse: collapse; padding-right: 5px; font-size: 20px; line-height: 30px; mso-line-height-rule: exactly" class="page-title-pattern-header-container"> <span class="page-title-pattern-header" style="font-family: Arial, sans-serif; padding: 0; font-size: 20px; line-height: 30px; mso-text-raise: 2px; mso-line-height-rule: exactly; vertical-align: middle"> <a href="https://jira.atlassian.com/browse/JRA-60612" style="color: #3b73af; text-decoration: none">Re: Data payload for notification emails.</a> </span> </td>
+                                                </tr>
+                                            </tbody>
+                                        </table> </td>
+                                </tr>
+                                <tr>
+                                    <td id="text-paragraph-pattern-top" class="email-content-main mobile-expand  comment-top-pattern" style="padding: 0px; border-collapse: collapse; border-left: 1px solid #cccccc; border-right: 1px solid #cccccc; border-top: 0; border-bottom: 0; padding: 0 15px 0 16px; background-color: #ffffff; border-bottom: none; padding-bottom: 0" bgcolor="#ffffff">
+                                        <table class="text-paragraph-pattern" cellspacing="0" cellpadding="0" border="0" width="100%" style="border-collapse: collapse; mso-table-lspace: 0pt; mso-table-rspace: 0pt; font-family: Arial, sans-serif; font-size: 14px; line-height: 20px; mso-line-height-rule: exactly; mso-text-raise: 2px">
+                                            <tbody>
+                                                <tr>
+                                                    <td class="text-paragraph-pattern-container mobile-resize-text " style="padding: 0px; border-collapse: collapse; padding: 0 0 10px 0"> <p style="margin: 10px 0 0 0; margin-top: 0">Great idea, Paul</p> </td>
+                                                </tr>
+                                            </tbody>
+                                        </table> </td>
+                                </tr>
+                                <tr>
+                                    <td class="email-content-main mobile-expand " style="padding: 0px; border-collapse: collapse; border-left: 1px solid #cccccc; border-right: 1px solid #cccccc; border-top: 0; border-bottom: 0; padding: 0 15px 0 16px; background-color: #ffffff" bgcolor="#ffffff">
+                                        <table id="actions-pattern" cellspacing="0" cellpadding="0" border="0" width="100%" style="border-collapse: collapse; mso-table-lspace: 0pt; mso-table-rspace: 0pt; font-family: Arial, sans-serif; font-size: 14px; line-height: 20px; mso-line-height-rule: exactly; mso-text-raise: 1px">
+                                            <tbody>
+                                                <tr>
+                                                    <td id="actions-pattern-container" valign="middle" style="padding: 0px; border-collapse: collapse; padding: 10px 0 10px 24px; vertical-align: middle; padding-left: 0">
+                                                        <table align="left" style="border-collapse: collapse; mso-table-lspace: 0pt; mso-table-rspace: 0pt">
+                                                            <tbody>
+                                                                <tr>
+                                                                    <td class="actions-pattern-action-icon-container" style="padding: 0px; border-collapse: collapse; font-family: Arial, sans-serif; font-size: 14px; line-height: 20px; mso-line-height-rule: exactly; mso-text-raise: 0px; vertical-align: middle"> <a href="https://jira.atlassian.com/browse/JRA-60612#add-comment" target="_blank" title="Add Comment" style="color: #3b73af; text-decoration: none"> <img class="actions-pattern-action-icon-image" src="cid:jira-generated-image-static-comment-icon-195cfa27-e687-40aa-9e2f-e61b8ff962bf" alt="Add Comment" title="Add Comment" height="16" width="16" border="0" style="vertical-align: middle"> </a> </td>
+                                                                    <td class="actions-pattern-action-text-container" style="padding: 0px; border-collapse: collapse; font-family: Arial, sans-serif; font-size: 14px; line-height: 20px; mso-line-height-rule: exactly; mso-text-raise: 4px; padding-left: 5px"> <a href="https://jira.atlassian.com/browse/JRA-60612#add-comment" target="_blank" title="Add Comment" style="color: #3b73af; text-decoration: none">Add Comment</a> </td>
+                                                                </tr>
+                                                            </tbody>
+                                                        </table> </td>
+                                                </tr>
+                                            </tbody>
+                                        </table> </td>
+                                </tr>
+                                <!-- there needs to be content in the cell for it to render in some clients -->
+                                <tr>
+                                    <td class="email-content-rounded-bottom mobile-expand" style="padding: 0px; border-collapse: collapse; color: #ffffff; padding: 0 15px 0 16px; height: 5px; line-height: 5px; background-color: #ffffff; border-top: 0; border-left: 1px solid #cccccc; border-bottom: 1px solid #cccccc; border-right: 1px solid #cccccc; border-bottom-right-radius: 5px; border-bottom-left-radius: 5px; mso-line-height-rule: exactly" height="5" bgcolor="#ffffff">&nbsp;</td>
+                                </tr>
+                            </tbody>
+                        </table> </td>
+                </tr>
+                <tr>
+                    <td id="footer-pattern" style="padding: 0px; border-collapse: collapse; padding: 12px 20px">
+                        <table id="footer-pattern-container" cellspacing="0" cellpadding="0" border="0" style="border-collapse: collapse; mso-table-lspace: 0pt; mso-table-rspace: 0pt">
+                            <tbody>
+                                <tr>
+                                    <td id="footer-pattern-text" class="mobile-resize-text" width="100%" style="padding: 0px; border-collapse: collapse; color: #999999; font-size: 12px; line-height: 18px; font-family: Arial, sans-serif; mso-line-height-rule: exactly; mso-text-raise: 2px"> This message was sent by Atlassian JIRA <span id="footer-build-information">(v7.1.2#71006-<span title="8e7e3091c211bab4b45730515b8b1591e99b0c1c" data-commit-id="8e7e3091c211bab4b45730515b8b1591e99b0c1c}">sha1:8e7e309</span>)</span> </td>
+                                    <td id="footer-pattern-logo-desktop-container" valign="top" style="padding: 0px; border-collapse: collapse; padding-left: 20px; vertical-align: top">
+                                        <table style="border-collapse: collapse; mso-table-lspace: 0pt; mso-table-rspace: 0pt">
+                                            <tbody>
+                                                <tr>
+                                                    <td id="footer-pattern-logo-desktop-padding" style="padding: 0px; border-collapse: collapse; padding-top: 3px"> <img id="footer-pattern-logo-desktop" src="cid:jira-generated-image-static-footer-desktop-logo-e79c306c-c2fc-400e-8f10-92a40473583e" alt="Atlassian logo" title="Atlassian logo" width="169" height="36" class="image_fix"> </td>
+                                                </tr>
+                                            </tbody>
+                                        </table> </td>
+                                </tr>
+                            </tbody>
+                        </table> </td>
+                </tr>
+            </tbody>
+        </table>
+    </body>
+</html>
+
+------=_Part_195733_1307700225.1461123240075--"""
 
 class NotificationsStore(object):
 
@@ -491,6 +609,26 @@ class TestJiraNotifications(TestCase):
     <td>
         <table>
             <tr>
+                <td>What:</td><td>Paul Hammant commented on  JRA-60612</td>
+            </tr>
+            <tr>
+                <td>Project:</td><td>unknown</td>
+            </tr>
+            <tr>
+                <td>Issue:</td><td><a href="https://jira.atlassian.com/browse/JRA-60612">JRA-60612</a></td>
+            </tr>
+            <tr>
+                <td>Comment:</td>
+                <td>
+                    Great idea, Paul
+                </td>
+            </tr>
+        </table>
+    </td>
+  </tr>          <tr style="background-color: #def;">
+    <td>
+        <table>
+            <tr>
                 <td>What:</td><td>Paul Hammant updated an issue</td>
             </tr>
             <tr>
@@ -507,9 +645,15 @@ class TestJiraNotifications(TestCase):
                     </table>
                 </td>
             </tr>
+            <tr>
+                <td>Comment:</td>
+                <td>
+                    Can you awesome folks add a text/json multipart to the...
+                </td>
+            </tr>
         </table>
     </td>
-  </tr>          <tr><td colspan="2" style="border-bottom: 1pt solid red; border-top: 1pt solid red;"><center>^ New Notifications Since You Last Checked ^</center></td></tr>          <tr style="background-color: #def;">
+  </tr>          <tr><td colspan="2" style="border-bottom: 1pt solid red; border-top: 1pt solid red;"><center>^ New Notifications Since You Last Checked ^</center></td></tr>          <tr style="">
     <td>
         <table>
             <tr>
@@ -530,6 +674,12 @@ class TestJiraNotifications(TestCase):
                     <tr><td>Components</td><td>Notifications - email</td></tr>
                     <tr><td>Created</td><td>14/Apr/2016 4</td></tr>
                     </table>
+                </td>
+            </tr>
+            <tr>
+                <td>Comment:</td>
+                <td>
+                    Can you awesome folks add a text/json multipart to the...
                 </td>
             </tr>
         </table>
@@ -570,6 +720,7 @@ class TestJiraNotifications(TestCase):
 
         digestion_processor.process_incoming_notification(1234, digesters, NEW_ISSUE, to_delete_from_notification_folder, unmatched_to_move, False)
         digestion_processor.process_incoming_notification(1235, digesters, CHANGED_ISSUE, to_delete_from_notification_folder, unmatched_to_move, False)
+        digestion_processor.process_incoming_notification(1236, digesters, COMMENTED_ISSUE, to_delete_from_notification_folder, unmatched_to_move, False)
 
         digester.rewrite_rollup_emails(rollup_inbox_proxy, has_previous_message=True,
                                         previously_seen=False, sender_to_implicate="P H <ph@example.com>")
@@ -581,13 +732,22 @@ class TestJiraNotifications(TestCase):
             call.get_from_binary('jira-notifications'),
             call.get_from_binary('most-recently-seen'),
             call.store_as_binary('jira-notifications', {
-                1460652660: {u'project_name': u'HipChat',
+                1461123240: {u'comment': u'Great idea, Paul',
+                             u'project_name': u'unknown',
+                             u'who': u'Paul Hammant',
+                             u'kvtable': [],
+                             u'issue_id': u'JRA-60612',
+                             u'event': u'Paul Hammant commented on  JRA-60612',
+                             u'issue_url': u'https://jira.atlassian.com/browse/JRA-60612'},
+                1460652660: {u'comment': u'Can you awesome folks add a text/json multipart to the...',
+                             u'project_name': u'HipChat',
                              u'who': u'Paul Hammant',
                              u'kvtable': [{u'k': u'Change By', u'v': u'Paul Hammant'}],
                              u'issue_id': u'HCPUB-579',
                              u'event': u'Paul Hammant updated an issue',
                              u'issue_url': u'https://jira.atlassian.com/browse/HCPUB-579'},
-                1460652300: {u'project_name': u'HipChat',
+                1460652300: {u'comment': u'Can you awesome folks add a text/json multipart to the...',
+                             u'project_name': u'HipChat',
                              u'line_here': True,
                              u'who': u'Paul Hammant',
                              u'kvtable': [{u'k': u'Issue Type', u'v': u'Suggestion'},
@@ -599,5 +759,5 @@ class TestJiraNotifications(TestCase):
                              u'issue_url': u'https://jira.atlassian.com/browse/HCPUB-579'}}),
             call.store_as_binary('most-recently-seen', 1460183824)])
         self.assertEquals(len(unmatched_to_move), 0)
-        self.assertEquals(str(to_delete_from_notification_folder), "[1234, 1235]")
-        self.assertEquals(len(final_notifications_store.notifications), 2)
+        self.assertEquals(str(to_delete_from_notification_folder), "[1234, 1235, 1236]")
+        self.assertEquals(len(final_notifications_store.notifications), 3)
