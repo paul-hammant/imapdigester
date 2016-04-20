@@ -3,8 +3,8 @@
 Reads all* your robot-sent notifications and digests them into a single rollup email, that has some smarts how much
 you've read previously or not.
 
- * all, cough, means three types of credit card alerts, and notifications from github, linkedin, hipchat, confluence
-  and stackexchange so far.
+ * all, cough, means three types of credit card alerts, and notifications from Github, Linkedin, Hipchat, Confluence,
+  Jira, and StackExchange so far.
 
 # Rationale
 
@@ -166,6 +166,17 @@ You must configure `my_digesters_setup.py` (hopefully you already copied it from
 
 If you're interested in increasing the support for Confluence - (please vote on feature request #41391](https://jira.atlassian.com/browse/CONF-41391)
 
+## Jira Notifications
+
+Notifications are rolled up into a single most-recent-first email:
+
+- User X created an issue (done)
+- User X changed an issue (done)
+
+You must configure `my_digesters_setup.py` (hopefully you already copied it from `my_digesters_setup_sample.py`) to set the emails confluence uses to notify you, and a short name for that instance.
+
+Refer too https://jira.atlassian.com/browse/JRA-60611 and https://jira.atlassian.com/browse/JRA-60612
+
 # Command emails
 
 If you email the subject line `git-pull` to the rollup email address, the daemon will update itself from git
@@ -178,4 +189,3 @@ If you email the sibject-line `resume` to the rollup email address, the daemon w
 # Yet to do
 
 - More Integration tests (samples of emails need to be sanitized and copied into `testdata/` or tests).
-- Jira integration (not started). See https://jira.atlassian.com/browse/JRA-60611 and https://jira.atlassian.com/browse/JRA-60612
