@@ -1,6 +1,7 @@
 from digesters.confluence.confluence_notification_digester import ConfluenceNotificationDigester
 from digesters.githubnotifications.github_notification_digester import GithubNotificationDigester
 from digesters.hipchat.hipchat_notification_digester import HipchatNotificationDigester
+from digesters.jira.jira_notification_digester import JiraNotificationDigester
 from digesters.linkedin.linkedin_invitation_digester import LinkedinInvitationDigester
 from digesters.stackexchange.stack_exchange_notification_digester import StackExchangeNotificationDigester
 
@@ -40,7 +41,11 @@ def add_digesters(digesters):
     # Linkedin (service) Invitations
     digesters.append(LinkedinInvitationDigester(MetaStore("linkedin_invitations")))
 
-    # Atlassian Confluence Installtion Notifications
+    # Atlassian Confluence Installation Notifications
     # Customize to the Confluence you're aiming at .....
     digesters.append(ConfluenceNotificationDigester(MetaStore("confluence_notifications"),
                                                     "confluence@apache.org", "Apache"))
+    # Atlassian Jira Installation Notifications
+    # Customize to the Jira you're aiming at .....
+    digesters.append(JiraNotificationDigester(MetaStore("jira_notifications"),
+                                                    "jira@atlassian.com", "Atlassian"))
