@@ -54,7 +54,8 @@ class JiraNotificationDigester(BaseDigester):
             kvtable = soup.find("table", {"class": "keyvalue-table"}).text.strip()\
                 .replace(":\n", ":")\
                 .replace("\n\n\n", "\n")
-            kvtable = kvtable[:kvtable.index("Reporter:")].strip()
+            if "Reporter:" in kvtable:
+                kvtable = kvtable[:kvtable.index("Reporter:")].strip()
 
             key_vals = []
             for kv in kvtable.split("\n"):

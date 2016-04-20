@@ -172,6 +172,288 @@ Content-Transfer-Encoding: 7bit
 
 ------=_Part_72151_779492282.1460652300060--"""
 
+CHANGED_ISSUE = """Date: Thu, 14 Apr 2016 16:51:00 +0000 (UTC)
+From: "Paul Hammant (JIRA)" <jira@atlassian.com>
+To: ph@example.com
+Message-ID: <JIRA.590899.1460652284000.68708.1460652660083@Atlassian.JIRA>
+In-Reply-To: <JIRA.590899.1460652284000@Atlassian.JIRA>
+References: <JIRA.590899.1460652284000@Atlassian.JIRA> <JIRA.590899.1460652284724@node439>
+Subject: [JIRA] (HCPUB-579) Data payload for notification emails.
+MIME-Version: 1.0
+Content-Type: multipart/related;
+	boundary="----=_Part_72190_1168931742.1460652660051"
+X-JIRA-FingerPrint: 34ed612e0c4ee035f333de85b64c81ec
+Auto-Submitted: auto-generated
+Precedence: bulk
+
+------=_Part_72190_1168931742.1460652660051
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org=
+/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns=3D"http://www.w3.org/1999/xhtml">
+    <head>=20
+        <meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Du=
+tf-8">=20
+        <meta name=3D"viewport" content=3D"width=3Ddevice-width, initial-sc=
+ale=3D1.0, maximum-scale=3D1.0">=20
+        <base href=3D"https://jira.atlassian.com">=20
+        <title>Message Title</title>=20
+    </head>=20
+    <body class=3D"jira" style=3D"color: #333333; font-family: Arial, sans-=
+serif; font-size: 14px; line-height: 1.429">=20
+        <table id=3D"background-table" cellpadding=3D"0" cellspacing=3D"0" =
+width=3D"100%" style=3D"border-collapse: collapse; mso-table-lspace: 0pt; m=
+so-table-rspace: 0pt; background-color: #f5f5f5; border-collapse: collapse;=
+ mso-table-lspace: 0pt; mso-table-rspace: 0pt" bgcolor=3D"#f5f5f5">=20
+            <!-- header here -->=20
+            <tbody>
+                <tr>=20
+                    <td id=3D"header-pattern-container" style=3D"padding: 0=
+px; border-collapse: collapse; padding: 10px 20px">=20
+                        <table id=3D"header-pattern" cellspacing=3D"0" cell=
+padding=3D"0" border=3D"0" style=3D"border-collapse: collapse; mso-table-ls=
+pace: 0pt; mso-table-rspace: 0pt">=20
+                            <tbody>
+                                <tr>=20
+                                    <td id=3D"header-avatar-image-container=
+" valign=3D"top" style=3D"padding: 0px; border-collapse: collapse; vertical=
+-align: top; width: 32px; padding-right: 8px" width=3D"32"> <img id=3D"head=
+er-avatar-image" class=3D"image_fix" src=3D"cid:jira-generated-image-avatar=
+-e6e6ec8d-73dd-4980-8128-ec31b7f28af6" height=3D"32" width=3D"32" border=3D=
+"0" style=3D"border-radius: 3px; vertical-align: top"> </td>=20
+                                    <td id=3D"header-text-container" valign=
+=3D"middle" style=3D"padding: 0px; border-collapse: collapse; vertical-alig=
+n: middle; font-family: Arial, sans-serif; font-size: 14px; line-height: 20=
+px; mso-line-height-rule: exactly; mso-text-raise: 1px"> <a class=3D"user-h=
+over" rel=3D"paul230760403" id=3D"email_paul230760403" href=3D"https://jira=
+.atlassian.com/secure/ViewProfile.jspa?name=3Dpaul230760403" style=3D"color=
+:#3b73af;; color: #3b73af; text-decoration: none">Paul Hammant</a> <strong>=
+updated</strong> an issue </td>=20
+                                </tr>=20
+                            </tbody>
+                        </table> </td>=20
+                </tr>=20
+                <tr>=20
+                    <td id=3D"email-content-container" style=3D"padding: 0p=
+x; border-collapse: collapse; padding: 0 20px">=20
+                        <table id=3D"email-content-table" cellspacing=3D"0"=
+ cellpadding=3D"0" border=3D"0" width=3D"100%" style=3D"border-collapse: co=
+llapse; mso-table-lspace: 0pt; mso-table-rspace: 0pt; border-spacing: 0; bo=
+rder-collapse: separate">=20
+                            <tbody>
+                                <tr>=20
+                                    <!-- there needs to be content in the c=
+ell for it to render in some clients -->=20
+                                    <td class=3D"email-content-rounded-top =
+mobile-expand" style=3D"padding: 0px; border-collapse: collapse; color: #ff=
+ffff; padding: 0 15px 0 16px; height: 15px; background-color: #ffffff; bord=
+er-left: 1px solid #cccccc; border-top: 1px solid #cccccc; border-right: 1p=
+x solid #cccccc; border-bottom: 0; border-top-right-radius: 5px; border-top=
+-left-radius: 5px; height: 10px; line-height: 10px; padding: 0 15px 0 16px;=
+ mso-line-height-rule: exactly" height=3D"10" bgcolor=3D"#ffffff">&nbsp;</t=
+d>=20
+                                </tr>=20
+                                <tr>=20
+                                    <td class=3D"email-content-main mobile-=
+expand " style=3D"padding: 0px; border-collapse: collapse; border-left: 1px=
+ solid #cccccc; border-right: 1px solid #cccccc; border-top: 0; border-bott=
+om: 0; padding: 0 15px 0 16px; background-color: #ffffff" bgcolor=3D"#fffff=
+f">=20
+                                        <table class=3D"page-title-pattern"=
+ cellspacing=3D"0" cellpadding=3D"0" border=3D"0" width=3D"100%" style=3D"b=
+order-collapse: collapse; mso-table-lspace: 0pt; mso-table-rspace: 0pt">=20
+                                            <tbody>
+                                                <tr>=20
+                                                    <td class=3D"page-title=
+-pattern-first-line " style=3D"padding: 0px; border-collapse: collapse; fon=
+t-family: Arial, sans-serif; font-size: 14px; padding-top: 10px"> <a href=
+=3D"https://jira.atlassian.com/browse/HCPUB" style=3D"color: #3b73af; text-=
+decoration: none">HipChat</a> / <a href=3D"https://jira.atlassian.com/brows=
+e/HCPUB-579" style=3D"color: #3b73af; text-decoration: none"><img src=3D"ci=
+d:jira-generated-image-avatar-6833f627-d126-486e-b0c7-1f994f306e9e" height=
+=3D"16" width=3D"16" border=3D"0" align=3D"absmiddle" alt=3D"Suggestion" st=
+yle=3D"vertical-align: text-bottom"></a> <a href=3D"https://jira.atlassian.=
+com/browse/HCPUB-579" style=3D"color: #3b73af; text-decoration: none">HCPUB=
+-579</a> </td>=20
+                                                </tr>=20
+                                                <tr>=20
+                                                    <td style=3D"vertical-a=
+lign: top;; padding: 0px; border-collapse: collapse; padding-right: 5px; fo=
+nt-size: 20px; line-height: 30px; mso-line-height-rule: exactly" class=3D"p=
+age-title-pattern-header-container"> <span class=3D"page-title-pattern-head=
+er" style=3D"font-family: Arial, sans-serif; padding: 0; font-size: 20px; l=
+ine-height: 30px; mso-text-raise: 2px; mso-line-height-rule: exactly; verti=
+cal-align: middle"> <a href=3D"https://jira.atlassian.com/browse/HCPUB-579"=
+ style=3D"color: #3b73af; text-decoration: none">Data payload for notificat=
+ion emails.</a> </span> </td>=20
+                                                </tr>=20
+                                            </tbody>
+                                        </table> </td>=20
+                                </tr>=20
+                                <tr>=20
+                                    <td class=3D"email-content-main mobile-=
+expand  wrapper-special-margin" style=3D"padding: 0px; border-collapse: col=
+lapse; border-left: 1px solid #cccccc; border-right: 1px solid #cccccc; bor=
+der-top: 0; border-bottom: 0; padding: 0 15px 0 16px; background-color: #ff=
+ffff; padding-top: 10px; padding-bottom: 5px" bgcolor=3D"#ffffff">=20
+                                        <table class=3D"keyvalue-table" sty=
+le=3D"border-collapse: collapse; mso-table-lspace: 0pt; mso-table-rspace: 0=
+pt">=20
+                                            <tbody>
+                                                <tr>=20
+                                                    <th style=3D"color: #70=
+7070; font: normal 14px/20px Arial, sans-serif; text-align: left; vertical-=
+align: top; padding: 2px 0">Change By:</th>=20
+                                                    <td style=3D"padding: 0=
+px; border-collapse: collapse; font: normal 14px/20px Arial, sans-serif; pa=
+dding: 2px 0 2px 5px; vertical-align: top"> <a class=3D"user-hover" rel=3D"=
+paul230760403" id=3D"email_paul230760403" href=3D"https://jira.atlassian.co=
+m/secure/ViewProfile.jspa?name=3Dpaul230760403" style=3D"color:#3b73af;; co=
+lor: #3b73af; text-decoration: none">Paul Hammant</a> </td>=20
+                                                </tr>=20
+                                            </tbody>
+                                        </table> </td>=20
+                                </tr>=20
+                                <tr>=20
+                                    <td class=3D"email-content-main mobile-=
+expand  issue-description-container" style=3D"padding: 0px; border-collapse=
+: collapse; border-left: 1px solid #cccccc; border-right: 1px solid #cccccc=
+; border-top: 0; border-bottom: 0; padding: 0 15px 0 16px; background-color=
+: #ffffff; padding-top: 5px; padding-bottom: 10px" bgcolor=3D"#ffffff">=20
+                                        <table class=3D"text-paragraph-patt=
+ern" cellspacing=3D"0" cellpadding=3D"0" border=3D"0" width=3D"100%" style=
+=3D"border-collapse: collapse; mso-table-lspace: 0pt; mso-table-rspace: 0pt=
+; font-family: Arial, sans-serif; font-size: 14px; line-height: 20px; mso-l=
+ine-height-rule: exactly; mso-text-raise: 2px">=20
+                                            <tbody>
+                                                <tr>=20
+                                                    <td class=3D"text-parag=
+raph-pattern-container mobile-resize-text " style=3D"padding: 0px; border-c=
+ollapse: collapse; padding: 0 0 10px 0"> <span class=3D"diffcontext">Can yo=
+u awesome folks add a text/json multipart to the outgoing emails, please ?<=
+br><br>{quote}<br>&nbsp;&nbsp;&nbsp;&nbsp;\{<br>&nbsp;&nbsp;&nbsp;&nbsp;&nb=
+sp;&nbsp;&nbsp;"event": "room-mention",<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&n=
+bsp;&nbsp;"id": "e606affc-c879-4ba5-b6a0-7a085ce46989",<br>&nbsp;&nbsp;&nbs=
+p;&nbsp;&nbsp;&nbsp;&nbsp;"summary": "Paul Hammant just mentioned you in th=
+e room AtlassianTotallyRocks",<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
+;"room": 1484300<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;...<br>&nbsp;=
+&nbsp;&nbsp;&nbsp;\}<br>{quote}<br><br>Paul Hammant&lt;/a&gt;<br>&nbsp;&nbs=
+p;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;just mentione=
+d you in the room<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;a href=3D3D"ht=
+tps://www.hipchat.com/rooms/show/1484371<br><br>If not a multi-part then so=
+mehow encoded in the HTML, so that it can be parsed out without javascript =
+itself. e.g as a base64 string in a display:block section. <br><br>Ref also=
+ JRA-60612</span> <span class=3D"diffaddedchars" style=3D"background-color:=
+#ddfade;"><br><br>This issue is mentioned in the [README for ImapDigester|h=
+ttps://github.com/paul-hammant/imapdigester]</span> </td>=20
+                                                </tr>=20
+                                            </tbody>
+                                        </table> </td>=20
+                                </tr>=20
+                                <tr>=20
+                                    <td class=3D"email-content-main mobile-=
+expand " style=3D"padding: 0px; border-collapse: collapse; border-left: 1px=
+ solid #cccccc; border-right: 1px solid #cccccc; border-top: 0; border-bott=
+om: 0; padding: 0 15px 0 16px; background-color: #ffffff" bgcolor=3D"#fffff=
+f">=20
+                                        <table id=3D"actions-pattern" cells=
+pacing=3D"0" cellpadding=3D"0" border=3D"0" width=3D"100%" style=3D"border-=
+collapse: collapse; mso-table-lspace: 0pt; mso-table-rspace: 0pt; font-fami=
+ly: Arial, sans-serif; font-size: 14px; line-height: 20px; mso-line-height-=
+rule: exactly; mso-text-raise: 1px">=20
+                                            <tbody>
+                                                <tr>=20
+                                                    <td id=3D"actions-patte=
+rn-container" valign=3D"middle" style=3D"padding: 0px; border-collapse: col=
+lapse; padding: 10px 0 10px 24px; vertical-align: middle; padding-left: 0">=
+=20
+                                                        <table align=3D"lef=
+t" style=3D"border-collapse: collapse; mso-table-lspace: 0pt; mso-table-rsp=
+ace: 0pt">=20
+                                                            <tbody>
+                                                                <tr>=20
+                                                                    <td cla=
+ss=3D"actions-pattern-action-icon-container" style=3D"padding: 0px; border-=
+collapse: collapse; font-family: Arial, sans-serif; font-size: 14px; line-h=
+eight: 20px; mso-line-height-rule: exactly; mso-text-raise: 0px; vertical-a=
+lign: middle"> <a href=3D"https://jira.atlassian.com/browse/HCPUB-579#add-c=
+omment" target=3D"_blank" title=3D"Add Comment" style=3D"color: #3b73af; te=
+xt-decoration: none"> <img class=3D"actions-pattern-action-icon-image" src=
+=3D"cid:jira-generated-image-static-comment-icon-87a482c8-8cf3-44d3-95f2-f1=
+75379907b1" alt=3D"Add Comment" title=3D"Add Comment" height=3D"16" width=
+=3D"16" border=3D"0" style=3D"vertical-align: middle"> </a> </td>=20
+                                                                    <td cla=
+ss=3D"actions-pattern-action-text-container" style=3D"padding: 0px; border-=
+collapse: collapse; font-family: Arial, sans-serif; font-size: 14px; line-h=
+eight: 20px; mso-line-height-rule: exactly; mso-text-raise: 4px; padding-le=
+ft: 5px"> <a href=3D"https://jira.atlassian.com/browse/HCPUB-579#add-commen=
+t" target=3D"_blank" title=3D"Add Comment" style=3D"color: #3b73af; text-de=
+coration: none">Add Comment</a> </td>=20
+                                                                </tr>=20
+                                                            </tbody>
+                                                        </table> </td>=20
+                                                </tr>=20
+                                            </tbody>
+                                        </table> </td>=20
+                                </tr>=20
+                                <!-- there needs to be content in the cell =
+for it to render in some clients -->=20
+                                <tr>=20
+                                    <td class=3D"email-content-rounded-bott=
+om mobile-expand" style=3D"padding: 0px; border-collapse: collapse; color: =
+#ffffff; padding: 0 15px 0 16px; height: 5px; line-height: 5px; background-=
+color: #ffffff; border-top: 0; border-left: 1px solid #cccccc; border-botto=
+m: 1px solid #cccccc; border-right: 1px solid #cccccc; border-bottom-right-=
+radius: 5px; border-bottom-left-radius: 5px; mso-line-height-rule: exactly"=
+ height=3D"5" bgcolor=3D"#ffffff">&nbsp;</td>=20
+                                </tr>=20
+                            </tbody>
+                        </table> </td>=20
+                </tr>=20
+                <tr>=20
+                    <td id=3D"footer-pattern" style=3D"padding: 0px; border=
+-collapse: collapse; padding: 12px 20px">=20
+                        <table id=3D"footer-pattern-container" cellspacing=
+=3D"0" cellpadding=3D"0" border=3D"0" style=3D"border-collapse: collapse; m=
+so-table-lspace: 0pt; mso-table-rspace: 0pt">=20
+                            <tbody>
+                                <tr>=20
+                                    <td id=3D"footer-pattern-text" class=3D=
+"mobile-resize-text" width=3D"100%" style=3D"padding: 0px; border-collapse:=
+ collapse; color: #999999; font-size: 12px; line-height: 18px; font-family:=
+ Arial, sans-serif; mso-line-height-rule: exactly; mso-text-raise: 2px"> Th=
+is message was sent by Atlassian JIRA <span id=3D"footer-build-information"=
+>(v7.1.2#71006-<span title=3D"8e7e3091c211bab4b45730515b8b1591e99b0c1c" dat=
+a-commit-id=3D"8e7e3091c211bab4b45730515b8b1591e99b0c1c}">sha1:8e7e309</spa=
+n>)</span> </td>=20
+                                    <td id=3D"footer-pattern-logo-desktop-c=
+ontainer" valign=3D"top" style=3D"padding: 0px; border-collapse: collapse; =
+padding-left: 20px; vertical-align: top">=20
+                                        <table style=3D"border-collapse: co=
+llapse; mso-table-lspace: 0pt; mso-table-rspace: 0pt">=20
+                                            <tbody>
+                                                <tr>=20
+                                                    <td id=3D"footer-patter=
+n-logo-desktop-padding" style=3D"padding: 0px; border-collapse: collapse; p=
+adding-top: 3px"> <img id=3D"footer-pattern-logo-desktop" src=3D"cid:jira-g=
+enerated-image-static-footer-desktop-logo-86699106-420b-4201-9fbd-4f1a55a49=
+97d" alt=3D"Atlassian logo" title=3D"Atlassian logo" width=3D"169" height=
+=3D"36" class=3D"image_fix"> </td>=20
+                                                </tr>=20
+                                            </tbody>
+                                        </table> </td>=20
+                                </tr>=20
+                            </tbody>
+                        </table> </td>=20
+                </tr>=20
+            </tbody>
+        </table>  =20
+    </body>
+</html>
+
+------=_Part_72190_1168931742.1460652660051--"""
 
 
 class NotificationsStore(object):
@@ -205,7 +487,29 @@ class TestJiraNotifications(TestCase):
   <tr style="background-color: #acf;">
     <th>Notifications</th>
   </tr>
-          <tr><td colspan="2" style="border-bottom: 1pt solid red; border-top: 1pt solid red;"><center>^ New Notifications Since You Last Checked ^</center></td></tr>          <tr style="">
+          <tr style="">
+    <td>
+        <table>
+            <tr>
+                <td>What:</td><td>Paul Hammant updated an issue</td>
+            </tr>
+            <tr>
+                <td>Project:</td><td>HipChat</td>
+            </tr>
+            <tr>
+                <td>Issue:</td><td><a href="https://jira.atlassian.com/browse/HCPUB-579">HCPUB-579</a></td>
+            </tr>
+            <tr>
+                <td>Fields:</td>
+                <td>
+                    <table>
+                    <tr><td>Change By</td><td>Paul Hammant</td></tr>
+                    </table>
+                </td>
+            </tr>
+        </table>
+    </td>
+  </tr>          <tr><td colspan="2" style="border-bottom: 1pt solid red; border-top: 1pt solid red;"><center>^ New Notifications Since You Last Checked ^</center></td></tr>          <tr style="background-color: #def;">
     <td>
         <table>
             <tr>
@@ -265,6 +569,7 @@ class TestJiraNotifications(TestCase):
         to_delete_from_notification_folder = []
 
         digestion_processor.process_incoming_notification(1234, digesters, NEW_ISSUE, to_delete_from_notification_folder, unmatched_to_move, False)
+        digestion_processor.process_incoming_notification(1235, digesters, CHANGED_ISSUE, to_delete_from_notification_folder, unmatched_to_move, False)
 
         digester.rewrite_rollup_emails(rollup_inbox_proxy, has_previous_message=True,
                                         previously_seen=False, sender_to_implicate="P H <ph@example.com>")
@@ -276,18 +581,23 @@ class TestJiraNotifications(TestCase):
             call.get_from_binary('jira-notifications'),
             call.get_from_binary('most-recently-seen'),
             call.store_as_binary('jira-notifications', {
+                1460652660: {u'project_name': u'HipChat',
+                             u'who': u'Paul Hammant',
+                             u'kvtable': [{u'k': u'Change By', u'v': u'Paul Hammant'}],
+                             u'issue_id': u'HCPUB-579',
+                             u'event': u'Paul Hammant updated an issue',
+                             u'issue_url': u'https://jira.atlassian.com/browse/HCPUB-579'},
                 1460652300: {u'project_name': u'HipChat',
                              u'line_here': True,
                              u'who': u'Paul Hammant',
                              u'kvtable': [{u'k': u'Issue Type', u'v': u'Suggestion'},
                                           {u'k': u'Assignee', u'v': u'Unassigned'},
                                           {u'k': u'Components', u'v': u'Notifications - email'},
-                                          {u'k': u'Created', u'v': u'14/Apr/2016 4'}], u'issue_id': u'HCPUB-579',
+                                          {u'k': u'Created', u'v': u'14/Apr/2016 4'}],
+                             u'issue_id': u'HCPUB-579',
                              u'event': u'Paul Hammant created an issue',
                              u'issue_url': u'https://jira.atlassian.com/browse/HCPUB-579'}}),
             call.store_as_binary('most-recently-seen', 1460183824)])
         self.assertEquals(len(unmatched_to_move), 0)
-        self.assertEquals(str(to_delete_from_notification_folder), "[1234]")
-        self.assertEquals(len(final_notifications_store.notifications), 1)
-
-
+        self.assertEquals(str(to_delete_from_notification_folder), "[1234, 1235]")
+        self.assertEquals(len(final_notifications_store.notifications), 2)
