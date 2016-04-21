@@ -5,7 +5,7 @@ from mock import Mock, call
 from mockextras import stub
 
 from digesters.digestion_processor import DigestionProcessor
-from digesters.githubnotifications.github_notification_digester import GithubNotificationDigester
+from digesters.github.github_notification_digester import GithubNotificationDigester
 
 MAIL_HDR = """From: P H <ph@example.com>
 Content-Transfer-Encoding: 8bit
