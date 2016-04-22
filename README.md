@@ -62,6 +62,12 @@ pip install jsonpickle
 
 # Running it on the Pi Zero for less than $2/year in electricity
 
+Note for the Pi's Raspbian, which is running a slightly older version of Python, install an older version of IMAPClient:
+
+```
+pip install IMAPClient==0.13
+```
+
 - In `/home/pi`, git clone this repo, and cd into that folder.
 - Copy the [cron_run_imapdigester_sample.sh](https://github.com/paul-hammant/imapdigester/blob/master/cron_run_imapdigester_sample.sh)
 script and lose the '_sample' suffix, and customize as appropriate for your email provider and account details.
