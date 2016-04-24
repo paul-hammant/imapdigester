@@ -59,7 +59,7 @@ class StackExchangeNotificationDigester(BaseDigester):
 
             self.article_dict["articles"][article_num] = text
 
-    def rewrite_rollup_emails(self, rollup_inbox_proxy, has_previous_message, previously_seen, sender_to_implicate):
+    def rewrite_digest_emails(self, digest_folder_proxy, has_previous_message, previously_seen, sender_to_implicate):
 
         if self.previously_notified_article_count == len(self.article_dict["articles"]):
             return
@@ -88,15 +88,15 @@ class StackExchangeNotificationDigester(BaseDigester):
 
         # Delete previous email, and write replacement
         if has_previous_message:
-            rollup_inbox_proxy.delete_previous_message()
+            digest_folder_proxy.delete_previous_message()
 
         email = self.make_new_raw_email(email_html, unseen, sender_to_implicate)
-        rollup_inbox_proxy.append(email)
+        digest_folder_proxy.append(email)
         # Save
         self.store_writer.store_as_binary("articles", self.article_dict)
 
     def make_new_raw_email(self, email_html, count, sender_to_implicate):
-        new_message = 'Subject: ' + self.matching_rollup_subject() + ": " + str(count) + ' new posting(s)\n'
+        new_message = 'Subject: ' + self.matching_digest_subject() + ": " + str(count) + ' new posting(s)\n'
         new_message += 'From: ' + sender_to_implicate + '\n'
         #        new_message += 'To: ' + sender_to_implicate + '\n'
         new_message += 'Content-Transfer-Encoding: 8bit\n'
@@ -138,7 +138,7 @@ class StackExchangeNotificationDigester(BaseDigester):
     def matching_incoming_headers(self):
         return ["Subject: New questions in " + self.filter_name + " filter"]
 
-    def matching_rollup_subject(self):
+    def matching_digest_subject(self):
         return 'S/Exchg Rollup for \'' + self.filter_name + '\''
 
     def print_summary(self):

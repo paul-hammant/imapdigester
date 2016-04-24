@@ -68,7 +68,7 @@ class LinkedinInvitationDigester(BaseDigester):
 
         return False
 
-    def rewrite_rollup_emails(self, rollup_inbox_proxy, has_previous_message, previously_seen, sender_to_implicate):
+    def rewrite_digest_emails(self, digest_folder_proxy, has_previous_message, previously_seen, sender_to_implicate):
 
         if self.previously_notified_article_count == len(self.linkedin_invitations):
             return
@@ -111,8 +111,8 @@ class LinkedinInvitationDigester(BaseDigester):
 
         # Delete previous email, and write replacement
         if has_previous_message:
-            rollup_inbox_proxy.delete_previous_message()
-        rollup_inbox_proxy.append(self.make_new_raw_email(email_html, num_messages_since_last_seen, sender_to_implicate))
+            digest_folder_proxy.delete_previous_message()
+        digest_folder_proxy.append(self.make_new_raw_email(email_html, num_messages_since_last_seen, sender_to_implicate))
         # Save
         self.store_writer.store_as_binary("linkedin-invitations", self.linkedin_invitations)
         self.store_writer.store_as_binary("most-recently-seen", self.most_recently_seen)
@@ -135,7 +135,7 @@ class LinkedinInvitationDigester(BaseDigester):
         return ["From: .* <invitations@linkedin.com>",  ## The invitation
                 "From: .* <messages-noreply@linkedin.com>"]  ## Foo's invitation is waiting for your response ?
 
-    def matching_rollup_subject(self):
+    def matching_digest_subject(self):
         return 'Linkedin Inv. Rollup'
 
     def print_summary(self):
@@ -161,7 +161,7 @@ class LinkedinInvitationDigester(BaseDigester):
         return email_html
 
     def make_new_raw_email(self, email_html, count, sender_to_implicate):
-        new_message = 'Subject: ' + self.matching_rollup_subject() + ": " + str(count) + ' new invitation(s)\n'
+        new_message = 'Subject: ' + self.matching_digest_subject() + ": " + str(count) + ' new invitation(s)\n'
         new_message += 'From: ' + sender_to_implicate + '\n'
         new_message += 'Content-Transfer-Encoding: 8bit\n'
         new_message += 'Content-Type: multipart/alternative; boundary="---NOTIFICATION_BOUNDARY' \

@@ -118,7 +118,7 @@ class GithubNotificationDigester(BaseDigester):
             message += "..."
         return message
 
-    def rewrite_rollup_emails(self, rollup_inbox_proxy, has_previous_message, previously_seen, sender_to_implicate):
+    def rewrite_digest_emails(self, digest_folder_proxy, has_previous_message, previously_seen, sender_to_implicate):
 
         if len(self.new_notifications) == 0:
             return
@@ -183,7 +183,7 @@ class GithubNotificationDigester(BaseDigester):
                                      most_recent_seen_str=seen_formated,
                                      not_first_email=(self.most_recently_seen > 0))
 
-        new_message = 'Subject: ' + self.matching_rollup_subject() + ' (' + str(
+        new_message = 'Subject: ' + self.matching_digest_subject() + ' (' + str(
             num_messages_since_last_seen) + ' new)\n'
         new_message += 'From: ' + sender_to_implicate + '\n'
         new_message += 'Content-Transfer-Encoding: 8bit\n'
@@ -202,8 +202,8 @@ class GithubNotificationDigester(BaseDigester):
 
         # Delete previous email, and write replacement
         if has_previous_message:
-            rollup_inbox_proxy.delete_previous_message()
-        rollup_inbox_proxy.append(new_message)
+            digest_folder_proxy.delete_previous_message()
+        digest_folder_proxy.append(new_message)
         # Save
         self.store_writer.store_as_binary("github-notifications", self.github_notifications)
         self.store_writer.store_as_binary("most-recently-seen", self.most_recently_seen)
@@ -269,7 +269,7 @@ class GithubNotificationDigester(BaseDigester):
     def matching_incoming_headers(self):
         return ["\nReturn-Path: " + self.return_path_email, "\nFrom: .* <" + self.from_email + ">"]
 
-    def matching_rollup_subject(self):
+    def matching_digest_subject(self):
         return self.known_as + ' Rollup'
 
     def print_summary(self):

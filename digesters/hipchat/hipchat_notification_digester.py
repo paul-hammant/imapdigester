@@ -85,7 +85,7 @@ class HipchatNotificationDigester(BaseDigester):
 
         return False
 
-    def rewrite_rollup_emails(self, rollup_inbox_proxy, has_previous_message, previously_seen, sender_to_implicate):
+    def rewrite_digest_emails(self, digest_folder_proxy, has_previous_message, previously_seen, sender_to_implicate):
 
         if self.previously_notified_article_count == len(self.hc_notifications):
             return
@@ -116,8 +116,8 @@ class HipchatNotificationDigester(BaseDigester):
 
         # Delete previous email, and write replacement
         if has_previous_message:
-            rollup_inbox_proxy.delete_previous_message()
-        rollup_inbox_proxy.append(self.make_new_raw_so_email(email_html, unseen, sender_to_implicate))
+            digest_folder_proxy.delete_previous_message()
+        digest_folder_proxy.append(self.make_new_raw_so_email(email_html, unseen, sender_to_implicate))
         # Save
         self.store_writer.store_as_binary("hipchat-notifications", self.hc_notifications)
         self.store_writer.store_as_binary("most-recently-seen", self.most_recently_seen)
@@ -125,7 +125,7 @@ class HipchatNotificationDigester(BaseDigester):
     def matching_incoming_headers(self):
         return ["From: HipChat <donotreply@hipchat.com>"]
 
-    def matching_rollup_subject(self):
+    def matching_digest_subject(self):
         return 'Hipchat Rollup'
 
     def print_summary(self):
@@ -151,7 +151,7 @@ class HipchatNotificationDigester(BaseDigester):
         return email_html
 
     def make_new_raw_so_email(self, email_html, count, sender_to_implicate):
-        new_message = 'Subject: ' + self.matching_rollup_subject() + ": " + str(count) + ' new notification(s)\n'
+        new_message = 'Subject: ' + self.matching_digest_subject() + ": " + str(count) + ' new notification(s)\n'
         new_message += 'From: ' + sender_to_implicate + '\n'
         new_message += 'Content-Transfer-Encoding: 8bit\n'
         new_message += 'Content-Type: multipart/alternative; boundary="---NOTIFICATION_BOUNDARY' \

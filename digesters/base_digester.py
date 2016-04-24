@@ -25,13 +25,13 @@ class BaseDigester(object):
         pass
 
     @abstractmethod
-    def rewrite_rollup_emails(self, rollup_inbox_proxy, has_previous_message, previously_seen, sender_to_implicate):
+    def rewrite_digest_emails(self, digest_folder_proxy, has_previous_message, previously_seen, sender_to_implicate):
         """
-        Rewrite (or write, or don't at all) the rollup email, in the rollup email account
+        Rewrite (or write, or don't at all) the digest email, in the digest email account
         :param sender_to_implicate: The From message is set to this "Firstname Secondname" <email@addr>
-        :param previously_seen: True if the current rollup email has been read
-        :param has_previous_message:  True is there is a current rollup for this at all (could have been deleted)
-        :param rollup_inbox_proxy:  Use this to orchestrate delete and actual rewrite
+        :param previously_seen: True if the current digest email has been read
+        :param has_previous_message:  True is there is a current digest for this at all (could have been deleted)
+        :param digest_folder_proxy:  Use this to orchestrate delete and actual rewrite
         """
         pass
 
@@ -43,7 +43,7 @@ class BaseDigester(object):
         pass
 
     @abstractmethod
-    def matching_rollup_subject(self):
+    def matching_digest_subject(self):
         """
         :rtype: Subject that we're matching on, like "Foobar Rollup"
         """

@@ -33,11 +33,11 @@ def get_command():
 
 
 def check_for_command(cmd):
-    messages = rollup_folder.search('SUBJECT "%s"' % cmd)
-    response = rollup_folder.fetch(messages, ['FLAGS', 'RFC822.SIZE'])
+    messages = digest_folder.search('SUBJECT "%s"' % cmd)
+    response = digest_folder.fetch(messages, ['FLAGS', 'RFC822.SIZE'])
     retval = False
     for msgid, data in response.iteritems():
-        rollup_folder.delete_messages([msgid])
+        digest_folder.delete_messages([msgid])
         retval = True
     return retval
 
@@ -57,17 +57,17 @@ if __name__ == '__main__':
                       help="User's password for incoming notifications mail server")
     parser.add_option("--notifications_folder", dest="notifications_folder_name", default="INBOX",
                       help="The Imap folder to pull notification from, e.g. INBOX")
-    parser.add_option("--rollup_imap", dest="rollup_imap",
-                      help="IMAP to use for outgoing rollup (rewrite) mail server (SSL assumed)")
-    parser.add_option("--rollup_user", dest="rollup_user", help="User ID for outgoing rollup (rewrite) mail server")
-    parser.add_option("--rollup_pw", dest="rollup_pw",
-                      help="User's password for outgoing rollup (rewrite) mail server")
-    parser.add_option("--rollup_folder", dest="rollup_folder_name", default="INBOX",
-                      help="The Imap folder to pull/push rollup from/to, e.g. INBOX")
+    parser.add_option("--digest_imap", dest="digest_imap",
+                      help="IMAP to use for outgoing digest (rewrite) mail server (SSL assumed)")
+    parser.add_option("--digest_user", dest="digest_user", help="User ID for outgoing digest (rewrite) mail server")
+    parser.add_option("--digest_pw", dest="digest_pw",
+                      help="User's password for outgoing digest (rewrite) mail server")
+    parser.add_option("--digest_folder", dest="digest_folder_name", default="INBOX",
+                      help="The Imap folder to pull/push digest from/to, e.g. INBOX")
     parser.add_option("--implicate", dest="sender_to_implicate",
-                      help="Who to name in rollup emails, e.g. \"Imap Digester\" <imapdigester@example.com>")
+                      help="Who to name in digest emails, e.g. \"Imap Digester\" <imapdigester@example.com>")
     parser.add_option("--move_unmatched", action="store_true", dest="move_unmatched",
-                      help="Move unmatched emails to rollup inbox")
+                      help="Move unmatched emails to digest inbox")
     parser.add_option("--print_summary", action="store_true", dest="print_summary", help="Print Summary")
 
     (options, args) = parser.parse_args()
@@ -76,12 +76,12 @@ if __name__ == '__main__':
         print "Enter notifications user password:"
         options.notifications_pw = getpass.getpass()
 
-    if options.rollup_pw is None:
-        if options.notifications_imap == options.rollup_imap and options.notifications_user == options.rollup_user:
-            options.rollup_pw = options.notifications_pw
+    if options.digest_pw is None:
+        if options.notifications_imap == options.digest_imap and options.notifications_user == options.digest_user:
+            options.digest_pw = options.notifications_pw
         else:
-            print "Enter rollup user password:"
-            options.rollup_pw = getpass.getpass()
+            print "Enter digest user password:"
+            options.digest_pw = getpass.getpass()
 
     # Read and mark for deletion items from notification inbox.
     notification_folder = None
@@ -103,9 +103,9 @@ if __name__ == '__main__':
     time.sleep(1)
     notification_folder.select_folder(options.notifications_folder_name)
 
-    rollup_folder = IMAPClient(options.rollup_imap, use_uid=True, ssl=True)
-    rollup_folder.login(options.rollup_user, options.rollup_pw)
-    rollup_folder.select_folder(options.rollup_folder_name)
+    digest_folder = IMAPClient(options.digest_imap, use_uid=True, ssl=True)
+    digest_folder.login(options.digest_user, options.digest_pw)
+    digest_folder.select_folder(options.digest_folder_name)
 
     command = get_command()
 
@@ -122,12 +122,12 @@ if __name__ == '__main__':
         # Get Digesters from my_digesters_setup.py
         add_digesters(digesters)
 
-        DigestionProcessor(notification_folder, rollup_folder, digesters, options.print_summary,
-                           options.sender_to_implicate, options.move_unmatched, options.rollup_folder_name)\
+        DigestionProcessor(notification_folder, digest_folder, digesters, options.print_summary,
+                           options.sender_to_implicate, options.move_unmatched, options.digest_folder_name)\
             .doit()
 
-    rollup_folder.expunge()
-    rollup_folder.logout()
+    digest_folder.expunge()
+    digest_folder.logout()
 
     notification_folder.expunge()
     notification_folder.logout()

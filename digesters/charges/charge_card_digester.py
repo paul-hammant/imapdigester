@@ -71,10 +71,10 @@ class ChargeCardDigester(BaseDigester):
                 matching_terms.append(matching_header)
         return matching_terms
 
-    def matching_rollup_subject(self):
+    def matching_digest_subject(self):
         return 'Charge Card Charges Rollup'
 
-    def rewrite_rollup_emails(self, rollup_inbox_proxy, has_previous_message, previously_seen, sender_to_implicate):
+    def rewrite_digest_emails(self, digest_folder_proxy, has_previous_message, previously_seen, sender_to_implicate):
 
         if len(self.new_charge_summary) == 0:
              return
@@ -132,8 +132,8 @@ class ChargeCardDigester(BaseDigester):
 
         # Delete previous email, and write replacement
         if has_previous_message:
-            rollup_inbox_proxy.delete_previous_message()
-        rollup_inbox_proxy.append(self.make_new_raw_charge_email(email_html, max_date, sender_to_implicate))
+            digest_folder_proxy.delete_previous_message()
+        digest_folder_proxy.append(self.make_new_raw_charge_email(email_html, max_date, sender_to_implicate))
         # Save
         self.store_writer.store_as_binary("charges", self.charge_summary)
 
@@ -149,7 +149,7 @@ class ChargeCardDigester(BaseDigester):
         return processed
 
     def make_new_raw_charge_email(self, email_html, when, sender_to_implicate):
-        new_message = 'Subject: ' + self.matching_rollup_subject() + '\n'
+        new_message = 'Subject: ' + self.matching_digest_subject() + '\n'
         new_message += 'From: ' + sender_to_implicate + '\n'
         new_message += 'Date: ' + arrow.get(when).format('ddd, DD MMM YYYY HH:mm:ss Z') + '\n'
         new_message += 'Content-Transfer-Encoding: 8bit\n'

@@ -95,9 +95,9 @@ class TestLinkedinInvitations(TestCase):
         expected_message = ("Subject: Linkedin Inv. Rollup: 1 new invitation(s)\n" + MAIL_HDR + expected_payload + \
                            "\n\n-----NOTIFICATION_BOUNDARY-5678").replace("\n", "\r\n")
 
-        rollup_inbox_proxy = Mock()
-        rollup_inbox_proxy.delete_previous_message.side_effect = stub((call(), True))
-        rollup_inbox_proxy.append.side_effect = stub((call(expected_message), True))
+        digest_inbox_proxy = Mock()
+        digest_inbox_proxy.delete_previous_message.side_effect = stub((call(), True))
+        digest_inbox_proxy.append.side_effect = stub((call(expected_message), True))
 
         digesters = []
         digester = LinkedinInvitationDigester(store_writer)  ## What we are testing
@@ -116,10 +116,10 @@ class TestLinkedinInvitations(TestCase):
         digestion_processor.process_incoming_notification(1234, digesters, notification_1_content, to_delete_from_notification_folder, unmatched_to_move, False)
         digestion_processor.process_incoming_notification(1235, digesters, notification_2_content, to_delete_from_notification_folder, unmatched_to_move, False)
 
-        digester.rewrite_rollup_emails(rollup_inbox_proxy, has_previous_message=True,
-                                        previously_seen=False, sender_to_implicate="P H <ph@example.com>")
+        digester.rewrite_digest_emails(digest_inbox_proxy, has_previous_message=True,
+                                       previously_seen=False, sender_to_implicate="P H <ph@example.com>")
 
-        self.assertEquals(rollup_inbox_proxy.mock_calls, [call.delete_previous_message(), call.append(expected_message)])
+        self.assertEquals(digest_inbox_proxy.mock_calls, [call.delete_previous_message(), call.append(expected_message)])
 
         calls = store_writer.mock_calls
         self.assertEquals(calls, [

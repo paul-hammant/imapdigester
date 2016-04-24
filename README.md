@@ -1,6 +1,6 @@
 # ImapDigester
 
-Reads all* your robot-sent notifications and digests them into a single rollup email, that has some smarts how much
+Reads all* your robot-sent notifications and digests them into a single digest email, that has some smarts how much
 you've read previously or not.
 
  * all, cough, means three types of credit card alerts, and notifications from Github, Linkedin, Hipchat, Confluence,
@@ -28,12 +28,12 @@ deletes from inbox for you. Lets call this the **notification inbox**.
 
 2. For Rollup emails to be written/rewritten to. That script (below) is going to look after the 
 inbox for this one. This email address is totally private to you - not even other machines know about it. 
-Just you, software-daemons you deployed and your email client(s). Let's call this the **rollup inbox**. It could be
+Just you, software-daemons you deployed and your email client(s). Let's call this the **digest inbox**. It could be
 your regular email address, but what if there's a bug and it deletes all you email - yup, that's right, use a 
 dedicated email accound for this one too too.
 
 Maybe grabbing two email addresses from a major email provider the above two is best. Your email client (desktop or 
-mobile) may be able to show and "all inboxes" view of your regular email, and your **rollup inbox** just fine.  
+mobile) may be able to show and "all inboxes" view of your regular email, and your **digest inbox** just fine.
 The Outlook client on the iPhone certainly can.
 
 # Deploying your daemon
@@ -106,14 +106,14 @@ what is wrong.
 
 ## Setup Choices
 
-The Inbox for the accounts is the default, but via `--notifications_folder` and `--rollup_folder` you could specify
+The Inbox for the accounts is the default, but via `--notifications_folder` and `--digest_folder` you could specify
 a different folder for processing. Case might be important.
 
-You can have the same email account for **notifications** and **rollup**. I choose not to, because I'm a chicken.
+You can have the same email account for **notifications** and **digests**. I choose not to, because I'm a chicken.
 Similarly, you can have the same folder within the same email account if you want to.
 
-If you leave out `--notifications_pw` or `--rollup_pw` you will be prompted at startup to enter them.
-If **notifications** and **rollup** use the same email account, you'll only be prompted once.
+If you leave out `--notifications_pw` or `--digest_pw` you will be prompted at startup to enter them.
+If **notifications** and **digest** use the same email account, you'll only be prompted once.
 
 # Plans to go to Python3.
 
@@ -199,12 +199,12 @@ Refer too https://jira.atlassian.com/browse/JRA-60611 and https://jira.atlassian
 
 # Command emails
 
-If you email the subject line `git-pull` to the rollup email address, the daemon will update itself from git
+If you email the subject line `git-pull` to the digest email address, the daemon will update itself from git
 (provided there are no merge conflicts).
 
-If you email the sibject-line `pause` to the rollup email address, the daemon will pause.
+If you email the sibject-line `pause` to the digest email address, the daemon will pause.
 
-If you email the sibject-line `resume` to the rollup email address, the daemon will resume from it's paused state.
+If you email the sibject-line `resume` to the digest email address, the daemon will resume from it's paused state.
 
 # Yet to do
 
