@@ -202,9 +202,11 @@ Refer too https://jira.atlassian.com/browse/JRA-60611 and https://jira.atlassian
 If you email the subject line `git-pull` to the digest email address, the daemon will update itself from git
 (provided there are no merge conflicts).
 
-If you email the sibject-line `pause` to the digest email address, the daemon will pause.
+If you email the subject-line `pause` to the digest email address, the daemon will pause the digesting of notifications.
 
-If you email the sibject-line `resume` to the digest email address, the daemon will resume from it's paused state.
+If you email the subject-line `resume` to the digest email address, the daemon will resume from it's paused state.
+
+Each command email is deleted as soon as it is acted upon
 
 # Yet to do
 
