@@ -60,7 +60,7 @@ pip install mockextras
 pip install jsonpickle
 ```
 
-# Running it on the Pi Zero for less than $2/year in electricity
+# Running it on the Pi Zero for $1.10 a year in electricity
 
 Note for the Pi's Raspbian, which is running a slightly older version of Python, **install an older version** of IMAPClient:
 
@@ -76,10 +76,11 @@ script and lose the '_sample' suffix, and customize as appropriate for your emai
 
 If you run that shell script, you should be able it's output in `imapdigester_output.txt`.
 
-## Two Dollars?
+## One Dollar & Ten Cents?
 
-The $2 referenced is 0.8 Watt for 8760 hours (a year) at current electricity prices (18c/KWh), rounded up. The Pi Zero
-consumes a quarter of that, and the wifi dongle the rest.
+The $1.10 referenced is 0.7 Watt for 8760 hours (one year) at current electricity prices (18c/KWh). The Pi Zero on its
+own consumes a quarter of that, and the rest is the USB wifi dongle. Inefficiency of a 110V to 5V transformer is not
+factored in. Refer a ]Pi power usage page](http://www.pidramble.com/wiki/benchmarks/power-consumption).
 
 ## Scheduling it with Cron
 
