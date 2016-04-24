@@ -44,7 +44,7 @@ repo, copy `my_digesters_setup_sample.py` to `my_digesters_setup.py` and make mo
 
 ## Installation Prerequisites
 
-Python 2.7:
+Python 2.7.11 or above:
 
 ```
 brew install python
@@ -62,7 +62,7 @@ pip install jsonpickle
 
 # Running it on the Pi Zero for less than $2/year in electricity
 
-Note for the Pi's Raspbian, which is running a slightly older version of Python, install an older version of IMAPClient:
+Note for the Pi's Raspbian, which is running a slightly older version of Python, **install an older version** of IMAPClient:
 
 ```
 pip install IMAPClient==0.13
@@ -99,7 +99,9 @@ Reboot the cron system, to start it, like so:
 sudo /etc/init.d/rsyslog restart
 ```
 
-If that file does not appear within 10 mins (zero bytes), then you can change cron to log by editing a line in `/etc/rsyslog.conf` that is about cron's logging, then tail `/var/log/cron.log` which may give an insight as to what is wrong.
+If that file does not appear within 10 mins (zero bytes), then you can change cron to log by editing a line
+in `/etc/rsyslog.conf` that is about cron's logging, then tail `/var/log/cron.log` which may give an insight as to
+what is wrong.
 
 ## Setup Choices
 
@@ -111,6 +113,12 @@ Similarly, you can have the same folder within the same email account if you wan
 
 If you leave out `--notifications_pw` or `--rollup_pw` you will be prompted at startup to enter them.
 If **notifications** and **rollup** use the same email account, you'll only be prompted once.
+
+# Plans to go to Python3.
+
+Are paused for the time being - I consistently experience a segfault with Python 3.5.1 and IMAPClient 1.0.1.
+Refer [issues/210](https://bitbucket.org/mjs0/imapclient/issues/210/fetch-that-runs-fine-with-python-2711)
+for IMAPClient.
 
 # Rewritten emails are available for:
 
@@ -141,14 +149,16 @@ was written:
 
 Versus whether you've read the email or not:
 
-- A line appears in the email showing what notifications (relating to topics) that have you have read versus what you have not.
+- A line appears in the email showing what notifications (relating to topics) that have you have read versus what
+you have not.
 
 If you delete the email, the server deletes all the things you've read from the accumlated list of notifications too. 
 i.e. it appears to start over.
 
 Note - there is grouping around topic (repo-issue, repo-PR, repo-commit-comment).
 
-You can configure a GithubEnterprise usage too - just edit `my_digesters_setup.py` (hopefully you already copied it from `my_digesters_setup_sample.py`) - to set domain names, emails etc.
+You can configure a GithubEnterprise usage too - just edit `my_digesters_setup.py` (hopefully you already copied it
+from `my_digesters_setup_sample.py`) - to set domain names, emails etc.
 
 ## Hipchat Notifications
 
@@ -168,7 +178,8 @@ Notifications are rolled up into a single most-recent-first email:
 - User X changed a page (done)
 - User X added a page (done)
 
-You must configure `my_digesters_setup.py` (hopefully you already copied it from `my_digesters_setup_sample.py`) to set the emails confluence uses to notify you, and a short name for that instance.
+You must configure `my_digesters_setup.py` (hopefully you already copied it from `my_digesters_setup_sample.py`) to
+set the emails confluence uses to notify you, and a short name for that instance.
 
 If you're interested in increasing the support for Confluence - (please vote on feature request #41391](https://jira.atlassian.com/browse/CONF-41391)
 
@@ -180,7 +191,8 @@ Notifications are rolled up into a single most-recent-first email:
 - User X changed an issue (done)
 - User X commented on an issue (done)
 
-You must configure `my_digesters_setup.py` (hopefully you already copied it from `my_digesters_setup_sample.py`) to set the emails confluence uses to notify you, and a short name for that instance.
+You must configure `my_digesters_setup.py` (hopefully you already copied it from `my_digesters_setup_sample.py`) to
+set the emails confluence uses to notify you, and a short name for that instance.
 
 Refer too https://jira.atlassian.com/browse/JRA-60611 and https://jira.atlassian.com/browse/JRA-60612
 
