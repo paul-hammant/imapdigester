@@ -91,7 +91,7 @@ class HipchatNotificationDigester(BaseDigester):
             return
 
 
-        # Deleted email (by the user) means they don't want to see THOSE notifications listed in a Rollup again.
+        # Deleted email (by the user) means they don't want to see THOSE notifications listed in a Digest again.
         if has_previous_message == False:
             self.hc_notifications = {}
 
@@ -126,7 +126,7 @@ class HipchatNotificationDigester(BaseDigester):
         return ["From: HipChat <donotreply@hipchat.com>"]
 
     def matching_digest_subject(self):
-        return 'Hipchat Rollup'
+        return 'HipChat Digest'
 
     def print_summary(self):
         print "Hipchat: New hipchat notifications: " + str(self.new_message_count)
@@ -152,7 +152,7 @@ class HipchatNotificationDigester(BaseDigester):
 
     def make_new_raw_so_email(self, email_html, count, sender_to_implicate):
         new_message = 'Subject: ' + self.matching_digest_subject() + ": " + str(count) + ' new notification(s)\n'
-        new_message += 'From: ' + sender_to_implicate + '\n'
+        new_message += 'From: \"HipChat\" <' + sender_to_implicate + '>\n'
         new_message += 'Content-Transfer-Encoding: 8bit\n'
         new_message += 'Content-Type: multipart/alternative; boundary="---NOTIFICATION_BOUNDARY' \
                        + self.notification_boundary_rand + '"\n'

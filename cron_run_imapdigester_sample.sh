@@ -17,7 +17,7 @@ do_it() {
      --digest_imap imap-mail.emailprovider.com \
      --digest_user another_email_address_for_digests@emailprovider.com \
      --digest_pw p4ssw0rd \
-     --implicate '"ImapDigester" <imapdigester@it_does_not_matter.com>' \
+     --implicate imapdigester@it_does_not_matter.com \
      --move_unmatched  >> imapdigester_output.txt 2>&1
 }
 

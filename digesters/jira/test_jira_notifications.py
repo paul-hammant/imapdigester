@@ -8,7 +8,7 @@ from digesters.jira.jira_notification_digester import JiraNotificationDigester
 from digesters.digestion_processor import DigestionProcessor
 
 
-MAIL_HDR = """From: P H <ph@example.com>
+MAIL_HDR = """From: "Atlassian JIRA" <ph@example.com>
 Content-Transfer-Encoding: 8bit
 Content-Type: multipart/alternative; boundary="---NOTIFICATION_BOUNDARY-5678"
 MIME-Version: 1.0
@@ -701,7 +701,7 @@ class TestJiraNotifications(TestCase):
             (call('most-recently-seen', 1460183824), True)
         )
 
-        expected_message = ("Subject: Atlassian Jira Notif. Rollup: 1 new notification(s)\n"
+        expected_message = ("Subject: Atlassian JIRA Notif. Digest: 1 new notification(s)\n"
                             + MAIL_HDR + expected_payload + "\n\n-----NOTIFICATION_BOUNDARY-5678")
 
         digest_inbox_proxy = Mock()
@@ -713,7 +713,7 @@ class TestJiraNotifications(TestCase):
         digester.notification_boundary_rand = "-5678"  # no random number for the email's notification boundary
         digesters.append(digester)
 
-        digestion_processor = DigestionProcessor(None, None, digesters, False, "P H <ph@example.com>", False, "INBOX")
+        digestion_processor = DigestionProcessor(None, None, digesters, False, "ph@example.com", False, "INBOX")
 
         unmatched_to_move = []
         to_delete_from_notification_folder = []
@@ -723,7 +723,7 @@ class TestJiraNotifications(TestCase):
         digestion_processor.process_incoming_notification(1236, digesters, COMMENTED_ISSUE, to_delete_from_notification_folder, unmatched_to_move, False)
 
         digester.rewrite_digest_emails(digest_inbox_proxy, has_previous_message=True,
-                                       previously_seen=False, sender_to_implicate="P H <ph@example.com>")
+                                       previously_seen=False, sender_to_implicate="ph@example.com")
 
         self.assertEquals(digest_inbox_proxy.mock_calls, [call.delete_previous_message(), call.append(expected_message)])
 

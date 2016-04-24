@@ -7,7 +7,7 @@ from mockextras import stub
 from digesters.digestion_processor import DigestionProcessor
 from digesters.linkedin.linkedin_invitation_digester import LinkedinInvitationDigester
 
-MAIL_HDR = """From: P H <ph@example.com>
+MAIL_HDR = """From: "Linkedin" <ph@example.com>
 Content-Transfer-Encoding: 8bit
 Content-Type: multipart/alternative; boundary="---NOTIFICATION_BOUNDARY-5678"
 MIME-Version: 1.0
@@ -46,7 +46,7 @@ class TestLinkedinInvitations(TestCase):
 
     def test_two_related_invitations_can_be_rolled_up(self):
 
-        expected_payload = """<html><body><span>You have previously read invitations up to: Apr 01 2016 05:13 PM</span>
+        expected_payload = """<html><body><span>You have previously read invitations up to: Apr 01 2016 06:13 PM</span>
           <table>
             <tr style="background-color: #acf;">
               <th colspan="2">Invitations</th>
@@ -92,7 +92,7 @@ class TestLinkedinInvitations(TestCase):
             (call('most-recently-seen', 1459548811), True)
         )
 
-        expected_message = ("Subject: Linkedin Inv. Rollup: 1 new invitation(s)\n" + MAIL_HDR + expected_payload + \
+        expected_message = ("Subject: Linkedin Inv. Digest: 1 new invitation(s)\n" + MAIL_HDR + expected_payload + \
                            "\n\n-----NOTIFICATION_BOUNDARY-5678").replace("\n", "\r\n")
 
         digest_inbox_proxy = Mock()
@@ -104,7 +104,7 @@ class TestLinkedinInvitations(TestCase):
         digester.notification_boundary_rand = "-5678"  # no random number for the email's notification boundary
         digesters.append(digester)
 
-        digestion_processor = DigestionProcessor(None, None, digesters, False, "P H <ph@example.com>", False, "INBOX")
+        digestion_processor = DigestionProcessor(None, None, digesters, False, "ph@example.com", False, "INBOX")
 
         unmatched_to_move = []
         to_delete_from_notification_folder = []
@@ -117,7 +117,7 @@ class TestLinkedinInvitations(TestCase):
         digestion_processor.process_incoming_notification(1235, digesters, notification_2_content, to_delete_from_notification_folder, unmatched_to_move, False)
 
         digester.rewrite_digest_emails(digest_inbox_proxy, has_previous_message=True,
-                                       previously_seen=False, sender_to_implicate="P H <ph@example.com>")
+                                       previously_seen=False, sender_to_implicate="ph@example.com")
 
         self.assertEquals(digest_inbox_proxy.mock_calls, [call.delete_previous_message(), call.append(expected_message)])
 

@@ -125,7 +125,7 @@ class GithubNotificationDigester(BaseDigester):
 
         # print ">>> Previous githubNotifications: " + json.dumps(self.githubNotifications, sort_keys=True) + "\n\n"
 
-        # Deleted email (by the user) means they don't want to see THOSE notifications listed in a Rollup again.
+        # Deleted email (by the user) means they don't want to see THOSE notifications listed in a Digest again.
         if has_previous_message == False:
             self.github_notifications = {}
 
@@ -185,7 +185,7 @@ class GithubNotificationDigester(BaseDigester):
 
         new_message = 'Subject: ' + self.matching_digest_subject() + ' (' + str(
             num_messages_since_last_seen) + ' new)\n'
-        new_message += 'From: ' + sender_to_implicate + '\n'
+        new_message += 'From: "' + self.known_as + '" <' + sender_to_implicate + '>\n'
         new_message += 'Content-Transfer-Encoding: 8bit\n'
         new_message += 'Content-Type: multipart/alternative; boundary="---NOTIFICATION_BOUNDARY' \
                        + self.notification_boundary_rand + '"\n'
@@ -270,7 +270,7 @@ class GithubNotificationDigester(BaseDigester):
         return ["\nReturn-Path: " + self.return_path_email, "\nFrom: .* <" + self.from_email + ">"]
 
     def matching_digest_subject(self):
-        return self.known_as + ' Rollup'
+        return self.known_as + ' Watched Repos Digest'
 
     def print_summary(self):
         print "New " + self.known_as + " notifications: " + str(self.new_message_count)

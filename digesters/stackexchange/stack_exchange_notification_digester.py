@@ -64,7 +64,7 @@ class StackExchangeNotificationDigester(BaseDigester):
         if self.previously_notified_article_count == len(self.article_dict["articles"]):
             return
 
-        # Deleted email (by the user) means they don't want to see THOSE notifications listed in a Rollup again.
+        # Deleted email (by the user) means they don't want to see THOSE notifications listed in a Digest again.
         if not has_previous_message:
             if self.previously_notified_article_count > 0:
                 self.article_dict["most_recent_seen"] = self.previously_notified_article_most_recent
@@ -97,7 +97,7 @@ class StackExchangeNotificationDigester(BaseDigester):
 
     def make_new_raw_email(self, email_html, count, sender_to_implicate):
         new_message = 'Subject: ' + self.matching_digest_subject() + ": " + str(count) + ' new posting(s)\n'
-        new_message += 'From: ' + sender_to_implicate + '\n'
+        new_message += 'From: \"StackExchange\" <' + sender_to_implicate + '>\n'
         #        new_message += 'To: ' + sender_to_implicate + '\n'
         new_message += 'Content-Transfer-Encoding: 8bit\n'
         new_message += 'Content-Type: multipart/alternative; boundary="---NOTIFICATION_BOUNDARY"\n'
@@ -139,7 +139,7 @@ class StackExchangeNotificationDigester(BaseDigester):
         return ["Subject: New questions in " + self.filter_name + " filter"]
 
     def matching_digest_subject(self):
-        return 'S/Exchg Rollup for \'' + self.filter_name + '\''
+        return 'S/Exchg Digest for \'' + self.filter_name + '\''
 
     def print_summary(self):
         print "StackExchange: New StackExchange messages: " + str(

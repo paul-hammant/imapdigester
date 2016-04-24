@@ -111,7 +111,7 @@ class JiraNotificationDigester(BaseDigester):
         if self.previously_notified_article_count == len(self.jira_notifications):
             return
 
-        # Deleted email (by the user) means they don't want to see THOSE notifications listed in a Rollup again.
+        # Deleted email (by the user) means they don't want to see THOSE notifications listed in a Digest again.
         if not has_previous_message:
             if self.previously_notified_article_count > 0:
                 self.most_recently_seen = self.previously_notified_article_most_recent
@@ -201,10 +201,10 @@ class JiraNotificationDigester(BaseDigester):
         return ["From: .* <" + self.from_email_address + ">"]
 
     def matching_digest_subject(self):
-        return self.jira_short_name + ' Jira Notif. Rollup'
+        return self.jira_short_name + ' JIRA Notif. Digest'
 
     def print_summary(self):
-        print "Jira: New Jira notifications: " + str(self.new_message_count)
+        print "Jira: New JIRA notifications: " + str(self.new_message_count)
 
     def make_new_raw_email(self, email_html, count, sender_to_implicate):
 
@@ -215,7 +215,7 @@ class JiraNotificationDigester(BaseDigester):
 
 
         new_message = 'Subject: ' + self.matching_digest_subject() + ": " + str(count) + ' new notification(s)\n'
-        new_message += 'From: ' + sender_to_implicate + '\n'
+        new_message += 'From: \"' + self.jira_short_name + ' JIRA\" <' + sender_to_implicate + '>\n'
         new_message += 'Content-Transfer-Encoding: 8bit\n'
         new_message += 'Content-Type: multipart/alternative; boundary="---NOTIFICATION_BOUNDARY' \
                        + self.notification_boundary_rand + '"\n'

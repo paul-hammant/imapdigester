@@ -73,7 +73,7 @@ class LinkedinInvitationDigester(BaseDigester):
         if self.previously_notified_article_count == len(self.linkedin_invitations):
             return
 
-        # Deleted email (by the user) means they don't want to see THOSE notifications listed in a Rollup again.
+        # Deleted email (by the user) means they don't want to see THOSE notifications listed in a Digest again.
         if has_previous_message == False:
             if self.previously_notified_article_count > 0:
                 self.most_recently_seen = self.previously_notified_article_most_recent
@@ -136,7 +136,7 @@ class LinkedinInvitationDigester(BaseDigester):
                 "From: .* <messages-noreply@linkedin.com>"]  ## Foo's invitation is waiting for your response ?
 
     def matching_digest_subject(self):
-        return 'Linkedin Inv. Rollup'
+        return 'Linkedin Inv. Digest'
 
     def print_summary(self):
         print "Linkedin: New Linkedin invitations: " + str(self.new_message_count)
@@ -162,7 +162,7 @@ class LinkedinInvitationDigester(BaseDigester):
 
     def make_new_raw_email(self, email_html, count, sender_to_implicate):
         new_message = 'Subject: ' + self.matching_digest_subject() + ": " + str(count) + ' new invitation(s)\n'
-        new_message += 'From: ' + sender_to_implicate + '\n'
+        new_message += 'From: \"Linkedin\" <' + sender_to_implicate + '>\n'
         new_message += 'Content-Transfer-Encoding: 8bit\n'
         new_message += 'Content-Type: multipart/alternative; boundary="---NOTIFICATION_BOUNDARY' \
                        + self.notification_boundary_rand + '"\n'

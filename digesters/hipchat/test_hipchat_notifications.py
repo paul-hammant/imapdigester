@@ -7,7 +7,7 @@ from mockextras import stub
 from digesters.digestion_processor import DigestionProcessor
 from digesters.hipchat.hipchat_notification_digester import HipchatNotificationDigester
 
-MAIL_HDR = """From: P H <ph@example.com>
+MAIL_HDR = """From: "HipChat" <ph@example.com>
 Content-Transfer-Encoding: 8bit
 Content-Type: multipart/alternative; boundary="---NOTIFICATION_BOUNDARY-5678"
 MIME-Version: 1.0
@@ -118,7 +118,7 @@ class TestGithubNotifications(TestCase):
             (call('most-recently-seen', 0), True)
         )
 
-        expected_message = "Subject: Hipchat Rollup: 2 new notification(s)\n" + MAIL_HDR + expected_payload + \
+        expected_message = "Subject: HipChat Digest: 2 new notification(s)\n" + MAIL_HDR + expected_payload + \
                            "\n\n-----NOTIFICATION_BOUNDARY-5678"
 
         digest_inbox_proxy = Mock()
@@ -130,7 +130,7 @@ class TestGithubNotifications(TestCase):
         digester.notification_boundary_rand = "-5678"  # no random number for the email's notification boundary
         digesters.append(digester)
 
-        digestion_processor = DigestionProcessor(None, None, digesters, False, "P H <ph@example.com>", False, "INBOX")
+        digestion_processor = DigestionProcessor(None, None, digesters, False, "ph@example.com", False, "INBOX")
 
         unmatched_to_move = []
         to_delete_from_notification_folder = []
@@ -141,7 +141,7 @@ class TestGithubNotifications(TestCase):
         digestion_processor.process_incoming_notification(1235, digesters, notification_2_content, to_delete_from_notification_folder, unmatched_to_move, False)
 
         digester.rewrite_digest_emails(digest_inbox_proxy, has_previous_message=True,
-                                       previously_seen=False, sender_to_implicate="P H <ph@example.com>")
+                                       previously_seen=False, sender_to_implicate="ph@example.com")
 
         self.assertEquals(digest_inbox_proxy.mock_calls, [call.delete_previous_message(), call.append(expected_message)])
 

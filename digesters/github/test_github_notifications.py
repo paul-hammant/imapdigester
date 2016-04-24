@@ -7,7 +7,7 @@ from mockextras import stub
 from digesters.digestion_processor import DigestionProcessor
 from digesters.github.github_notification_digester import GithubNotificationDigester
 
-MAIL_HDR = """From: P H <ph@example.com>
+MAIL_HDR = """From: \"Github\" <ph@example.com>
 Content-Transfer-Encoding: 8bit
 Content-Type: multipart/alternative; boundary="---NOTIFICATION_BOUNDARY-5678"
 MIME-Version: 1.0
@@ -51,7 +51,7 @@ class TestGithubNotifications(TestCase):
               <th>When</th><th>Issues/Pull Requests &amp; Their Notifications</th>
             </tr>
             <tr style="">
-              <td valign="top">Apr 02 2016<br/>02:14 AM</td>
+              <td valign="top">Apr 02 2016<br/>03:14 AM</td>
               <td>
                 <table style="border-top: none">
                   <tr>
@@ -84,7 +84,7 @@ class TestGithubNotifications(TestCase):
             (call('most-recently-seen', 0), True)
         )
 
-        expected_message = "Subject: Github Rollup (2 new)\n" + MAIL_HDR + expected_payload \
+        expected_message = "Subject: Github Watched Repos Digest (2 new)\n" + MAIL_HDR + expected_payload \
                            + '\n\n-----NOTIFICATION_BOUNDARY-5678'
 
         digest_inbox_proxy = Mock()
@@ -96,7 +96,7 @@ class TestGithubNotifications(TestCase):
         digester.notification_boundary_rand = "-5678"  # no random number for the email's notification boundary
         digesters.append(digester)
 
-        digestion_processor = DigestionProcessor(None, None, digesters, False, "P H <ph@example.com>", False, "INBOX")
+        digestion_processor = DigestionProcessor(None, None, digesters, False, "ph@example.com", False, "INBOX")
 
         unmatched_to_move = []
         to_delete_from_notification_folder = []
@@ -107,7 +107,7 @@ class TestGithubNotifications(TestCase):
         digestion_processor.process_incoming_notification(1235, digesters, notification_2_content, to_delete_from_notification_folder, unmatched_to_move, False)
 
         digester.rewrite_digest_emails(digest_inbox_proxy, has_previous_message=True,
-                                       previously_seen=False, sender_to_implicate="P H <ph@example.com>")
+                                       previously_seen=False, sender_to_implicate="ph@example.com")
 
         self.assertEquals(digest_inbox_proxy.mock_calls, [call.delete_previous_message(), call.append(expected_message)])
 
@@ -154,7 +154,7 @@ class TestGithubNotifications(TestCase):
               <th>When</th><th>Issues/Pull Requests &amp; Their Notifications</th>
             </tr>
             <tr style="">
-              <td valign="top">Apr 02 2016<br/>02:14 AM</td>
+              <td valign="top">Apr 02 2016<br/>01:14 AM</td>
               <td>
                 <table style="border-top: none">
                   <tr>
@@ -216,7 +216,7 @@ class TestGithubNotifications(TestCase):
             (call('most-recently-seen', 1459560000), True)
         )
 
-        expected_message = "Subject: Github Rollup (2 new)\n" + MAIL_HDR + expected_payload \
+        expected_message = "Subject: Github Digest (2 new)\n" + MAIL_HDR + expected_payload \
                            + '\n\n-----NOTIFICATION_BOUNDARY-5678'
 
         digest_inbox_proxy = Mock()
@@ -228,7 +228,7 @@ class TestGithubNotifications(TestCase):
         digester.notification_boundary_rand = "-5678"  # no random number for the email's notification boundary
         digesters.append(digester)
 
-        digester_processor = DigestionProcessor(None, None, digesters, False, "P H <ph@example.com>", False, "INBOX")
+        digester_processor = DigestionProcessor(None, None, digesters, False, "ph@example.com", False, "INBOX")
 
         unmatched_to_move = []
         to_delete_from_notification_folder = []
@@ -239,7 +239,7 @@ class TestGithubNotifications(TestCase):
         digester_processor.process_incoming_notification(1235, digesters, notification_2_content, to_delete_from_notification_folder, unmatched_to_move, False)
 
         digester.rewrite_digest_emails(digest_inbox_proxy, has_previous_message=True,
-                                       previously_seen=True, sender_to_implicate="P H <ph@example.com>")
+                                       previously_seen=True, sender_to_implicate="ph@example.com")
 
         self.assertEquals(digest_inbox_proxy.mock_calls, [call.delete_previous_message(), call.append(expected_message)])
 
@@ -324,7 +324,7 @@ class TestGithubNotifications(TestCase):
             (call('most-recently-seen', 1459577657), True)
         )
 
-        expected_message = "Subject: Github Rollup (1 new)\n" + MAIL_HDR + expected_payload \
+        expected_message = "Subject: Github Watched Repos Digest (1 new)\n" + MAIL_HDR + expected_payload \
                            + '\n\n-----NOTIFICATION_BOUNDARY-5678'
 
         digest_inbox_proxy = Mock()
@@ -336,7 +336,7 @@ class TestGithubNotifications(TestCase):
         digester.notification_boundary_rand = "-5678"  # no random number for the email's notification boundary
         digesters.append(digester)
 
-        digester_processor = DigestionProcessor(None, None, digesters, False, "P H <ph@example.com>", False, "INBOX")
+        digester_processor = DigestionProcessor(None, None, digesters, False, "ph@example.com", False, "INBOX")
 
         unmatched_to_move = []
         to_delete_from_notification_folder = []
@@ -347,7 +347,7 @@ class TestGithubNotifications(TestCase):
         digester_processor.process_incoming_notification(1235, digesters, notification_2_content, to_delete_from_notification_folder, unmatched_to_move, False)
 
         digester.rewrite_digest_emails(digest_inbox_proxy, has_previous_message=True,
-                                       previously_seen=False, sender_to_implicate="P H <ph@example.com>")
+                                       previously_seen=False, sender_to_implicate="ph@example.com")
 
         self.assertEquals(digest_inbox_proxy.mock_calls, [call.delete_previous_message(), call.append(expected_message)])
 

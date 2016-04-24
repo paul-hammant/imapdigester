@@ -45,7 +45,7 @@ class BaseDigester(object):
     @abstractmethod
     def matching_digest_subject(self):
         """
-        :rtype: Subject that we're matching on, like "Foobar Rollup"
+        :rtype: Subject that we're matching on, like "Foobar Digest"
         """
         pass
 

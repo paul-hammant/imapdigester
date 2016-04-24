@@ -5,7 +5,7 @@ import re
 from utils import Utils
 
 
-class RollupServer(object):
+class DigestServer(object):
 
     def __init__(self, server, mid, digest_folder_name):
         self.digest_folder_name = digest_folder_name
@@ -67,7 +67,7 @@ class DigestionProcessor(object):
             for msgid, data in response.iteritems():
                 previous_message_id = msgid
                 previously_seen = '\\Seen' in data[b'FLAGS']
-            digest_inbox_proxy = RollupServer(self.digest_folder, previous_message_id, self.digest_folder_name)
+            digest_inbox_proxy = DigestServer(self.digest_folder, previous_message_id, self.digest_folder_name)
             digester.rewrite_digest_emails(digest_inbox_proxy, previous_message_id is not None, previously_seen,
                                            self.sender_to_implicate)
 

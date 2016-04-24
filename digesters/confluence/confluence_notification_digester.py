@@ -110,7 +110,7 @@ class ConfluenceNotificationDigester(BaseDigester):
         if self.previously_notified_article_count == len(self.confluence_notifications):
             return
 
-        # Deleted email (by the user) means they don't want to see THOSE notifications listed in a Rollup again.
+        # Deleted email (by the user) means they don't want to see THOSE notifications listed in a Digest again.
         if not has_previous_message:
             if self.previously_notified_article_count > 0:
                 self.most_recently_seen = self.previously_notified_article_most_recent
@@ -171,7 +171,7 @@ class ConfluenceNotificationDigester(BaseDigester):
         return ["From: .* <" + self.from_email_address + ">"]
 
     def matching_digest_subject(self):
-        return self.confluence_short_name + ' Confluence Notif. Rollup'
+        return self.confluence_short_name + ' Conf. Digest'
 
     def print_summary(self):
         print "Confluence: New Confluence notifications: " + str(self.new_message_count)
@@ -185,7 +185,7 @@ class ConfluenceNotificationDigester(BaseDigester):
 
 
         new_message = 'Subject: ' + self.matching_digest_subject() + ": " + str(count) + ' new notification(s)\n'
-        new_message += 'From: ' + sender_to_implicate + '\n'
+        new_message += 'From: "Confluence" <' + sender_to_implicate + '>\n'
         new_message += 'Content-Transfer-Encoding: 8bit\n'
         new_message += 'Content-Type: multipart/alternative; boundary="---NOTIFICATION_BOUNDARY' \
                        + self.notification_boundary_rand + '"\n'

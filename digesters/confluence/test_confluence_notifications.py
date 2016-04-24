@@ -580,7 +580,7 @@ so-table-rspace: 0pt; color: #333; display: none">=20
 ------=_Part_1152161_850119877.1460400060674--
 """
 
-MAIL_HDR = """From: P H <ph@example.com>
+MAIL_HDR = """From: \"Confluence\" <ph@example.com>
 Content-Transfer-Encoding: 8bit
 Content-Type: multipart/alternative; boundary="---NOTIFICATION_BOUNDARY-5678"
 MIME-Version: 1.0
@@ -1005,7 +1005,7 @@ class TestConfluenceNotifications(TestCase):
 
     def test_two_related_notifications_can_be_rolled_up(self):
 
-        expected_payload = """<html><body><span>You have previously read notifications up to: Apr 09 2016 01:37 AM</span>
+        expected_payload = """<html><body><span>You have previously read notifications up to: Apr 09 2016 02:37 AM</span>
 <table>
   <tr style="background-color: #acf;">
     <th>Notifications</th>
@@ -1048,7 +1048,7 @@ class TestConfluenceNotifications(TestCase):
             (call('most-recently-seen', 1460183824), True)
         )
 
-        expected_message = ("Subject: Apache Confluence Notif. Rollup: 1 new notification(s)\n"
+        expected_message = ("Subject: Apache Conf. Digest: 1 new notification(s)\n"
                             + MAIL_HDR + expected_payload + "\n\n-----NOTIFICATION_BOUNDARY-5678")
 
         digest_inbox_proxy = Mock()
@@ -1060,7 +1060,7 @@ class TestConfluenceNotifications(TestCase):
         digester.notification_boundary_rand = "-5678"  # no random number for the email's notification boundary
         digesters.append(digester)
 
-        digestion_processor = DigestionProcessor(None, None, digesters, False, "P H <ph@example.com>", False, "INBOX")
+        digestion_processor = DigestionProcessor(None, None, digesters, False, "ph@example.com", False, "INBOX")
 
         unmatched_to_move = []
         to_delete_from_notification_folder = []
@@ -1070,7 +1070,7 @@ class TestConfluenceNotifications(TestCase):
         digestion_processor.process_incoming_notification(1236, digesters, PAGE_EDITED, to_delete_from_notification_folder, unmatched_to_move, False)
 
         digester.rewrite_digest_emails(digest_inbox_proxy, has_previous_message=True,
-                                       previously_seen=False, sender_to_implicate="P H <ph@example.com>")
+                                       previously_seen=False, sender_to_implicate="ph@example.com")
 
         self.assertEquals(digest_inbox_proxy.mock_calls, [call.delete_previous_message(), call.append(expected_message)])
 

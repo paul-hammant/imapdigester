@@ -10,7 +10,7 @@ you've read previously or not.
 
 I've been blogging for a while towards this better **and pervasive** inbox:
 
-- April 4th, 2016 » [Reducing My Robo-Emails To A Handful of Rollup Emails Every Few Minutes (IMAP Rewriting With Python)](http://paulhammant.com/2016/04/04/reducing-my-robo-emails-to-a-handful-of-rollup-emails-every-few-minutes/)
+- April 4th, 2016 » [Reducing My Robo-Emails To A Handful of Digest Emails Every Few Minutes (IMAP Rewriting With Python)](http://paulhammant.com/2016/04/04/reducing-my-robo-emails-to-a-handful-of-rollup-emails-every-few-minutes/)
 - September 3rd, 2015 » [Resurrecting a small piece of Google Wave](http://paulhammant.com/2015/09/03/resurrecting-a-small-piece-of-google-wave/)
 - May 4th, 2015 » [Treating IMAP as a store: rewriting emails](http://paulhammant.com/2015/05/04/treating-imap-as-a-store-rewriting-emails/)
 - October 27th, 2014 » [The Pervasive Inbox](http://paulhammant.com/2014/10/27/the-pervasive-inbox/)
@@ -26,7 +26,7 @@ what you correspond with people through. It is dedicated to this process.
 You pass it to applications that issue notitifactions. You're going  to a script (see below) that reads and 
 deletes from inbox for you. Lets call this the **notification inbox**.
 
-2. For Rollup emails to be written/rewritten to. That script (below) is going to look after the 
+2. For Digest emails to be written/rewritten to. That script (below) is going to look after the
 inbox for this one. This email address is totally private to you - not even other machines know about it. 
 Just you, software-daemons you deployed and your email client(s). Let's call this the **digest inbox**. It could be
 your regular email address, but what if there's a bug and it deletes all you email - yup, that's right, use a 

@@ -72,7 +72,7 @@ class ChargeCardDigester(BaseDigester):
         return matching_terms
 
     def matching_digest_subject(self):
-        return 'Charge Card Charges Rollup'
+        return 'Charges Digest'
 
     def rewrite_digest_emails(self, digest_folder_proxy, has_previous_message, previously_seen, sender_to_implicate):
 
@@ -85,7 +85,7 @@ class ChargeCardDigester(BaseDigester):
             else:
                 self.charge_summary["most_recent_seen"] = arrow.get(gmtime(0))
 
-        # Deleted email (by the user) means they don't want to see THOSE notifications listed in a Rollup again.
+        # Deleted email (by the user) means they don't want to see THOSE notifications listed in a Digest again.
         if has_previous_message == False:
             self.charge_summary["charges"] = {}
 
@@ -150,7 +150,7 @@ class ChargeCardDigester(BaseDigester):
 
     def make_new_raw_charge_email(self, email_html, when, sender_to_implicate):
         new_message = 'Subject: ' + self.matching_digest_subject() + '\n'
-        new_message += 'From: ' + sender_to_implicate + '\n'
+        new_message += 'From: "Charge Card" <' + sender_to_implicate + '>\n'
         new_message += 'Date: ' + arrow.get(when).format('ddd, DD MMM YYYY HH:mm:ss Z') + '\n'
         new_message += 'Content-Transfer-Encoding: 8bit\n'
         new_message += 'Content-Type: multipart/alternative; boundary="---NOTIFICATION_BOUNDARY"\n'
