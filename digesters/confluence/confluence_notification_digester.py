@@ -84,7 +84,11 @@ class ConfluenceNotificationDigester(BaseDigester):
                 words_in_new_page = Counter(contents.text).elements()
                 excerpt = "Page added with " + str(len(list(words_in_new_page))) + " words."
             else:
-                excerpt = unicode(soup.find("table", {"class": "content-excerpt-pattern"}).text.strip())
+                blurb = unicode(soup.find("table", {"class": "content-excerpt-pattern"}).text.strip())
+                excerpt = blurb[:55].strip()
+                if len(excerpt) > 55:
+                    excerpt += "..."
+
 
             self.confluence_notifications[when] = {
                  "doc_url": doc_url,
