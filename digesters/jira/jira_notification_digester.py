@@ -64,9 +64,8 @@ class JiraNotificationDigester(BaseDigester):
 
                 for kv in kvtable.split("\n"):
                     k_and_v = kv.split(":")
-                    key_vals.append({ "k" : k_and_v[0].strip(), "v" : k_and_v[1].strip() })
-
-            print ">> " + str(soup) + "<<"
+                    if len(k_and_v) > 0:
+                        key_vals.append({ "k" : k_and_v[0].strip(), "v" : k_and_v[1].strip() })
 
             project_td = soup.find("td", {"class": "page-title-pattern-first-line"})
             if project_td:
