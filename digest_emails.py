@@ -15,7 +15,7 @@ def get_command():
 
     if check_for_command('git-pull'):
         with open("imapdigester_commands_next_time.sh", 'w+') as f:
-            f.write("\ngit pull")
+            f.write("\ngit pull\nfind . -name \"*.pyc\" -exec rm -rf {} \;\n")
         retval = "BASH-OPERATIONS"
 
     elif check_for_command('pause'):
