@@ -45,7 +45,12 @@ def add_digesters(digesters):
     # Customize to the Confluence you're aiming at .....
     digesters.append(ConfluenceNotificationDigester(MetaStore("confluence_notifications"),
                                                     "confluence@apache.org", "Apache"))
-    # Atlassian Jira Installation Notifications
-    # Customize to the Jira you're aiming at .....
+
+    # Customize to the JIRA you're aiming at .....
+
+    # Atlassian's JIRA Installation Notifications
     digesters.append(JiraNotificationDigester(MetaStore("jira_notifications"),
                                                     "jira@atlassian.com", "Atlassian"))
+    # Apache's JIRA Notifications
+    digesters.append(JiraNotificationDigester(MetaStore("apache_jira_notifications"),
+                                              "jira@apache.org", "Apache"))
