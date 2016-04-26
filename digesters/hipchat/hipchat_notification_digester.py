@@ -126,10 +126,13 @@ class HipchatNotificationDigester(BaseDigester):
         return ["From: HipChat <donotreply@hipchat.com>"]
 
     def matching_digest_subject(self):
-        return 'HipChat Digest'
+        return 'Notification Digest'
+
+    def matching_digest_sender(self):
+        return "HipChat"
 
     def print_summary(self):
-        print "Hipchat: New hipchat notifications: " + str(self.new_message_count)
+        print "Hipchat: New HipChat notifications: " + str(self.new_message_count)
 
     def get_template_start_and_end(self, template):
         template_start = template[:template.find("<InsertHere/>")]

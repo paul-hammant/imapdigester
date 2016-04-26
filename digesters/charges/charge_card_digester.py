@@ -72,7 +72,10 @@ class ChargeCardDigester(BaseDigester):
         return matching_terms
 
     def matching_digest_subject(self):
-        return 'Charges Digest'
+        return 'Spending Digest'
+
+    def matching_digest_sender(self):
+        return "Charge Cards"
 
     def rewrite_digest_emails(self, digest_folder_proxy, has_previous_message, previously_seen, sender_to_implicate):
 
@@ -150,7 +153,7 @@ class ChargeCardDigester(BaseDigester):
 
     def make_new_raw_charge_email(self, email_html, when, sender_to_implicate):
         new_message = 'Subject: ' + self.matching_digest_subject() + '\n'
-        new_message += 'From: "Charge Card" <' + sender_to_implicate + '>\n'
+        new_message += 'From: "' + self.matching_digest_sender() + '" <' + sender_to_implicate + '>\n'
         new_message += 'Date: ' + arrow.get(when).format('ddd, DD MMM YYYY HH:mm:ss Z') + '\n'
         new_message += 'Content-Transfer-Encoding: 8bit\n'
         new_message += 'Content-Type: multipart/alternative; boundary="---NOTIFICATION_BOUNDARY"\n'

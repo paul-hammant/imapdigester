@@ -270,7 +270,10 @@ class GithubNotificationDigester(BaseDigester):
         return ["\nReturn-Path: " + self.return_path_email, "\nFrom: .* <" + self.from_email + ">"]
 
     def matching_digest_subject(self):
-        return self.known_as + ' Watched Repos Digest'
+        return  'Watched Repositories Digest'
+
+    def matching_digest_sender(self):
+        return self.known_as
 
     def print_summary(self):
         print "New " + self.known_as + " notifications: " + str(self.new_message_count)

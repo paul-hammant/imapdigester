@@ -139,7 +139,10 @@ class StackExchangeNotificationDigester(BaseDigester):
         return ["Subject: New questions in " + self.filter_name + " filter"]
 
     def matching_digest_subject(self):
-        return 'S/Exchg Digest for \'' + self.filter_name + '\''
+        return 'Questions Digest for \'' + self.filter_name + '\''
+
+    def matching_digest_sender(self):
+        return "StackExchange"
 
     def print_summary(self):
         print "StackExchange: New StackExchange messages: " + str(

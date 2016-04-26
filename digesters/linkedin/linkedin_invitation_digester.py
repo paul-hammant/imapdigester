@@ -136,7 +136,10 @@ class LinkedinInvitationDigester(BaseDigester):
                 "From: .* <messages-noreply@linkedin.com>"]  ## Foo's invitation is waiting for your response ?
 
     def matching_digest_subject(self):
-        return 'Linkedin Inv. Digest'
+        return 'Invitation Digest'
+
+    def matching_digest_sender(self):
+        return "Linkedin"
 
     def print_summary(self):
         print "Linkedin: New Linkedin invitations: " + str(self.new_message_count)
@@ -162,7 +165,7 @@ class LinkedinInvitationDigester(BaseDigester):
 
     def make_new_raw_email(self, email_html, count, sender_to_implicate):
         new_message = 'Subject: ' + self.matching_digest_subject() + ": " + str(count) + ' new invitation(s)\n'
-        new_message += 'From: \"Linkedin\" <' + sender_to_implicate + '>\n'
+        new_message += 'From: \"' + self.matching_digest_sender() + '\" <' + sender_to_implicate + '>\n'
         new_message += 'Content-Transfer-Encoding: 8bit\n'
         new_message += 'Content-Type: multipart/alternative; boundary="---NOTIFICATION_BOUNDARY' \
                        + self.notification_boundary_rand + '"\n'

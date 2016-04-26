@@ -45,7 +45,14 @@ class BaseDigester(object):
     @abstractmethod
     def matching_digest_subject(self):
         """
-        :rtype: Subject that we're matching on, like "Foobar Digest"
+        :rtype: 'Subject' that we're matching on, like "Foobar Digest"
+        """
+        pass
+
+    @abstractmethod
+    def matching_digest_sender(self):
+        """
+        :rtype: 'From' that we're matching on, like "Credit Cards"
         """
         pass
 

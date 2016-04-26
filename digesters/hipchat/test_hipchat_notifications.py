@@ -118,7 +118,7 @@ class TestGithubNotifications(TestCase):
             (call('most-recently-seen', 0), True)
         )
 
-        expected_message = "Subject: HipChat Digest: 2 new notification(s)\n" + MAIL_HDR + expected_payload + \
+        expected_message = "Subject: Notification Digest: 2 new notification(s)\n" + MAIL_HDR + expected_payload + \
                            "\n\n-----NOTIFICATION_BOUNDARY-5678"
 
         digest_inbox_proxy = Mock()

@@ -55,12 +55,12 @@ class DigestionProcessor(object):
         # Rewrite emails in the digest folder (the one the end-user actually reads)
         for digester in self.digesters:
             subj_to_match = 'HEADER Subject "' + digester.matching_digest_subject() + '"'
-            from_to_match = 'HEADER From "' + self.sender_to_implicate.split(" ")[-1]\
-                .replace("<", "").replace(">", "") + '"'
+            from_to_match = 'HEADER From "' + digester.matching_digest_sender() + '"'
+            search_criteria = 'NOT DELETED ' + subj_to_match + " " + from_to_match
             try:
-                messages = self.digest_folder.search('NOT DELETED ' + subj_to_match + " " + from_to_match)
+                messages = self.digest_folder.search(search_criteria)
             except imaplib.IMAP4.abort:
-                messages = self.digest_folder.search('NOT DELETED ' + subj_to_match + " " + from_to_match)
+                messages = self.digest_folder.search(search_criteria)
             response = self.digest_folder.fetch(messages, ['FLAGS', 'RFC822.SIZE'])
             previously_seen = False
             previous_message_id = None

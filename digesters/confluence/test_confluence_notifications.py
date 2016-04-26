@@ -580,7 +580,7 @@ so-table-rspace: 0pt; color: #333; display: none">=20
 ------=_Part_1152161_850119877.1460400060674--
 """
 
-MAIL_HDR = """From: \"Confluence\" <ph@example.com>
+MAIL_HDR = """From: \"Apache Confluence\" <ph@example.com>
 Content-Transfer-Encoding: 8bit
 Content-Type: multipart/alternative; boundary="---NOTIFICATION_BOUNDARY-5678"
 MIME-Version: 1.0
@@ -1048,7 +1048,7 @@ class TestConfluenceNotifications(TestCase):
             (call('most-recently-seen', 1460183824), True)
         )
 
-        expected_message = ("Subject: Apache Conf. Digest: 1 new notification(s)\n"
+        expected_message = ("Subject: Notification Digest: 1 new notification(s)\n"
                             + MAIL_HDR + expected_payload + "\n\n-----NOTIFICATION_BOUNDARY-5678")
 
         digest_inbox_proxy = Mock()

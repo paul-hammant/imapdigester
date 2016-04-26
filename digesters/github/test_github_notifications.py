@@ -7,7 +7,7 @@ from mockextras import stub
 from digesters.digestion_processor import DigestionProcessor
 from digesters.github.github_notification_digester import GithubNotificationDigester
 
-MAIL_HDR = """From: \"Github\" <ph@example.com>
+MAIL_HDR = """From: \"Our inhouse GH\" <ph@example.com>
 Content-Transfer-Encoding: 8bit
 Content-Type: multipart/alternative; boundary="---NOTIFICATION_BOUNDARY-5678"
 MIME-Version: 1.0
@@ -84,7 +84,7 @@ class TestGithubNotifications(TestCase):
             (call('most-recently-seen', 0), True)
         )
 
-        expected_message = "Subject: Github Watched Repos Digest (2 new)\n" + MAIL_HDR + expected_payload \
+        expected_message = "Subject: Watched Repositories Digest (2 new)\n" + MAIL_HDR + expected_payload \
                            + '\n\n-----NOTIFICATION_BOUNDARY-5678'
 
         digest_inbox_proxy = Mock()
@@ -92,7 +92,7 @@ class TestGithubNotifications(TestCase):
         digest_inbox_proxy.append.side_effect = stub((call(expected_message), True))
 
         digesters = []
-        digester = GithubNotificationDigester(store_writer)  ## What we are testing
+        digester = GithubNotificationDigester(store_writer, known_as="Our inhouse GH")  ## What we are testing
         digester.notification_boundary_rand = "-5678"  # no random number for the email's notification boundary
         digesters.append(digester)
 

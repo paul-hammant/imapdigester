@@ -171,7 +171,10 @@ class ConfluenceNotificationDigester(BaseDigester):
         return ["From: .* <" + self.from_email_address + ">"]
 
     def matching_digest_subject(self):
-        return self.confluence_short_name + ' Conf. Digest'
+        return  'Notification Digest'
+
+    def matching_digest_sender(self):
+        return self.confluence_short_name + " Confluence"
 
     def print_summary(self):
         print "Confluence: New Confluence notifications: " + str(self.new_message_count)
@@ -185,7 +188,7 @@ class ConfluenceNotificationDigester(BaseDigester):
 
 
         new_message = 'Subject: ' + self.matching_digest_subject() + ": " + str(count) + ' new notification(s)\n'
-        new_message += 'From: "Confluence" <' + sender_to_implicate + '>\n'
+        new_message += 'From: "' + self.matching_digest_sender() + '" <' + sender_to_implicate + '>\n'
         new_message += 'Content-Transfer-Encoding: 8bit\n'
         new_message += 'Content-Type: multipart/alternative; boundary="---NOTIFICATION_BOUNDARY' \
                        + self.notification_boundary_rand + '"\n'

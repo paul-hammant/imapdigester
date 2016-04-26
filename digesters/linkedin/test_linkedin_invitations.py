@@ -92,7 +92,7 @@ class TestLinkedinInvitations(TestCase):
             (call('most-recently-seen', 1459548811), True)
         )
 
-        expected_message = ("Subject: Linkedin Inv. Digest: 1 new invitation(s)\n" + MAIL_HDR + expected_payload + \
+        expected_message = ("Subject: Invitation Digest: 1 new invitation(s)\n" + MAIL_HDR + expected_payload + \
                            "\n\n-----NOTIFICATION_BOUNDARY-5678").replace("\n", "\r\n")
 
         digest_inbox_proxy = Mock()

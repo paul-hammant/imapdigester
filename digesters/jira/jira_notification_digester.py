@@ -64,7 +64,7 @@ class JiraNotificationDigester(BaseDigester):
 
                 for kv in kvtable.split("\n"):
                     k_and_v = kv.split(":")
-                    if len(k_and_v) > 0:
+                    if len(k_and_v) > 1:
                         key_vals.append({ "k" : k_and_v[0].strip(), "v" : k_and_v[1].strip() })
 
             project_td = soup.find("td", {"class": "page-title-pattern-first-line"})
@@ -200,7 +200,10 @@ class JiraNotificationDigester(BaseDigester):
         return ["From: .* <" + self.from_email_address + ">"]
 
     def matching_digest_subject(self):
-        return self.jira_short_name + ' JIRA Notif. Digest'
+        return 'Notification Digest'
+
+    def matching_digest_sender(self):
+        return self.jira_short_name + " JIRA"
 
     def print_summary(self):
         print "Jira: New JIRA notifications: " + str(self.new_message_count)
