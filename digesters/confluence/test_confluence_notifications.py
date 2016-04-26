@@ -7,6 +7,145 @@ from mockextras import stub
 from digesters.confluence.confluence_notification_digester import ConfluenceNotificationDigester
 from digesters.digestion_processor import DigestionProcessor
 
+MAIL_HDR = """From: \"Apache Confluence\" <ph@example.com>
+Content-Transfer-Encoding: 8bit
+Content-Type: multipart/alternative; boundary="---NOTIFICATION_BOUNDARY-5678"
+MIME-Version: 1.0
+This is a multi-part message in MIME format.
+-----NOTIFICATION_BOUNDARY-5678
+Content-Type: text/html; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+
+
+"""
+
+
+class NotificationsStore(object):
+
+    def __init__(self, cls=object):
+        self._cls = cls
+        self.notifications = None
+
+    def __eq__(self, other):
+        self.notifications = other
+        return True
+
+    def __ne__(self, other):
+        return False
+
+    def __repr__(self):
+        return "NotificationsStore(..)"
+
+
+class TestConfluenceNotifications(TestCase):
+
+    def __init__(self, methodName='runTest'):
+        super(TestConfluenceNotifications, self).__init__(methodName)
+        reload(sys)
+        sys.setdefaultencoding('utf8')
+
+    def test_two_related_notifications_can_be_rolled_up(self):
+
+        expected_payload = """<html><body><span>You have previously read notifications up to: Apr 09 2016 02:37 AM</span>
+<table>
+  <tr style="background-color: #acf;">
+    <th>Notifications</th>
+  </tr>
+          <tr style="">
+    <td>
+      What: Noble Paul edited a page<br/>
+      Space: solr:<br/>
+      Page: <a href="https://cwiki.apache.org/confluence/display/solr/Config+API">Config API</a><br/>
+      Excerpt: Page nodes added: 4, removed: 0, changed: 0
+    </td>
+  </tr>          <tr style="background-color: #def;">
+    <td>
+      What: Hoss Man deleted a comment<br/>
+      Space: solr:<br/>
+      Page: <a href="https://cwiki.apache.org/confluence/display/solr/Getting+Started?focusedCommentId=62691549">Re: Getting Started</a><br/>
+      Excerpt: definitely a great post  jadibd.com
+    </td>
+  </tr>          <tr><td colspan="2" style="border-bottom: 1pt solid red; border-top: 1pt solid red;"><center>^ New Notifications Since You Last Checked ^</center></td></tr>          <tr style="">
+    <td>
+      What: surya ferdy commented on a page<br/>
+      Space: solr:<br/>
+      Page: <a href="https://cwiki.apache.org/confluence/display/solr/Getting+Started?focusedCommentId=62691549">Re: Getting Started</a><br/>
+      Excerpt: definitely a great post  jadibd.com
+    </td>
+  </tr>
+</table></body></html>"""
+
+        notification_store = {}
+
+        final_notifications_store = NotificationsStore()
+
+        store_writer = Mock()
+        store_writer.get_from_binary.side_effect = stub(
+            (call('confluence-notifications'), notification_store),
+            (call('most-recently-seen'), 1460183824)
+        )
+        store_writer.store_as_binary.side_effect = stub(
+            (call('confluence-notifications', final_notifications_store), True),
+            (call('most-recently-seen', 1460183824), True)
+        )
+
+        expected_message = ("Subject: Notification Digest: 1 new notification(s)\n"
+                            + MAIL_HDR + expected_payload + "\n\n-----NOTIFICATION_BOUNDARY-5678")
+
+        digest_inbox_proxy = Mock()
+        digest_inbox_proxy.delete_previous_message.side_effect = stub((call(), True))
+        digest_inbox_proxy.append.side_effect = stub((call(expected_message), True))
+
+        digesters = []
+        digester = ConfluenceNotificationDigester(store_writer, "confluence@apache.org", "Apache")  ## What we are testing
+        digester.notification_boundary_rand = "-5678"  # no random number for the email's notification boundary
+        digesters.append(digester)
+
+        digestion_processor = DigestionProcessor(None, None, digesters, False, "ph@example.com", False, "INBOX")
+
+        unmatched_to_move = []
+        to_delete_from_notification_folder = []
+
+        digestion_processor.process_incoming_notification(1234, digesters, COMMENT_ADDED, to_delete_from_notification_folder, unmatched_to_move, False)
+        digestion_processor.process_incoming_notification(1235, digesters, COMMENT_DELETED, to_delete_from_notification_folder, unmatched_to_move, False)
+        digestion_processor.process_incoming_notification(1236, digesters, PAGE_EDITED, to_delete_from_notification_folder, unmatched_to_move, False)
+
+        digester.rewrite_digest_emails(digest_inbox_proxy, has_previous_message=True,
+                                       previously_seen=False, sender_to_implicate="ph@example.com")
+
+        self.assertEquals(digest_inbox_proxy.mock_calls, [call.delete_previous_message(), call.append(expected_message)])
+
+        calls = store_writer.mock_calls
+        self.assertEquals(calls, [
+            call.get_from_binary('confluence-notifications'),
+            call.get_from_binary('most-recently-seen'),
+            call.store_as_binary('confluence-notifications', {
+                1460183824: {u'space': u'solr',
+                             u'line_here': True,
+                             u'who': 'surya ferdy',
+                             u'excerpt': u'definitely a great post  jadibd.com',
+                             u'doc_text': u'Re: Getting Started',
+                             u'doc_url': u'https://cwiki.apache.org/confluence/display/solr/Getting+Started?focusedCommentId=62691549',
+                             u'event': u'surya ferdy commented on a page'},
+                1460400060: {u'space': u'solr',
+                             u'who': 'Hoss Man',
+                             u'excerpt': u'definitely a great post  jadibd.com',
+                             u'doc_text': u'Re: Getting Started',
+                             u'doc_url': u'https://cwiki.apache.org/confluence/display/solr/Getting+Started?focusedCommentId=62691549',
+                             u'event': u'Hoss Man deleted a comment'},
+                1460535327: {u'space': u'solr',
+                             u'who': 'Noble Paul',
+                             u'excerpt': u'Page nodes added: 4, removed: 0, changed: 0',
+                             u'doc_text': u'Config API',
+                             u'doc_url': u'https://cwiki.apache.org/confluence/display/solr/Config+API',
+                             u'event': u'Noble Paul edited a page'}
+            }),
+            call.store_as_binary('most-recently-seen', 1460183824)])
+        self.assertEquals(len(unmatched_to_move), 0)
+        self.assertEquals(str(to_delete_from_notification_folder), "[1234, 1235, 1236]")
+        self.assertEquals(len(final_notifications_store.notifications), 3)
+
+
 COMMENT_ADDED = """Date: Sat, 9 Apr 2016 06:37:04 +0000
 From: "surya ferdy (Confluence)" <confluence@apache.org>
 To: <paul_hamm@example.com>
@@ -580,18 +719,6 @@ so-table-rspace: 0pt; color: #333; display: none">=20
 ------=_Part_1152161_850119877.1460400060674--
 """
 
-MAIL_HDR = """From: \"Apache Confluence\" <ph@example.com>
-Content-Transfer-Encoding: 8bit
-Content-Type: multipart/alternative; boundary="---NOTIFICATION_BOUNDARY-5678"
-MIME-Version: 1.0
-This is a multi-part message in MIME format.
------NOTIFICATION_BOUNDARY-5678
-Content-Type: text/html; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-
-
-"""
-
 PAGE_EDITED = """Date: Wed, 13 Apr 2016 08:15:27 +0000
 From: "Noble Paul (Confluence)" <confluence@apache.org>
 To: <paul_hamm@example.com>
@@ -977,131 +1104,3 @@ so-table-rspace: 0pt; color: #333; display: none">=20
 </html>=
 
 ------=_Part_1157937_100703508.1460535327916--"""
-
-
-class NotificationsStore(object):
-
-    def __init__(self, cls=object):
-        self._cls = cls
-        self.notifications = None
-
-    def __eq__(self, other):
-        self.notifications = other
-        return True
-
-    def __ne__(self, other):
-        return False
-
-    def __repr__(self):
-        return "NotificationsStore(..)"
-
-
-class TestConfluenceNotifications(TestCase):
-
-    def __init__(self, methodName='runTest'):
-        super(TestConfluenceNotifications, self).__init__(methodName)
-        reload(sys)
-        sys.setdefaultencoding('utf8')
-
-    def test_two_related_notifications_can_be_rolled_up(self):
-
-        expected_payload = """<html><body><span>You have previously read notifications up to: Apr 09 2016 02:37 AM</span>
-<table>
-  <tr style="background-color: #acf;">
-    <th>Notifications</th>
-  </tr>
-          <tr style="">
-    <td>
-      What: Noble Paul edited a page<br/>
-      Space: solr:<br/>
-      Page: <a href="https://cwiki.apache.org/confluence/display/solr/Config+API">Config API</a><br/>
-      Excerpt: Page nodes added: 4, removed: 0, changed: 0
-    </td>
-  </tr>          <tr style="background-color: #def;">
-    <td>
-      What: Hoss Man deleted a comment<br/>
-      Space: solr:<br/>
-      Page: <a href="https://cwiki.apache.org/confluence/display/solr/Getting+Started?focusedCommentId=62691549">Re: Getting Started</a><br/>
-      Excerpt: definitely a great post  jadibd.com
-    </td>
-  </tr>          <tr><td colspan="2" style="border-bottom: 1pt solid red; border-top: 1pt solid red;"><center>^ New Notifications Since You Last Checked ^</center></td></tr>          <tr style="">
-    <td>
-      What: surya ferdy commented on a page<br/>
-      Space: solr:<br/>
-      Page: <a href="https://cwiki.apache.org/confluence/display/solr/Getting+Started?focusedCommentId=62691549">Re: Getting Started</a><br/>
-      Excerpt: definitely a great post  jadibd.com
-    </td>
-  </tr>
-</table></body></html>"""
-
-        notification_store = {}
-
-        final_notifications_store = NotificationsStore()
-
-        store_writer = Mock()
-        store_writer.get_from_binary.side_effect = stub(
-            (call('confluence-notifications'), notification_store),
-            (call('most-recently-seen'), 1460183824)
-        )
-        store_writer.store_as_binary.side_effect = stub(
-            (call('confluence-notifications', final_notifications_store), True),
-            (call('most-recently-seen', 1460183824), True)
-        )
-
-        expected_message = ("Subject: Notification Digest: 1 new notification(s)\n"
-                            + MAIL_HDR + expected_payload + "\n\n-----NOTIFICATION_BOUNDARY-5678")
-
-        digest_inbox_proxy = Mock()
-        digest_inbox_proxy.delete_previous_message.side_effect = stub((call(), True))
-        digest_inbox_proxy.append.side_effect = stub((call(expected_message), True))
-
-        digesters = []
-        digester = ConfluenceNotificationDigester(store_writer, "confluence@apache.org", "Apache")  ## What we are testing
-        digester.notification_boundary_rand = "-5678"  # no random number for the email's notification boundary
-        digesters.append(digester)
-
-        digestion_processor = DigestionProcessor(None, None, digesters, False, "ph@example.com", False, "INBOX")
-
-        unmatched_to_move = []
-        to_delete_from_notification_folder = []
-
-        digestion_processor.process_incoming_notification(1234, digesters, COMMENT_ADDED, to_delete_from_notification_folder, unmatched_to_move, False)
-        digestion_processor.process_incoming_notification(1235, digesters, COMMENT_DELETED, to_delete_from_notification_folder, unmatched_to_move, False)
-        digestion_processor.process_incoming_notification(1236, digesters, PAGE_EDITED, to_delete_from_notification_folder, unmatched_to_move, False)
-
-        digester.rewrite_digest_emails(digest_inbox_proxy, has_previous_message=True,
-                                       previously_seen=False, sender_to_implicate="ph@example.com")
-
-        self.assertEquals(digest_inbox_proxy.mock_calls, [call.delete_previous_message(), call.append(expected_message)])
-
-        calls = store_writer.mock_calls
-        self.assertEquals(calls, [
-            call.get_from_binary('confluence-notifications'),
-            call.get_from_binary('most-recently-seen'),
-            call.store_as_binary('confluence-notifications', {
-                1460183824: {u'space': u'solr',
-                             u'line_here': True,
-                             u'who': 'surya ferdy',
-                             u'excerpt': u'definitely a great post  jadibd.com',
-                             u'doc_text': u'Re: Getting Started',
-                             u'doc_url': u'https://cwiki.apache.org/confluence/display/solr/Getting+Started?focusedCommentId=62691549',
-                             u'event': u'surya ferdy commented on a page'},
-                1460400060: {u'space': u'solr',
-                             u'who': 'Hoss Man',
-                             u'excerpt': u'definitely a great post  jadibd.com',
-                             u'doc_text': u'Re: Getting Started',
-                             u'doc_url': u'https://cwiki.apache.org/confluence/display/solr/Getting+Started?focusedCommentId=62691549',
-                             u'event': u'Hoss Man deleted a comment'},
-                1460535327: {u'space': u'solr',
-                             u'who': 'Noble Paul',
-                             u'excerpt': u'Page nodes added: 4, removed: 0, changed: 0',
-                             u'doc_text': u'Config API',
-                             u'doc_url': u'https://cwiki.apache.org/confluence/display/solr/Config+API',
-                             u'event': u'Noble Paul edited a page'}
-            }),
-            call.store_as_binary('most-recently-seen', 1460183824)])
-        self.assertEquals(len(unmatched_to_move), 0)
-        self.assertEquals(str(to_delete_from_notification_folder), "[1234, 1235, 1236]")
-        self.assertEquals(len(final_notifications_store.notifications), 3)
-
-

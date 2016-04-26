@@ -20,6 +20,195 @@ Content-Transfer-Encoding: 8bit
 
 """
 
+class NotificationsStore(object):
+
+    def __init__(self, cls=object):
+        self._cls = cls
+        self.notifications = None
+
+    def __eq__(self, other):
+        self.notifications = other
+        return True
+
+    def __ne__(self, other):
+        return False
+
+    def __repr__(self):
+        return "NotificationsStore(..)"
+
+
+class TestJiraNotifications(TestCase):
+
+    def __init__(self, methodName='runTest'):
+        super(TestJiraNotifications, self).__init__(methodName)
+        reload(sys)
+        sys.setdefaultencoding('utf8')
+
+    def test_two_related_notifications_can_be_rolled_up(self):
+
+        expected_payload = """<html><body><span>You have previously read notifications up to: Apr 09 2016 02:37 AM</span>
+<table>
+  <tr style="background-color: #acf;">
+    <th>Notifications</th>
+  </tr>
+          <tr style="">
+    <td>
+        <table>
+            <tr>
+                <td>What:</td><td>Paul Hammant commented on  JRA-60612</td>
+            </tr>
+            <tr>
+                <td>Project:</td><td>unknown</td>
+            </tr>
+            <tr>
+                <td>Issue:</td><td><a href="https://jira.atlassian.com/browse/JRA-60612">JRA-60612</a></td>
+            </tr>
+            <tr>
+                <td>Comment:</td>
+                <td>
+                    Great idea, Paul
+                </td>
+            </tr>
+        </table>
+    </td>
+  </tr>          <tr style="background-color: #def;">
+    <td>
+        <table>
+            <tr>
+                <td>What:</td><td>Paul Hammant updated an issue</td>
+            </tr>
+            <tr>
+                <td>Project:</td><td>HipChat</td>
+            </tr>
+            <tr>
+                <td>Issue:</td><td><a href="https://jira.atlassian.com/browse/HCPUB-579">HCPUB-579</a></td>
+            </tr>
+            <tr>
+                <td>Fields:</td>
+                <td>
+                    <table>
+                    <tr><td>Change By</td><td>Paul Hammant</td></tr>
+                    </table>
+                </td>
+            </tr>
+            <tr>
+                <td>Comment:</td>
+                <td>
+                    Can you awesome folks add a text/json multipart to the...
+                </td>
+            </tr>
+        </table>
+    </td>
+  </tr>          <tr><td colspan="2" style="border-bottom: 1pt solid red; border-top: 1pt solid red;"><center>^ New Notifications Since You Last Checked ^</center></td></tr>          <tr style="">
+    <td>
+        <table>
+            <tr>
+                <td>What:</td><td>Paul Hammant created an issue</td>
+            </tr>
+            <tr>
+                <td>Project:</td><td>HipChat</td>
+            </tr>
+            <tr>
+                <td>Issue:</td><td><a href="https://jira.atlassian.com/browse/HCPUB-579">HCPUB-579</a></td>
+            </tr>
+            <tr>
+                <td>Fields:</td>
+                <td>
+                    <table>
+                    <tr><td>Issue Type</td><td>Suggestion</td></tr>
+                    <tr><td>Assignee</td><td>Unassigned</td></tr>
+                    <tr><td>Components</td><td>Notifications - email</td></tr>
+                    <tr><td>Created</td><td>14/Apr/2016 4</td></tr>
+                    </table>
+                </td>
+            </tr>
+            <tr>
+                <td>Comment:</td>
+                <td>
+                    Can you awesome folks add a text/json multipart to the...
+                </td>
+            </tr>
+        </table>
+    </td>
+  </tr>
+</table></body></html>"""
+
+        notification_store = {}
+
+        final_notifications_store = NotificationsStore()
+
+        store_writer = Mock()
+        store_writer.get_from_binary.side_effect = stub(
+            (call('jira-notifications'), notification_store),
+            (call('most-recently-seen'), 1460183824)
+        )
+        store_writer.store_as_binary.side_effect = stub(
+            (call('jira-notifications', final_notifications_store), True),
+            (call('most-recently-seen', 1460183824), True)
+        )
+
+        expected_message = ("Subject: Notification Digest: 1 new notification(s)\n"
+                            + MAIL_HDR + expected_payload + "\n\n-----NOTIFICATION_BOUNDARY-5678")
+
+        digest_inbox_proxy = Mock()
+        digest_inbox_proxy.delete_previous_message.side_effect = stub((call(), True))
+        digest_inbox_proxy.append.side_effect = stub((call(expected_message), True))
+
+        digesters = []
+        digester = JiraNotificationDigester(store_writer, "jira@atlassian.com", "Atlassian")  ## What we are testing
+        digester.notification_boundary_rand = "-5678"  # no random number for the email's notification boundary
+        digesters.append(digester)
+
+        digestion_processor = DigestionProcessor(None, None, digesters, False, "ph@example.com", False, "INBOX")
+
+        unmatched_to_move = []
+        to_delete_from_notification_folder = []
+
+        digestion_processor.process_incoming_notification(1234, digesters, NEW_ISSUE, to_delete_from_notification_folder, unmatched_to_move, False)
+        digestion_processor.process_incoming_notification(1235, digesters, CHANGED_ISSUE, to_delete_from_notification_folder, unmatched_to_move, False)
+        digestion_processor.process_incoming_notification(1236, digesters, COMMENTED_ISSUE, to_delete_from_notification_folder, unmatched_to_move, False)
+
+        digester.rewrite_digest_emails(digest_inbox_proxy, has_previous_message=True,
+                                       previously_seen=False, sender_to_implicate="ph@example.com")
+
+        self.assertEquals(digest_inbox_proxy.mock_calls, [call.delete_previous_message(), call.append(expected_message)])
+
+        calls = store_writer.mock_calls
+        self.assertEquals(calls, [
+            call.get_from_binary('jira-notifications'),
+            call.get_from_binary('most-recently-seen'),
+            call.store_as_binary('jira-notifications', {
+                1461123240: {u'comment': u'Great idea, Paul',
+                             u'project_name': u'unknown',
+                             u'who': u'Paul Hammant',
+                             u'kvtable': [],
+                             u'issue_id': u'JRA-60612',
+                             u'event': u'Paul Hammant commented on  JRA-60612',
+                             u'issue_url': u'https://jira.atlassian.com/browse/JRA-60612'},
+                1460652660: {u'comment': u'Can you awesome folks add a text/json multipart to the...',
+                             u'project_name': u'HipChat',
+                             u'who': u'Paul Hammant',
+                             u'kvtable': [{u'k': u'Change By', u'v': u'Paul Hammant'}],
+                             u'issue_id': u'HCPUB-579',
+                             u'event': u'Paul Hammant updated an issue',
+                             u'issue_url': u'https://jira.atlassian.com/browse/HCPUB-579'},
+                1460652300: {u'comment': u'Can you awesome folks add a text/json multipart to the...',
+                             u'project_name': u'HipChat',
+                             u'line_here': True,
+                             u'who': u'Paul Hammant',
+                             u'kvtable': [{u'k': u'Issue Type', u'v': u'Suggestion'},
+                                          {u'k': u'Assignee', u'v': u'Unassigned'},
+                                          {u'k': u'Components', u'v': u'Notifications - email'},
+                                          {u'k': u'Created', u'v': u'14/Apr/2016 4'}],
+                             u'issue_id': u'HCPUB-579',
+                             u'event': u'Paul Hammant created an issue',
+                             u'issue_url': u'https://jira.atlassian.com/browse/HCPUB-579'}}),
+            call.store_as_binary('most-recently-seen', 1460183824)])
+        self.assertEquals(len(unmatched_to_move), 0)
+        self.assertEquals(str(to_delete_from_notification_folder), "[1234, 1235, 1236]")
+        self.assertEquals(len(final_notifications_store.notifications), 3)
+
+
 NEW_ISSUE = """Date: Thu, 14 Apr 2016 16:45:00 +0000 (UTC)
 From: "Paul Hammant (JIRA)" <jira@atlassian.com>
 To: ph@example.com
@@ -573,191 +762,3 @@ Content-Transfer-Encoding: 7bit
 </html>
 
 ------=_Part_195733_1307700225.1461123240075--"""
-
-class NotificationsStore(object):
-
-    def __init__(self, cls=object):
-        self._cls = cls
-        self.notifications = None
-
-    def __eq__(self, other):
-        self.notifications = other
-        return True
-
-    def __ne__(self, other):
-        return False
-
-    def __repr__(self):
-        return "NotificationsStore(..)"
-
-
-class TestJiraNotifications(TestCase):
-
-    def __init__(self, methodName='runTest'):
-        super(TestJiraNotifications, self).__init__(methodName)
-        reload(sys)
-        sys.setdefaultencoding('utf8')
-
-    def test_two_related_notifications_can_be_rolled_up(self):
-
-        expected_payload = """<html><body><span>You have previously read notifications up to: Apr 09 2016 02:37 AM</span>
-<table>
-  <tr style="background-color: #acf;">
-    <th>Notifications</th>
-  </tr>
-          <tr style="">
-    <td>
-        <table>
-            <tr>
-                <td>What:</td><td>Paul Hammant commented on  JRA-60612</td>
-            </tr>
-            <tr>
-                <td>Project:</td><td>unknown</td>
-            </tr>
-            <tr>
-                <td>Issue:</td><td><a href="https://jira.atlassian.com/browse/JRA-60612">JRA-60612</a></td>
-            </tr>
-            <tr>
-                <td>Comment:</td>
-                <td>
-                    Great idea, Paul
-                </td>
-            </tr>
-        </table>
-    </td>
-  </tr>          <tr style="background-color: #def;">
-    <td>
-        <table>
-            <tr>
-                <td>What:</td><td>Paul Hammant updated an issue</td>
-            </tr>
-            <tr>
-                <td>Project:</td><td>HipChat</td>
-            </tr>
-            <tr>
-                <td>Issue:</td><td><a href="https://jira.atlassian.com/browse/HCPUB-579">HCPUB-579</a></td>
-            </tr>
-            <tr>
-                <td>Fields:</td>
-                <td>
-                    <table>
-                    <tr><td>Change By</td><td>Paul Hammant</td></tr>
-                    </table>
-                </td>
-            </tr>
-            <tr>
-                <td>Comment:</td>
-                <td>
-                    Can you awesome folks add a text/json multipart to the...
-                </td>
-            </tr>
-        </table>
-    </td>
-  </tr>          <tr><td colspan="2" style="border-bottom: 1pt solid red; border-top: 1pt solid red;"><center>^ New Notifications Since You Last Checked ^</center></td></tr>          <tr style="">
-    <td>
-        <table>
-            <tr>
-                <td>What:</td><td>Paul Hammant created an issue</td>
-            </tr>
-            <tr>
-                <td>Project:</td><td>HipChat</td>
-            </tr>
-            <tr>
-                <td>Issue:</td><td><a href="https://jira.atlassian.com/browse/HCPUB-579">HCPUB-579</a></td>
-            </tr>
-            <tr>
-                <td>Fields:</td>
-                <td>
-                    <table>
-                    <tr><td>Issue Type</td><td>Suggestion</td></tr>
-                    <tr><td>Assignee</td><td>Unassigned</td></tr>
-                    <tr><td>Components</td><td>Notifications - email</td></tr>
-                    <tr><td>Created</td><td>14/Apr/2016 4</td></tr>
-                    </table>
-                </td>
-            </tr>
-            <tr>
-                <td>Comment:</td>
-                <td>
-                    Can you awesome folks add a text/json multipart to the...
-                </td>
-            </tr>
-        </table>
-    </td>
-  </tr>
-</table></body></html>"""
-
-        notification_store = {}
-
-        final_notifications_store = NotificationsStore()
-
-        store_writer = Mock()
-        store_writer.get_from_binary.side_effect = stub(
-            (call('jira-notifications'), notification_store),
-            (call('most-recently-seen'), 1460183824)
-        )
-        store_writer.store_as_binary.side_effect = stub(
-            (call('jira-notifications', final_notifications_store), True),
-            (call('most-recently-seen', 1460183824), True)
-        )
-
-        expected_message = ("Subject: Notification Digest: 1 new notification(s)\n"
-                            + MAIL_HDR + expected_payload + "\n\n-----NOTIFICATION_BOUNDARY-5678")
-
-        digest_inbox_proxy = Mock()
-        digest_inbox_proxy.delete_previous_message.side_effect = stub((call(), True))
-        digest_inbox_proxy.append.side_effect = stub((call(expected_message), True))
-
-        digesters = []
-        digester = JiraNotificationDigester(store_writer, "jira@atlassian.com", "Atlassian")  ## What we are testing
-        digester.notification_boundary_rand = "-5678"  # no random number for the email's notification boundary
-        digesters.append(digester)
-
-        digestion_processor = DigestionProcessor(None, None, digesters, False, "ph@example.com", False, "INBOX")
-
-        unmatched_to_move = []
-        to_delete_from_notification_folder = []
-
-        digestion_processor.process_incoming_notification(1234, digesters, NEW_ISSUE, to_delete_from_notification_folder, unmatched_to_move, False)
-        digestion_processor.process_incoming_notification(1235, digesters, CHANGED_ISSUE, to_delete_from_notification_folder, unmatched_to_move, False)
-        digestion_processor.process_incoming_notification(1236, digesters, COMMENTED_ISSUE, to_delete_from_notification_folder, unmatched_to_move, False)
-
-        digester.rewrite_digest_emails(digest_inbox_proxy, has_previous_message=True,
-                                       previously_seen=False, sender_to_implicate="ph@example.com")
-
-        self.assertEquals(digest_inbox_proxy.mock_calls, [call.delete_previous_message(), call.append(expected_message)])
-
-        calls = store_writer.mock_calls
-        self.assertEquals(calls, [
-            call.get_from_binary('jira-notifications'),
-            call.get_from_binary('most-recently-seen'),
-            call.store_as_binary('jira-notifications', {
-                1461123240: {u'comment': u'Great idea, Paul',
-                             u'project_name': u'unknown',
-                             u'who': u'Paul Hammant',
-                             u'kvtable': [],
-                             u'issue_id': u'JRA-60612',
-                             u'event': u'Paul Hammant commented on  JRA-60612',
-                             u'issue_url': u'https://jira.atlassian.com/browse/JRA-60612'},
-                1460652660: {u'comment': u'Can you awesome folks add a text/json multipart to the...',
-                             u'project_name': u'HipChat',
-                             u'who': u'Paul Hammant',
-                             u'kvtable': [{u'k': u'Change By', u'v': u'Paul Hammant'}],
-                             u'issue_id': u'HCPUB-579',
-                             u'event': u'Paul Hammant updated an issue',
-                             u'issue_url': u'https://jira.atlassian.com/browse/HCPUB-579'},
-                1460652300: {u'comment': u'Can you awesome folks add a text/json multipart to the...',
-                             u'project_name': u'HipChat',
-                             u'line_here': True,
-                             u'who': u'Paul Hammant',
-                             u'kvtable': [{u'k': u'Issue Type', u'v': u'Suggestion'},
-                                          {u'k': u'Assignee', u'v': u'Unassigned'},
-                                          {u'k': u'Components', u'v': u'Notifications - email'},
-                                          {u'k': u'Created', u'v': u'14/Apr/2016 4'}],
-                             u'issue_id': u'HCPUB-579',
-                             u'event': u'Paul Hammant created an issue',
-                             u'issue_url': u'https://jira.atlassian.com/browse/HCPUB-579'}}),
-            call.store_as_binary('most-recently-seen', 1460183824)])
-        self.assertEquals(len(unmatched_to_move), 0)
-        self.assertEquals(str(to_delete_from_notification_folder), "[1234, 1235, 1236]")
-        self.assertEquals(len(final_notifications_store.notifications), 3)

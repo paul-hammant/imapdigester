@@ -34,6 +34,8 @@ class LinkedinInvitationDigester(BaseDigester):
 
     def process_new_notification(self, rfc822content, msg, html_message, text_message):
 
+        text_message = text_message.replace("\r\n", "\n")
+
         if msg["Subject"].endswith("invitation is waiting for your response"):
             # No need to be reminded.
             return True
@@ -42,9 +44,9 @@ class LinkedinInvitationDigester(BaseDigester):
         when = arrow.get(msg['Date'].split(',', 1)[1].strip(), 'D MMM YYYY HH:mm:ss ZZ').timestamp
 
         who = re.search('\nView (.*)\'s profile:', text_message).group(1)
-        spiel = text_message[:text_message.find('\r\nAccept:')].replace("\r\n\r\n","\r\n").replace("\r\n","\n")
-        accept_url = "https://" + re.search('\nAccept: https://(.*)\r\n', text_message).group(1)
-        profile_url = "https://" + re.search('\nView ' + who + '\'s profile: https://(.*)\r\n', text_message).group(1)
+        spiel = text_message[:text_message.find('\nAccept:')].replace("\n\n","\n")
+        accept_url = "https://" + re.search('\nAccept: https://(.*)\n', text_message).group(1)
+        profile_url = "https://" + re.search('\nView ' + who + '\'s profile: https://(.*)\n', text_message).group(1)
 
         src = "x"
         if html_message:
@@ -180,4 +182,4 @@ class LinkedinInvitationDigester(BaseDigester):
         new_message += email_ascii
         new_message += '\n\n-----NOTIFICATION_BOUNDARY' + self.notification_boundary_rand
 
-        return new_message.replace("\n", "\r\n")
+        return new_message
