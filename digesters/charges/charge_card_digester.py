@@ -163,11 +163,11 @@ class ChargeCardDigester(BaseDigester):
         new_message += 'From: "' + self.matching_digest_sender() + '" <' + sender_to_implicate + '>\n'
         new_message += 'Date: ' + arrow.get(when).format('ddd, DD MMM YYYY HH:mm:ss Z') + '\n'
         new_message += 'Content-Transfer-Encoding: 8bit\n'
-        new_message += 'Content-Type: multipart/alternative; boundary="---NOTIFICATION_BOUNDARY"\n'
+        new_message += 'Content-Type: multipart/alternative; boundary="---NOTIFICATION_BOUNDARY-' + self.notification_boundary_rand+ '"\n'
         new_message += 'MIME-Version: 1.0\n'
         new_message += 'This is a multi-part message in MIME format.\n'
-        new_message += '-----NOTIFICATION_BOUNDARY\nContent-Type: text/html; charset="utf-8"\n'
+        new_message += '-----NOTIFICATION_BOUNDARY-' + self.notification_boundary_rand + '\nContent-Type: text/html; charset="utf-8"\n'
         new_message += 'Content-Transfer-Encoding: 8bit\n\n'
         new_message += email_html
-        new_message += '\n\n-----NOTIFICATION_BOUNDARY'
+        new_message += '\n\n-----NOTIFICATION_BOUNDARY-' + self.notification_boundary_rand
         return new_message
