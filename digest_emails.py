@@ -2,6 +2,7 @@ import getpass
 import os
 import sys
 import time
+import platform
 from optparse import OptionParser
 from socket import gaierror
 import backports.ssl as ssl
@@ -77,6 +78,12 @@ if __name__ == '__main__':
 
     (options, args) = parser.parse_args()
 
+    ver = platform.python_version()
+    if ver < "2.7.11" and (options.digest_cert_check_skip and options.notifications_cert_check_skip):
+        print "Can't do certificate check skipping on Python's less than 2.7.11 (command line options " \
+              "--digest-cert-check-skip or --notifications-cert-check-skip)"
+        exit(10)
+
     if options.notifications_pw is None:
         print "Enter notifications user password:"
         options.notifications_pw = getpass.getpass()
@@ -93,13 +100,15 @@ if __name__ == '__main__':
         notifications_context = ssl.SSLContext(ssl.PROTOCOL_SSLv23)
         notifications_context.check_hostname = False
         notifications_context.verify_mode = ssl.CERT_NONE
-        print 'No cert check'
 
     # Read and mark for deletion items from notification inbox.
     notification_folder = None
     try:
-        notification_folder = IMAPClient(options.notifications_imap, use_uid=True, ssl=True,
-                                         ssl_context=notifications_context)
+        if ver < "2.7.11":
+            notification_folder = IMAPClient(options.notifications_imap, use_uid=True, ssl=True)
+        else:
+            notification_folder = IMAPClient(options.notifications_imap, use_uid=True, ssl=True,
+                                             ssl_context=notifications_context)
     except gaierror:
         print "CAN'T FIND IMAP SERVER"
         exit(10)
@@ -123,7 +132,11 @@ if __name__ == '__main__':
         digest_context.check_hostname = False
         digest_context.verify_mode = ssl.CERT_NONE
 
-    digest_folder = IMAPClient(options.digest_imap, use_uid=True, ssl=True, ssl_context=digest_context)
+    if ver < "2.7.11":
+        digest_folder = IMAPClient(options.digest_imap, use_uid=True, ssl=True)
+    else:
+        digest_folder = IMAPClient(options.digest_imap, use_uid=True, ssl=True, ssl_context=digest_context)
+
     try:
         digest_folder.login(options.digest_user, options.digest_pw)
     except:
