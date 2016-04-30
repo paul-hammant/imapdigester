@@ -101,20 +101,17 @@ if __name__ == '__main__':
             print "Enter digest user password:"
             options.digest_pw = getpass.getpass()
 
-    notifications_context = None
-    if options.notifications_cert_check_skip:
-        notifications_context = ssl.SSLContext(ssl.PROTOCOL_SSLv23)
-        notifications_context.check_hostname = False
-        notifications_context.verify_mode = ssl.CERT_NONE
-
     # Read and mark for deletion items from notification inbox.
     notification_folder = None
     try:
-        if old_python:
-            notification_folder = IMAPClient(options.notifications_imap, use_uid=True, ssl=True)
-        else:
-            notification_folder = IMAPClient(options.notifications_imap, use_uid=True, ssl=True,
-                                             ssl_context=notifications_context)
+        kwargs = {"use_uid": True, "ssl": True}
+        if not old_python and options.notifications_cert_check_skip:
+            notifications_context = None
+            notifications_context = ssl.SSLContext(ssl.PROTOCOL_SSLv23)
+            notifications_context.check_hostname = False
+            notifications_context.verify_mode = ssl.CERT_NONE
+            kwargs["ssl_context"] = notifications_context
+        notification_folder = IMAPClient(options.notifications_imap, **kwargs)
     except gaierror:
         print "CAN'T FIND IMAP SERVER"
         exit(10)
@@ -132,16 +129,14 @@ if __name__ == '__main__':
     time.sleep(1)
     notification_folder.select_folder(options.notifications_folder_name)
 
-    digest_context = None
-    if options.digest_cert_check_skip:
+    kwargs = {"use_uid": True, "ssl": True}
+    if not old_python and options.digest_cert_check_skip:
+        digest_context = None
         digest_context = ssl.SSLContext(ssl.PROTOCOL_SSLv23)
         digest_context.check_hostname = False
         digest_context.verify_mode = ssl.CERT_NONE
-
-    if old_python:
-        digest_folder = IMAPClient(options.digest_imap, use_uid=True, ssl=True)
-    else:
-        digest_folder = IMAPClient(options.digest_imap, use_uid=True, ssl=True, ssl_context=digest_context)
+        kwargs["ssl_context"] = digest_context
+    digest_folder = IMAPClient(options.digest_imap, **kwargs)
 
     try:
         digest_folder.login(options.digest_user, options.digest_pw)
