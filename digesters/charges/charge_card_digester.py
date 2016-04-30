@@ -115,8 +115,13 @@ class ChargeCardDigester(BaseDigester):
     <th>Type</th><th>Vendor</th><th>When</th><th>Curr</th><th>Amt</th><th>Card</th>
   </tr>
 {% for when, chg in charges|dictsort(false, by='key')|reverse %}
-  {{ '<tr><td colspan="6" style="border-bottom: 1pt solid black; border-top: 1pt solid black;">
-  <center>^ New Charges Since You Last checked ^</center></td></tr>' if when == most_recent_seen and not loop.first}}
+{%if when == most_recent_seen and not loop.first%}
+  <tr>
+    <td colspan="6" style="color:red; text-align: center; border-bottom: 1pt solid red; border-top: 1pt solid red;">
+      ^ New Charges Since You Last checked ^
+    </td>
+  </tr>
+{% endif %}
   <tr style="{{loop.cycle('','background-color: #def;')}}">
     <td>{{ chg['type'] }}</td>
     <td>{{ chg['vendor'] }}</td>
@@ -132,6 +137,8 @@ class ChargeCardDigester(BaseDigester):
 
         email_html = Template(templ).render(charges=self.charge_summary["charges"],
                                             most_recent_seen=self.charge_summary["most_recent_seen"])
+
+        email_html = self.remove_lines_that_are_fully_whitespace(email_html)
 
         # Delete previous email, and write replacement
         if has_previous_message:

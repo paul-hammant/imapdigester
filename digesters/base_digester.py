@@ -1,3 +1,4 @@
+import os
 from abc import ABCMeta, abstractmethod
 from random import random
 
@@ -62,3 +63,8 @@ class BaseDigester(object):
         :rtype: print a summary (or not) at the end
         """
         pass
+
+    @staticmethod
+    def remove_lines_that_are_fully_whitespace(email):
+        return os.linesep.join([s for s in email.splitlines() if s.strip()])
+

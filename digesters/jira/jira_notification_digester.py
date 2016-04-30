@@ -172,7 +172,7 @@ class JiraNotificationDigester(BaseDigester):
                              most_recent_seen= self.most_recently_seen,
                              most_recent_seen_str= seen_formated, not_first_email=(self.most_recently_seen > 0))
 
-        email_html = os.linesep.join([s for s in email_html.splitlines() if s.strip()])
+        email_html = self.remove_lines_that_are_fully_whitespace(email_html)
 
         # Delete previous email, and write replacement
         if has_previous_message:

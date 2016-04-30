@@ -36,9 +36,12 @@ class LinkedinInvitationDigester(BaseDigester):
 
         text_message = text_message.replace("\r\n", "\n")
 
-        if msg["Subject"].endswith("invitation is waiting for your response"):
-            # No need to be reminded.
+        if msg["Subject"].endswith("invitation is waiting for your response") or \
+            msg["Subject"].endswith("connections, experience, and more"):
+            # No need to be reminded, bugged.
             return True
+
+        print "subj " + msg["Subject"]
 
         self.new_message_count += 1
         when = arrow.get(msg['Date'].split(',', 1)[1].strip(), 'D MMM YYYY HH:mm:ss ZZ').timestamp
