@@ -4,8 +4,9 @@ import sys
 import time
 from optparse import OptionParser
 from socket import gaierror
+import backports.ssl as ssl
 
-from imapclient import IMAPClient
+from imapclient import IMAPClient, imapclient
 
 from digesters.digestion_processor import DigestionProcessor
 
@@ -49,26 +50,30 @@ if __name__ == '__main__':
     # Command Line Args
 
     parser = OptionParser()
-    parser.add_option("--notifications_imap", dest="notifications_imap",
+    parser.add_option("--notifications-imap", dest="notifications_imap",
                       help="IMAP to use for incoming notifications mail server (SSL assumed)")
-    parser.add_option("--notifications_user", dest="notifications_user",
+    parser.add_option("--notifications-user", dest="notifications_user",
                       help="User ID for incoming notifications mail server")
-    parser.add_option("--notifications_pw", dest="notifications_pw",
+    parser.add_option("--notifications-pw", dest="notifications_pw",
                       help="User's password for incoming notifications mail server")
-    parser.add_option("--notifications_folder", dest="notifications_folder_name", default="INBOX",
+    parser.add_option("--notifications-folder", dest="notifications_folder_name", default="INBOX",
                       help="The Imap folder to pull notification from, e.g. INBOX")
-    parser.add_option("--digest_imap", dest="digest_imap",
+    parser.add_option("--notifications-cert-check-skip", action="store_true", dest="notifications_cert_check_skip",
+                      help="Skip Certificate check notification imap server (say self-signed)")
+    parser.add_option("--digest-imap", dest="digest_imap",
                       help="IMAP to use for outgoing digest (rewrite) mail server (SSL assumed)")
-    parser.add_option("--digest_user", dest="digest_user", help="User ID for outgoing digest (rewrite) mail server")
-    parser.add_option("--digest_pw", dest="digest_pw",
+    parser.add_option("--digest-user", dest="digest_user", help="User ID for outgoing digest (rewrite) mail server")
+    parser.add_option("--digest-pw", dest="digest_pw",
                       help="User's password for outgoing digest (rewrite) mail server")
-    parser.add_option("--digest_folder", dest="digest_folder_name", default="INBOX",
+    parser.add_option("--digest-folder", dest="digest_folder_name", default="INBOX",
                       help="The Imap folder to pull/push digest from/to, e.g. INBOX")
+    parser.add_option("--digest-cert-check-skip", action="store_true", dest="digest_cert_check_skip",
+                      help="Skip Certificate check digest imap server (say self-signed)")
     parser.add_option("--implicate", dest="sender_to_implicate",
-                      help="Who to name in digest emails, e.g. \"Imap Digester\" <imapdigester@example.com>")
-    parser.add_option("--move_unmatched", action="store_true", dest="move_unmatched",
+                      help="Who to name in digest emails, e.g. imapdigester@example.com")
+    parser.add_option("--move-unmatched", action="store_true", dest="move_unmatched",
                       help="Move unmatched emails to digest inbox")
-    parser.add_option("--print_summary", action="store_true", dest="print_summary", help="Print Summary")
+    parser.add_option("--print-summary", action="store_true", dest="print_summary", help="Print Summary")
 
     (options, args) = parser.parse_args()
 
@@ -83,10 +88,18 @@ if __name__ == '__main__':
             print "Enter digest user password:"
             options.digest_pw = getpass.getpass()
 
+    notifications_context = None
+    if options.notifications_cert_check_skip:
+        notifications_context = ssl.SSLContext(ssl.PROTOCOL_SSLv23)
+        notifications_context.check_hostname = False
+        notifications_context.verify_mode = ssl.CERT_NONE
+        print 'No cert check'
+
     # Read and mark for deletion items from notification inbox.
     notification_folder = None
     try:
-        notification_folder = IMAPClient(options.notifications_imap, use_uid=True, ssl=True)
+        notification_folder = IMAPClient(options.notifications_imap, use_uid=True, ssl=True,
+                                         ssl_context=notifications_context)
     except gaierror:
         print "CAN'T FIND IMAP SERVER"
         exit(10)
@@ -94,7 +107,8 @@ if __name__ == '__main__':
         notification_folder.login(options.notifications_user, options.notifications_pw)
     except:
         time.sleep(5)
-        notification_folder = IMAPClient(options.notifications_imap, use_uid=True, ssl=True)
+        notification_folder = IMAPClient(options.notifications_imap, use_uid=True, ssl=True,
+                                         ssl_context=notifications_context)
         try:
             notification_folder.login(options.notifications_user, options.notifications_pw)
         except:
@@ -103,7 +117,13 @@ if __name__ == '__main__':
     time.sleep(1)
     notification_folder.select_folder(options.notifications_folder_name)
 
-    digest_folder = IMAPClient(options.digest_imap, use_uid=True, ssl=True)
+    digest_context = None
+    if options.digest_cert_check_skip:
+        digest_context = ssl.SSLContext(ssl.PROTOCOL_SSLv23)
+        digest_context.check_hostname = False
+        digest_context.verify_mode = ssl.CERT_NONE
+
+    digest_folder = IMAPClient(options.digest_imap, use_uid=True, ssl=True, ssl_context=digest_context)
     digest_folder.login(options.digest_user, options.digest_pw)
     digest_folder.select_folder(options.digest_folder_name)
 

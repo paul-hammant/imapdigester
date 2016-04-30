@@ -11,14 +11,15 @@ do_it() {
     fi
 
     # Do the IMAP digesting (python 2.7.11 or above)
-     /usr/bin/python digest_emails.py --notifications_imap imap-mail.emailprovider.com \
-     --notifications_user secret_email_address_for_notifications@emailprovider.com \
-     --notifications_pw '123456' \
-     --digest_imap imap-mail.emailprovider.com \
-     --digest_user another_email_address_for_digests@emailprovider.com \
-     --digest_pw p4ssw0rd \
+     /usr/bin/python digest_emails.py \
+     --notifications-imap imap-mail.emailprovider.com \
+     --notifications-user secret_email_address_for_notifications@emailprovider.com \
+     --notifications-pw '123456' \
+     --digest-imap imap-mail.emailprovider.com \
+     --digest-user another_email_address_for_digests@emailprovider.com \
+     --digest-pw p4ssw0rd \
      --implicate imapdigester@it_does_not_matter.com \
-     --move_unmatched  >> imapdigester_output.txt 2>&1
+     --move-unmatched  >> imapdigester_output.txt 2>&1
 }
 
 do_it
