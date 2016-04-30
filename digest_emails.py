@@ -2,7 +2,7 @@ import getpass
 import os
 import sys
 import time
-import platform
+from sys import version_info
 from optparse import OptionParser
 from socket import gaierror
 import backports.ssl as ssl
@@ -78,8 +78,14 @@ if __name__ == '__main__':
 
     (options, args) = parser.parse_args()
 
-    ver = platform.python_version()
-    if ver < "2.7.11" and (options.digest_cert_check_skip and options.notifications_cert_check_skip):
+    old_python = True
+    if version_info[0] >= 3:
+        old_python = False
+    elif version_info[0] == 2 and version_info[1] > 7:
+        old_python = False
+    elif version_info[0] == 2 and version_info[1] == 7 and version_info[2] > 10:
+        old_python = False
+    if old_python and (options.digest_cert_check_skip or options.notifications_cert_check_skip):
         print "Can't do certificate check skipping on Python's less than 2.7.11 (command line options " \
               "--digest-cert-check-skip or --notifications-cert-check-skip)"
         exit(10)
@@ -104,7 +110,7 @@ if __name__ == '__main__':
     # Read and mark for deletion items from notification inbox.
     notification_folder = None
     try:
-        if ver < "2.7.11":
+        if old_python:
             notification_folder = IMAPClient(options.notifications_imap, use_uid=True, ssl=True)
         else:
             notification_folder = IMAPClient(options.notifications_imap, use_uid=True, ssl=True,
@@ -132,7 +138,7 @@ if __name__ == '__main__':
         digest_context.check_hostname = False
         digest_context.verify_mode = ssl.CERT_NONE
 
-    if ver < "2.7.11":
+    if old_python:
         digest_folder = IMAPClient(options.digest_imap, use_uid=True, ssl=True)
     else:
         digest_folder = IMAPClient(options.digest_imap, use_uid=True, ssl=True, ssl_context=digest_context)
