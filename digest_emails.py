@@ -61,6 +61,8 @@ if __name__ == '__main__':
                       help="The Imap folder to pull notification from, e.g. INBOX")
     parser.add_option("--notifications-cert-check-skip", action="store_true", dest="notifications_cert_check_skip",
                       help="Skip Certificate check notification imap server (say self-signed)")
+    parser.add_option("--notifications-no-ssl", action="store_false", dest="notifications_ssl", default=True,
+                      help="SSL True/False (port 993) for notifications IMAP? (True by default)")
     parser.add_option("--digest-imap", dest="digest_imap",
                       help="IMAP to use for outgoing digest (rewrite) mail server (SSL assumed)")
     parser.add_option("--digest-user", dest="digest_user", help="User ID for outgoing digest (rewrite) mail server")
@@ -70,6 +72,8 @@ if __name__ == '__main__':
                       help="The Imap folder to pull/push digest from/to, e.g. INBOX")
     parser.add_option("--digest-cert-check-skip", action="store_true", dest="digest_cert_check_skip",
                       help="Skip Certificate check digest imap server (say self-signed)")
+    parser.add_option("--digest-no-ssl", action="store_false", dest="digest_ssl", default=True,
+                    help="SSL True/False (port 993) for digest IMAP? (True by default)")
     parser.add_option("--implicate", dest="sender_to_implicate",
                       help="Who to name in digest emails, e.g. imapdigester@example.com")
     parser.add_option("--move-unmatched", action="store_true", dest="move_unmatched",
@@ -103,14 +107,15 @@ if __name__ == '__main__':
 
     # Read and mark for deletion items from notification inbox.
     notification_folder = None
+    kwargs = {"use_uid": True, "ssl": options.notifications_ssl}
+    if not old_python and options.notifications_cert_check_skip:
+        notifications_context = None
+        notifications_context = ssl.SSLContext(ssl.PROTOCOL_SSLv23)
+        notifications_context.check_hostname = False
+        notifications_context.verify_mode = ssl.CERT_NONE
+        kwargs["ssl_context"] = notifications_context
+
     try:
-        kwargs = {"use_uid": True, "ssl": True}
-        if not old_python and options.notifications_cert_check_skip:
-            notifications_context = None
-            notifications_context = ssl.SSLContext(ssl.PROTOCOL_SSLv23)
-            notifications_context.check_hostname = False
-            notifications_context.verify_mode = ssl.CERT_NONE
-            kwargs["ssl_context"] = notifications_context
         notification_folder = IMAPClient(options.notifications_imap, **kwargs)
     except gaierror:
         print "CAN'T FIND IMAP SERVER"
@@ -119,8 +124,7 @@ if __name__ == '__main__':
         notification_folder.login(options.notifications_user, options.notifications_pw)
     except:
         time.sleep(5)
-        notification_folder = IMAPClient(options.notifications_imap, use_uid=True, ssl=True,
-                                         ssl_context=notifications_context)
+        notification_folder = IMAPClient(options.notifications_imap, **kwargs)
         try:
             notification_folder.login(options.notifications_user, options.notifications_pw)
         except:
@@ -129,7 +133,7 @@ if __name__ == '__main__':
     time.sleep(1)
     notification_folder.select_folder(options.notifications_folder_name)
 
-    kwargs = {"use_uid": True, "ssl": True}
+    kwargs = {"use_uid": True, "ssl": options.digest_ssl}
     if not old_python and options.digest_cert_check_skip:
         digest_context = None
         digest_context = ssl.SSLContext(ssl.PROTOCOL_SSLv23)

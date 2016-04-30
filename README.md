@@ -120,6 +120,9 @@ If **notifications** and **digest** use the same email account, you'll only be p
 If you're using a self-signed IMAP server use --digest-cert-check-skip and/or --notifications-cert-check-skip to turn
 off the verification of the certificate for the IMAP server
 
+If your IMAP server isn't over SSL (port 993) at all, then you can specify --notifications-no-ssl and --digest-no-ssl
+to unencrypted IMAP (port 143).
+
 # Plans to go to Python3.
 
 Are paused for the time being - I consistently experience a segfault with Python 3.5.1 and IMAPClient 1.0.1.
