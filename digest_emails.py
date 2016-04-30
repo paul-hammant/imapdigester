@@ -124,7 +124,11 @@ if __name__ == '__main__':
         digest_context.verify_mode = ssl.CERT_NONE
 
     digest_folder = IMAPClient(options.digest_imap, use_uid=True, ssl=True, ssl_context=digest_context)
-    digest_folder.login(options.digest_user, options.digest_pw)
+    try:
+        digest_folder.login(options.digest_user, options.digest_pw)
+    except:
+        time.sleep(5)
+        digest_folder.login(options.digest_user, options.digest_pw)
     digest_folder.select_folder(options.digest_folder_name)
 
     command = get_command()
