@@ -20,6 +20,10 @@ do_it() {
      --digest-pw p4ssw0rd \
      --implicate imapdigester@it_does_not_matter.com \
      --move-unmatched  >> imapdigester_output.txt 2>&1
+
+     # --digest-cert-check-skip  (you're using a self-signed imap server)
+     # --notifications-cert-check-skip  (you're using a self-signed imap server)
+
 }
 
 do_it

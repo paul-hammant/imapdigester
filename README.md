@@ -23,7 +23,7 @@ For this to work, you need two dedicated email addresses:
 
 1. For incoming machine-to-human notifications to send to, you **don't ever tell anyone else about it**, as it is not 
 what you correspond with people through. It is dedicated to this process. 
-You pass it to applications that issue notitifactions. You're going  to a script (see below) that reads and 
+You pass it to applications that issue notifications. You're going  to a script (see below) that reads and
 deletes from inbox for you. Lets call this the **notification inbox**.
 
 2. For Digest emails to be written/rewritten to. That script (below) is going to look after the
@@ -41,6 +41,8 @@ The Outlook client on the iPhone certainly can.
 I have mine on a Raspberry Pi Zero that's just dangling out of a power socket at home.  If I were you I would fork this
 repo, copy `my_digesters_setup_sample.py` to `my_digesters_setup.py` and make mods for yourself. The latter is in the
 .gitignore file, so you'd have to go out of your way to accidentally push it back to me.
+
+You'll also need to make a cron job for it - see below
 
 ## Installation Prerequisites
 
@@ -106,14 +108,17 @@ what is wrong.
 
 ## Setup Choices
 
-The Inbox for the accounts is the default, but via `--notifications_folder` and `--digest_folder` you could specify
+The Inbox for the accounts is the default, but via `--notifications-folder` and `--digest-folder` you could specify
 a different folder for processing. Case might be important.
 
 You can have the same email account for **notifications** and **digests**. I choose not to, because I'm a chicken.
 Similarly, you can have the same folder within the same email account if you want to.
 
-If you leave out `--notifications_pw` or `--digest_pw` you will be prompted at startup to enter them.
+If you leave out `--notifications-pw` or `--digest-pw` you will be prompted at startup to enter them.
 If **notifications** and **digest** use the same email account, you'll only be prompted once.
+
+If you're using a self-signed IMAP server use --digest-cert-check-skip and/or --notifications-cert-check-skip to turn
+off the verification of the certificate for the IMAP server
 
 # Plans to go to Python3.
 

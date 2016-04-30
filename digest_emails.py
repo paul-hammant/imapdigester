@@ -81,7 +81,7 @@ if __name__ == '__main__':
     old_python = True
     if version_info[0] >= 3:
         old_python = False
-    elif version_info[0] == 2 and version_info[1] >= 7:
+    elif version_info[0] == 2 and version_info[1] > 7:
         old_python = False
     elif version_info[0] == 2 and version_info[1] == 7 and version_info[2] >= 11:
         old_python = False
