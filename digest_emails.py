@@ -81,9 +81,9 @@ if __name__ == '__main__':
     old_python = True
     if version_info[0] >= 3:
         old_python = False
-    elif version_info[0] == 2 and version_info[1] > 7:
+    elif version_info[0] == 2 and version_info[1] >= 7:
         old_python = False
-    elif version_info[0] == 2 and version_info[1] == 7 and version_info[2] > 10:
+    elif version_info[0] == 2 and version_info[1] == 7 and version_info[2] >= 11:
         old_python = False
     if old_python and (options.digest_cert_check_skip or options.notifications_cert_check_skip):
         print "Can't do certificate check skipping on Python's less than 2.7.11 (command line options " \
