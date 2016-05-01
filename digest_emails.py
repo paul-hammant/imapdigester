@@ -7,7 +7,7 @@ from optparse import OptionParser
 from socket import gaierror
 import backports.ssl as ssl
 
-from imapclient import IMAPClient, imapclient
+from imapclient import IMAPClient
 
 from digesters.digestion_processor import DigestionProcessor
 
@@ -73,7 +73,7 @@ if __name__ == '__main__':
     parser.add_option("--digest-cert-check-skip", action="store_true", dest="digest_cert_check_skip",
                       help="Skip Certificate check digest imap server (say self-signed)")
     parser.add_option("--digest-no-ssl", action="store_false", dest="digest_ssl", default=True,
-                    help="SSL True/False (port 993) for digest IMAP? (True by default)")
+                      help="SSL True/False (port 993) for digest IMAP? (True by default)")
     parser.add_option("--implicate", dest="sender_to_implicate",
                       help="Who to name in digest emails, e.g. imapdigester@example.com")
     parser.add_option("--move-unmatched", action="store_true", dest="move_unmatched",
@@ -128,7 +128,7 @@ if __name__ == '__main__':
         try:
             notification_folder.login(options.notifications_user, options.notifications_pw)
         except:
-            print "CAN'T LOG IN to IN IMAP SERVER"
+            print "CAN'T LOG IN TO IMAP SERVER"
             exit(10)
     time.sleep(1)
     notification_folder.select_folder(options.notifications_folder_name)
