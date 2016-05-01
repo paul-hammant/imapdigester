@@ -19,22 +19,6 @@ Content-Transfer-Encoding: 8bit
 
 """
 
-class NotificationsStore(object):
-
-    def __init__(self, cls=object):
-        self._cls = cls
-        self.notifications = None
-
-    def __eq__(self, other):
-        self.notifications = other
-        return True
-
-    def __ne__(self, other):
-        return False
-
-    def __repr__(self):
-        return "NotificationsStore(..)"
-
 
 class TestChargeCardDigester(TestCase):
 
@@ -43,10 +27,11 @@ class TestChargeCardDigester(TestCase):
         reload(sys)
         sys.setdefaultencoding('utf8')
 
-
     def test_no_previous_email_yet_one_old_and_one_new_charge_yields_only_the_newer_charge_in_the_email(self):
 
-        notification_store = {
+        store_writer = Mock()
+        store_writer.get_from_binary.side_effect = stub(
+            (call('charges'), {
                 "charges": {
                     1460184000: {
                         "amt": Decimal(5.00),
@@ -57,17 +42,23 @@ class TestChargeCardDigester(TestCase):
                     }
                 },
                 "most_recent_seen": 1460183824
-        }
-
-        final_notifications_store = NotificationsStore()
-
-        store_writer = Mock()
-        store_writer.get_from_binary.side_effect = stub(
-            (call('charges'), notification_store),
+            }),
             (call('most-recently-seen'), 1460183824)
         )
         store_writer.store_as_binary.side_effect = stub(
-            (call('charges', final_notifications_store), True),
+            (call('charges', {
+                'charges': {
+                    1460185000: {
+                        'curr': 'GBP',
+                        'when_str': u'Apr---09 02:56',
+                        'vendor': 'Pimoroni',
+                        'type': 'Charge',
+                        'amt': Decimal('4'),
+                        'card': 'Amex 1234'
+                    }
+                },
+                'most_recent_seen': 1460183824
+            }), True),
             (call('most-recently-seen', 1460183824), True)
         )
 
@@ -128,11 +119,12 @@ class TestChargeCardDigester(TestCase):
                 'most_recent_seen': 1460183824
             })
         ])
-        self.assertEquals(len(final_notifications_store.notifications), 2)
 
     def test_with_a_previous_email_and_one_old_and_one_new_charge_yields_both_charges_in_the_email(self):
 
-        notification_store = {
+        store_writer = Mock()
+        store_writer.get_from_binary.side_effect = stub(
+            (call('charges'), {
                 "charges": {
                     1460184000: {
                         "amt": Decimal(5.00),
@@ -143,17 +135,30 @@ class TestChargeCardDigester(TestCase):
                     }
                 },
                 "most_recent_seen": 1460183824
-        }
-
-        final_notifications_store = NotificationsStore()
-
-        store_writer = Mock()
-        store_writer.get_from_binary.side_effect = stub(
-            (call('charges'), notification_store),
+            }),
             (call('most-recently-seen'), 1460183824)
         )
         store_writer.store_as_binary.side_effect = stub(
-            (call('charges', final_notifications_store), True),
+            (call('charges', {
+                'charges': {
+                    1460184000: {
+                        'vendor': 'PiHut',
+                        'when_str': u'Apr---09 02:40',
+                        'curr': 'USD',
+                        'type': 'Charge',
+                        'amt': Decimal('5'),
+                        'card': 'Amex 1234'},
+                    1460185000: {
+                        'vendor': 'Pimoroni',
+                        'when_str': u'Apr---09 02:56',
+                        'curr': 'GBP',
+                        'type': 'Charge',
+                        'amt': Decimal('4'),
+                        'card': 'Amex 1234'
+                    }
+                },
+                'most_recent_seen': 1460183824
+            }), True),
             (call('most-recently-seen', 1460183824), True)
         )
 
@@ -208,12 +213,24 @@ class TestChargeCardDigester(TestCase):
         calls = store_writer.mock_calls
         self.assertEquals(calls, [
             call.get_from_binary('charges'),
-            call.store_as_binary('charges', {'charges': {
-                1460184000: {'vendor': 'PiHut', 'when_str': u'Apr---09 02:40', 'curr': 'USD', 'type': 'Charge',
-                             'amt': Decimal('5'), 'card': 'Amex 1234'},
-                1460185000: {'vendor': 'Pimoroni', 'when_str': u'Apr---09 02:56', 'curr': 'GBP', 'type': 'Charge',
-                             'amt': Decimal('4'), 'card': 'Amex 1234'}},
+            call.store_as_binary('charges', {
+                'charges': {
+                    1460184000: {
+                        'vendor': 'PiHut',
+                        'when_str': u'Apr---09 02:40',
+                        'curr': 'USD',
+                        'type': 'Charge',
+                        'amt': Decimal('5'),
+                        'card': 'Amex 1234'
+                    },
+                    1460185000: {
+                        'vendor': 'Pimoroni',
+                        'when_str': u'Apr---09 02:56',
+                        'curr': 'GBP', 'type': 'Charge',
+                        'amt': Decimal('4'),
+                        'card': 'Amex 1234'
+                    }
+                },
                 'most_recent_seen': 1460183824
             })
         ])
-        self.assertEquals(len(final_notifications_store.notifications), 2)
