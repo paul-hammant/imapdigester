@@ -41,15 +41,14 @@ class LinkedinInvitationDigester(BaseDigester):
             # No need to be reminded, bugged.
             return True
 
-        print "subj " + msg["Subject"]
-
         self.new_message_count += 1
         when = arrow.get(msg['Date'].split(',', 1)[1].strip(), 'D MMM YYYY HH:mm:ss ZZ').timestamp
 
-        who = re.search('\nView (.*)\'s profile:', text_message).group(1)
+        fromm = re.search('(.*) <invitations@linkedin.com>', msg["From"])
+        who = fromm.group(1)
         spiel = text_message[:text_message.find('\nAccept:')].replace("\n\n","\n")
         accept_url = "https://" + re.search('\nAccept: https://(.*)\n', text_message).group(1)
-        profile_url = "https://" + re.search('\nView ' + who + '\'s profile: https://(.*)\n', text_message).group(1)
+        profile_url = "https://" + re.search('\nView profile: https://(.*)\n', text_message).group(1)
 
         src = "x"
         if html_message:
