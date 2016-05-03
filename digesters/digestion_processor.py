@@ -101,7 +101,11 @@ class DigestionProcessor(object):
             matching_incoming_headers = digester.matching_incoming_headers()
             for matching_header in matching_incoming_headers:
                 if re.search(matching_header, rfc822content) is not None:
-                    processed = digester.process_new_notification(rfc822content, msg, html_message, text_message)
+                    try:
+                        processed = digester.process_new_notification(rfc822content, msg, html_message, text_message)
+                    except Exception, e:
+                        print "Subject " + msg["Subject"] + ": processing failed: " + str(e)
+                        processed = False
                     break
         if processed:
             to_delete.append(msgid)
