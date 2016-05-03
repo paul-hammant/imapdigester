@@ -49,8 +49,12 @@ class DigestionProcessor(object):
         # Loop through email in notification folder
         for msgid, data in response.iteritems():
             rfc822content = self.notification_folder.fetch(msgid, ["INTERNALDATE", "BODY", "RFC822"])[msgid]['RFC822']
-            self.process_incoming_notification(msgid, self.digesters, rfc822content, to_delete,
-                                               unmatched_to_move, self.move_unmatched)
+            try:
+                self.process_incoming_notification(msgid, self.digesters, rfc822content, to_delete,
+                                                   unmatched_to_move, self.move_unmatched)
+            except Exception, e:
+                msg = email.message_from_string(rfc822content)
+                print "Subject " + msg["Subject"] + ", From: " + msg["From"] + " : processing failed: " + str(e)
 
         # Rewrite emails in the digest folder (the one the end-user actually reads)
         for digester in self.digesters:
@@ -101,11 +105,7 @@ class DigestionProcessor(object):
             matching_incoming_headers = digester.matching_incoming_headers()
             for matching_header in matching_incoming_headers:
                 if re.search(matching_header, rfc822content) is not None:
-                    try:
-                        processed = digester.process_new_notification(rfc822content, msg, html_message, text_message)
-                    except Exception, e:
-                        print "Subject " + msg["Subject"] + ": processing failed: " + str(e)
-                        processed = False
+                    processed = digester.process_new_notification(rfc822content, msg, html_message, text_message)
                     break
         if processed:
             to_delete.append(msgid)
