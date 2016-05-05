@@ -66,16 +66,16 @@ class TestChargeCardDigester(TestCase):
         store_writer.get_from_binary.side_effect = stub(
             (call('charges'), {
                 "charges": PIHUT_CHARGE,
-                "most_recent_seen": 1460183824
+                "most_recent_seen": 1460184000
             }),
-            (call('most-recently-seen'), 1460183824)
+            (call('most-recently-seen'), 1460184000)
         )
         store_writer.store_as_binary.side_effect = stub(
             (call('charges', {
                 'charges': PIMORONI_CHARGE_WITH_WHEN_STR,
-                'most_recent_seen': 1460183824
+                'most_recent_seen': 1460184000
             }), True),
-            (call('most-recently-seen', 1460183824), True)
+            (call('most-recently-seen', 1460184000), True)
         )
 
         digester = ChargeCardDigester(store_writer)  ## What we are testing
@@ -114,7 +114,7 @@ class TestChargeCardDigester(TestCase):
             call.get_from_binary('charges'),
             call.store_as_binary('charges', {
                 'charges': PIMORONI_CHARGE_WITH_WHEN_STR,
-                'most_recent_seen': 1460183824
+                'most_recent_seen': 1460184000
             })
         ])
 
@@ -124,16 +124,16 @@ class TestChargeCardDigester(TestCase):
         store_writer.get_from_binary.side_effect = stub(
             (call('charges'), {
                 "charges": PIHUT_CHARGE,
-                "most_recent_seen": 1460183824
+                "most_recent_seen": 1460184000
             }),
-            (call('most-recently-seen'), 1460183824)
+            (call('most-recently-seen'), 1460184000)
         )
         store_writer.store_as_binary.side_effect = stub(
             (call('charges', {
                 'charges': PIHUT_AND_PIMORONI_CHARGE_WITH_WHEN_STR,
-                'most_recent_seen': 1460183824
+                'most_recent_seen': 1460184000
             }), True),
-            (call('most-recently-seen', 1460183824), True)
+            (call('most-recently-seen', 1460184000), True)
         )
 
         digester = ChargeCardDigester(store_writer)  ## What we are testing
@@ -149,6 +149,11 @@ class TestChargeCardDigester(TestCase):
     <td>GBP</td>
     <td style="text-align: right;"><b>4</b></td>
     <td>Amex 1234</td>
+  </tr>
+  <tr>
+    <td colspan="6" style="color:red; text-align: center; border-bottom: 1pt solid red; border-top: 1pt solid red;">
+      ^ New Charges Since You Last checked ^
+    </td>
   </tr>
   <tr style="background-color: #def;">
     <td>Charge</td>
@@ -180,6 +185,6 @@ class TestChargeCardDigester(TestCase):
             call.get_from_binary('charges'),
             call.store_as_binary('charges', {
                 'charges': PIHUT_AND_PIMORONI_CHARGE_WITH_WHEN_STR,
-                'most_recent_seen': 1460183824
+                'most_recent_seen': 1460184000
             })
         ])
