@@ -1,5 +1,6 @@
 from decimal import Decimal
 from unittest import TestCase
+import copy
 
 import sys
 from mock import Mock, call
@@ -8,10 +9,33 @@ from mockextras import stub
 from digesters.charges.charge_card_digester import ChargeCardDigester
 
 PIMORONI_CHARGE = {
-    1460185000: {"amt": Decimal(4.00), "type": "Charge", "curr": "GBP", "vendor": "Pimoroni", "card": "Amex 1234"}}
+    1460185000: {
+        "amt": Decimal(4.00),
+        "type": "Charge",
+        "curr": "GBP",
+        "vendor": "Pimoroni",
+        "card": "Amex 1234"
+    }
+}
+
+PIMORONI_CHARGE_WITH_WHEN_STR = copy.deepcopy(PIMORONI_CHARGE)
+PIMORONI_CHARGE_WITH_WHEN_STR[1460185000]['when_str'] = u'Apr---09 02:56'
 
 PIHUT_CHARGE = {
-    1460184000: {"amt": Decimal(5.00), "type": "Charge", "curr": "USD", "vendor": "PiHut", "card": "Amex 1234"}}
+    1460184000: {
+        "amt": Decimal(5.00),
+        "type": "Charge",
+        "curr": "USD",
+        "vendor": "PiHut",
+        "card": "Amex 1234"
+    }
+}
+
+PIHUT_CHARGE_WITH_WHEN_STR = copy.deepcopy(PIHUT_CHARGE)
+PIHUT_CHARGE_WITH_WHEN_STR[1460184000]['when_str'] = u'Apr---09 02:40'
+
+PIHUT_AND_PIMORONI_CHARGE_WITH_WHEN_STR = copy.deepcopy(PIMORONI_CHARGE_WITH_WHEN_STR)
+PIHUT_AND_PIMORONI_CHARGE_WITH_WHEN_STR[1460184000] = copy.deepcopy(PIHUT_CHARGE_WITH_WHEN_STR[1460184000])
 
 MAIL_HDR = """From: "Charge Cards" <foo@bar.com>
 Date: Sat, 09 Apr 2016 06:56:40 -0000
@@ -33,6 +57,9 @@ class TestChargeCardDigester(TestCase):
         reload(sys)
         sys.setdefaultencoding('utf8')
 
+        # print "P1 " + str(PIMORONI_CHARGE)
+        # print "P2 " + str(PIMORONI_CHARGE_WITH_WHEN_STR)
+
     def test_no_previous_email_yet_one_old_and_one_new_charge_yields_only_the_newer_charge_in_the_email(self):
 
         store_writer = Mock()
@@ -45,16 +72,7 @@ class TestChargeCardDigester(TestCase):
         )
         store_writer.store_as_binary.side_effect = stub(
             (call('charges', {
-                'charges': {
-                    1460185000: {
-                        'curr': 'GBP',
-                        'when_str': u'Apr---09 02:56',
-                        'vendor': 'Pimoroni',
-                        'type': 'Charge',
-                        'amt': Decimal('4'),
-                        'card': 'Amex 1234'
-                    }
-                },
+                'charges': PIMORONI_CHARGE_WITH_WHEN_STR,
                 'most_recent_seen': 1460183824
             }), True),
             (call('most-recently-seen', 1460183824), True)
@@ -95,16 +113,7 @@ class TestChargeCardDigester(TestCase):
         self.assertEquals(calls, [
             call.get_from_binary('charges'),
             call.store_as_binary('charges', {
-                'charges': {
-                    1460185000: {
-                        'curr': 'GBP',
-                        'when_str': u'Apr---09 02:56',
-                        'vendor': 'Pimoroni',
-                        'type': 'Charge',
-                        'amt': Decimal('4'),
-                        'card': 'Amex 1234'
-                    }
-                },
+                'charges': PIMORONI_CHARGE_WITH_WHEN_STR,
                 'most_recent_seen': 1460183824
             })
         ])
@@ -121,23 +130,7 @@ class TestChargeCardDigester(TestCase):
         )
         store_writer.store_as_binary.side_effect = stub(
             (call('charges', {
-                'charges': {
-                    1460184000: {
-                        'vendor': 'PiHut',
-                        'when_str': u'Apr---09 02:40',
-                        'curr': 'USD',
-                        'type': 'Charge',
-                        'amt': Decimal('5'),
-                        'card': 'Amex 1234'},
-                    1460185000: {
-                        'vendor': 'Pimoroni',
-                        'when_str': u'Apr---09 02:56',
-                        'curr': 'GBP',
-                        'type': 'Charge',
-                        'amt': Decimal('4'),
-                        'card': 'Amex 1234'
-                    }
-                },
+                'charges': PIHUT_AND_PIMORONI_CHARGE_WITH_WHEN_STR,
                 'most_recent_seen': 1460183824
             }), True),
             (call('most-recently-seen', 1460183824), True)
@@ -186,23 +179,7 @@ class TestChargeCardDigester(TestCase):
         self.assertEquals(calls, [
             call.get_from_binary('charges'),
             call.store_as_binary('charges', {
-                'charges': {
-                    1460184000: {
-                        'vendor': 'PiHut',
-                        'when_str': u'Apr---09 02:40',
-                        'curr': 'USD',
-                        'type': 'Charge',
-                        'amt': Decimal('5'),
-                        'card': 'Amex 1234'
-                    },
-                    1460185000: {
-                        'vendor': 'Pimoroni',
-                        'when_str': u'Apr---09 02:56',
-                        'curr': 'GBP', 'type': 'Charge',
-                        'amt': Decimal('4'),
-                        'card': 'Amex 1234'
-                    }
-                },
+                'charges': PIHUT_AND_PIMORONI_CHARGE_WITH_WHEN_STR,
                 'most_recent_seen': 1460183824
             })
         ])
