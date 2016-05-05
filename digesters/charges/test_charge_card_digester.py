@@ -7,6 +7,12 @@ from mockextras import stub
 
 from digesters.charges.charge_card_digester import ChargeCardDigester
 
+PIMORONI_CHARGE = {
+    1460185000: {"amt": Decimal(4.00), "type": "Charge", "curr": "GBP", "vendor": "Pimoroni", "card": "Amex 1234"}}
+
+PIHUT_CHARGE = {
+    1460184000: {"amt": Decimal(5.00), "type": "Charge", "curr": "USD", "vendor": "PiHut", "card": "Amex 1234"}}
+
 MAIL_HDR = """From: "Charge Cards" <foo@bar.com>
 Date: Sat, 09 Apr 2016 06:56:40 -0000
 Content-Transfer-Encoding: 8bit
@@ -32,15 +38,7 @@ class TestChargeCardDigester(TestCase):
         store_writer = Mock()
         store_writer.get_from_binary.side_effect = stub(
             (call('charges'), {
-                "charges": {
-                    1460184000: {
-                        "amt": Decimal(5.00),
-                        "type": "Charge",
-                        "curr": "USD",
-                        "vendor": "PiHut",
-                        "card": "Amex 1234"
-                    }
-                },
+                "charges": PIHUT_CHARGE,
                 "most_recent_seen": 1460183824
             }),
             (call('most-recently-seen'), 1460183824)
@@ -85,16 +83,7 @@ class TestChargeCardDigester(TestCase):
         digest_inbox_proxy.delete_previous_message.side_effect = stub((call(), True))
         digest_inbox_proxy.append.side_effect = stub((call(expected_message), True))
 
-        digester.new_charge_summary = {
-            1460185000: {
-                "amt": Decimal(4.00),
-                "type": "Charge",
-                "curr": "GBP",
-                "vendor": "Pimoroni",
-                "card": "Amex 1234"
-            }
-
-        }
+        digester.new_charge_summary = PIMORONI_CHARGE
 
         digester.notification_boundary_rand = "5678"
         digester.rewrite_digest_emails(digest_inbox_proxy, False, False, "foo@bar.com")
@@ -125,15 +114,7 @@ class TestChargeCardDigester(TestCase):
         store_writer = Mock()
         store_writer.get_from_binary.side_effect = stub(
             (call('charges'), {
-                "charges": {
-                    1460184000: {
-                        "amt": Decimal(5.00),
-                        "type": "Charge",
-                        "curr": "USD",
-                        "vendor": "PiHut",
-                        "card": "Amex 1234"
-                    }
-                },
+                "charges": PIHUT_CHARGE,
                 "most_recent_seen": 1460183824
             }),
             (call('most-recently-seen'), 1460183824)
@@ -193,16 +174,7 @@ class TestChargeCardDigester(TestCase):
         digest_inbox_proxy.delete_previous_message.side_effect = stub((call(), True))
         digest_inbox_proxy.append.side_effect = stub((call(expected_message), True))
 
-        digester.new_charge_summary = {
-            1460185000: {
-                "amt": Decimal(4.00),
-                "type": "Charge",
-                "curr": "GBP",
-                "vendor": "Pimoroni",
-                "card": "Amex 1234"
-            }
-
-        }
+        digester.new_charge_summary = PIMORONI_CHARGE
 
         digester.notification_boundary_rand = "5678"
         digester.rewrite_digest_emails(digest_inbox_proxy, True, False, "foo@bar.com")
