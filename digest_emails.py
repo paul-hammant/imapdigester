@@ -7,6 +7,7 @@ from optparse import OptionParser
 from socket import gaierror
 import backports.ssl as ssl
 
+import imapclient
 from imapclient import IMAPClient
 
 from digesters.digestion_processor import DigestionProcessor
@@ -82,16 +83,10 @@ if __name__ == '__main__':
 
     (options, args) = parser.parse_args()
 
-    old_python = True
-    if version_info[0] >= 3:
-        old_python = False
-    elif version_info[0] == 2 and version_info[1] > 7:
-        old_python = False
-    elif version_info[0] == 2 and version_info[1] == 7 and version_info[2] >= 11:
-        old_python = False
-    if old_python and (options.digest_cert_check_skip or options.notifications_cert_check_skip):
-        print "Can't do certificate check skipping on Python's less than 2.7.11 (command line options " \
-              "--digest-cert-check-skip or --notifications-cert-check-skip)"
+    old_imapclient = (imapclient.__version__ == "0.13")
+    if old_imapclient and (options.digest_cert_check_skip or options.notifications_cert_check_skip):
+        print "Can't do certificate check skipping on IMAPClient 0.13 with command line options " \
+              "--digest-cert-check-skip or --notifications-cert-check-skip"
         exit(10)
 
     if options.notifications_pw is None:
@@ -108,7 +103,7 @@ if __name__ == '__main__':
     # Read and mark for deletion items from notification inbox.
     notification_folder = None
     kwargs = {"use_uid": True, "ssl": options.notifications_ssl}
-    if not old_python and options.notifications_cert_check_skip:
+    if not old_imapclient and options.notifications_cert_check_skip:
         notifications_context = None
         notifications_context = ssl.SSLContext(ssl.PROTOCOL_SSLv23)
         notifications_context.check_hostname = False
@@ -134,7 +129,7 @@ if __name__ == '__main__':
     notification_folder.select_folder(options.notifications_folder_name)
 
     kwargs = {"use_uid": True, "ssl": options.digest_ssl}
-    if not old_python and options.digest_cert_check_skip:
+    if not old_imapclient and options.digest_cert_check_skip:
         digest_context = None
         digest_context = ssl.SSLContext(ssl.PROTOCOL_SSLv23)
         digest_context.check_hostname = False
