@@ -17,7 +17,6 @@ This is a multi-part message in MIME format.
 Content-Type: text/html; charset="utf-8"
 Content-Transfer-Encoding: 8bit
 
-
 """
 
 
@@ -140,13 +139,13 @@ class TestGithubNotifications(TestCase):
 
     def test_two_related_notifis_can_be_rolled_up_with_a_prior_notification(self):
 
-        expected_payload = """<span>You have previously read notifications up to: Apr 01 2016 08:20 PM</span>
+        expected_payload = """<span>You have previously read notifications up to: Apr 01 2016 09:20 PM</span>
           <table>
             <tr style="background-color: #acf;">
               <th>When</th><th>Issues/Pull Requests &amp; Their Notifications</th>
             </tr>
             <tr style="">
-              <td valign="top">Apr 02 2016<br/>01:14 AM</td>
+              <td valign="top">Apr 02 2016<br/>03:14 AM</td>
               <td>
                 <table style="border-top: none">
                   <tr>
@@ -163,9 +162,13 @@ class TestGithubNotifications(TestCase):
                  </table>
               </td>
             </tr>
-            <tr><td colspan="2" style="border-bottom: 1pt solid red; border-top: 1pt solid red;"><center>^ New/Updated Notifications Since You Last Checked ^</center></td></tr>
+            <tr>
+              <td colspan="2" style="border-bottom: 1pt solid red; border-top: 1pt solid red;">
+                <center>^ New/Updated Notifications Since You Last Checked ^</center>
+              </td>
+            </tr>
             <tr style="background-color: #def;">
-              <td valign="top">Apr 01 2016<br/>08:20 PM</td>
+              <td valign="top">Apr 01 2016<br/>09:20 PM</td>
               <td>
                 <table style="border-top: none">
                   <tr>
@@ -275,13 +278,13 @@ class TestGithubNotifications(TestCase):
 
     def test_two_related_notifs_can_be_rolled_up_where_one_was_previously_seen(self):
 
-        expected_payload = """<span>You have previously read notifications up to: Apr 02 2016 01:14 AM</span>
+        expected_payload = """<span>You have previously read notifications up to: Apr 02 2016 02:14 AM</span>
           <table>
             <tr style="background-color: #acf;">
               <th>When</th><th>Issues/Pull Requests &amp; Their Notifications</th>
             </tr>
             <tr style="">
-              <td valign="top">Apr 02 2016<br/>02:14 AM</td>
+              <td valign="top">Apr 02 2016<br/>03:14 AM</td>
               <td>
                 <table style="border-top: none">
                   <tr>

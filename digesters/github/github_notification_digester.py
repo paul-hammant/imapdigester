@@ -153,7 +153,11 @@ class GithubNotificationDigester(BaseDigester):
   </tr>
 {% for when, topic in notifs_to_print|dictsort(false, by='key')|reverse %}
 {% if topic['line_here'] %}
-  <tr><td colspan="2" style="border-bottom: 1pt solid red; border-top: 1pt solid red;"><center>^ New/Updated Notifications Since You Last Checked ^</center></td></tr>
+  <tr>
+    <td colspan="2" style="border-bottom: 1pt solid red; border-top: 1pt solid red;">
+      <center>^ New/Updated Notifications Since You Last Checked ^</center>
+    </td>
+  </tr>
 {% endif %}
   <tr style="{{loop.cycle('','background-color: #def;')}}">
     <td valign="top">{{ topic.when.replace('---','<br/>') }}</td>
@@ -182,6 +186,8 @@ class GithubNotificationDigester(BaseDigester):
                                      most_recent_seen=self.most_recently_seen,
                                      most_recent_seen_str=seen_formated,
                                      not_first_email=(self.most_recently_seen > 0))
+
+        email_html = self.remove_lines_that_are_fully_whitespace(email_html)
 
         new_message = 'Subject: ' + self.matching_digest_subject() + ' (' + str(
             num_messages_since_last_seen) + ' new)\n'
