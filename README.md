@@ -21,18 +21,18 @@ I've been blogging for a while towards this better **and pervasive** inbox:
 
 For this to work, you need two dedicated email addresses:
 
-1. For incoming machine-to-human notifications to send to, you **don't ever tell anyone else about it**, as it is not 
-what you correspond with people through. It is dedicated to this process. 
+1. For incoming machine-to-human notifications to send to, you **don't ever tell anyone else about it**, as it is not
+what you correspond with people through. It is dedicated to this process.
 You pass it to applications that issue notifications. You're going  to a script (see below) that reads and
 deletes from inbox for you. Lets call this the **notification inbox**.
 
 2. For Digest emails to be written/rewritten to. That script (below) is going to look after the
-inbox for this one. This email address is totally private to you - not even other machines know about it. 
+inbox for this one. This email address is totally private to you - not even other machines know about it.
 Just you, software-daemons you deployed and your email client(s). Let's call this the **digest inbox**. It could be
-your regular email address, but what if there's a bug and it deletes all you email - yup, that's right, use a 
+your regular email address, but what if there's a bug and it deletes all you email - yup, that's right, use a
 dedicated email accound for this one too too.
 
-Maybe grabbing two email addresses from a major email provider the above two is best. Your email client (desktop or 
+Maybe grabbing two email addresses from a major email provider the above two is best. Your email client (desktop or
 mobile) may be able to show and "all inboxes" view of your regular email, and your **digest inbox** just fine.
 The Outlook client on the iPhone certainly can.
 
@@ -117,10 +117,10 @@ Similarly, you can have the same folder within the same email account if you wan
 If you leave out `--notifications-pw` or `--digest-pw` you will be prompted at startup to enter them.
 If **notifications** and **digest** use the same email account, you'll only be prompted once.
 
-If you're using a self-signed IMAP server use --digest-cert-check-skip and/or --notifications-cert-check-skip to turn
+If you're using a self-signed IMAP server use `--digest-cert-check-skip` and/or `--notifications-cert-check-skip` to turn
 off the verification of the certificate for the IMAP server
 
-If your IMAP server isn't over SSL (port 993) at all, then you can specify --notifications-no-ssl and --digest-no-ssl
+If your IMAP server isn't over SSL (port 993) at all, then you can specify `--notifications-no-ssl` and `--digest-no-ssl`
 to unencrypted IMAP (port 143).
 
 # Plans to go to Python3.
@@ -134,7 +134,7 @@ for IMAPClient.
 ## Credit Card usages.
 
 A single email that can, so far, pull in transactions from American Express (US), Citibank (US) and Chase (US).
-Ordered by most recent first. These guys made it hard. For want of a text/json multi-part chunk (that includes a 
+Ordered by most recent first. These guys made it hard. For want of a text/json multi-part chunk (that includes a
 transaction ref for correlation).
 
 ![](http://paulhammant.com/images/cc_rollup.jpg)
@@ -147,13 +147,13 @@ transaction ref for correlation).
 
 ## Github Repo Notifications
 
-Whatever you're watching in terms of repo, will be distilled into a single email. This gets longer and longer as an 
-email, with new notification gravitating to the top of the email. Versus the last time the email 
+Whatever you're watching in terms of repo, will be distilled into a single email. This gets longer and longer as an
+email, with new notification gravitating to the top of the email. Versus the last time the email
 was written:
 
 ![](http://paulhammant.com/images/gh_rollup.jpg)
 
-- If there's new notifications the email will be rewitten. 
+- If there's new notifications the email will be rewitten.
 - If not the email is left alone (including the date of the email, which means it drifts down your inbox)
 
 Versus whether you've read the email or not:
@@ -161,7 +161,7 @@ Versus whether you've read the email or not:
 - A line appears in the email showing what notifications (relating to topics) that have you have read versus what
 you have not.
 
-If you delete the email, the server deletes all the things you've read from the accumlated list of notifications too. 
+If you delete the email, the server deletes all the things you've read from the accumlated list of notifications too.
 i.e. it appears to start over.
 
 Note - there is grouping around topic (repo-issue, repo-PR, repo-commit-comment).
