@@ -173,7 +173,7 @@ from `my_digesters_setup_sample.py`) - to set domain names, emails etc.
 
 Both 1-1 messages and Room mentions are rolled up into a single most-recent-first email.
 
-If you're interested in increasing the support for Hipchat - (please vote on feature request #579](https://jira.atlassian.com/browse/HCPUB-579)
+If you're interested in increasing the support for Hipchat - [please vote on feature request #579](https://jira.atlassian.com/browse/HCPUB-579)
 
 ## Linkedin Invitations
 
@@ -190,7 +190,7 @@ Notifications are rolled up into a single most-recent-first email:
 You must configure `my_digesters_setup.py` (hopefully you already copied it from `my_digesters_setup_sample.py`) to
 set the emails confluence uses to notify you, and a short name for that instance.
 
-If you're interested in increasing the support for Confluence - (please vote on feature request #41391](https://jira.atlassian.com/browse/CONF-41391)
+If you're interested in increasing the support for Confluence - [please vote on feature request #41391](https://jira.atlassian.com/browse/CONF-41391)
 
 ## Jira Notifications
 
