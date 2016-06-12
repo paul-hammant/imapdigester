@@ -45,30 +45,31 @@ class LinkedinInvitationDigester(BaseDigester):
         when = arrow.get(msg['Date'].split(',', 1)[1].strip(), 'D MMM YYYY HH:mm:ss ZZ').timestamp
 
         fromm = re.search('(.*) <invitations@linkedin.com>', msg["From"])
-        who = fromm.group(1)
-        spiel = text_message[:text_message.find('\nAccept:')].replace("\n\n","\n")
-        accept_url = "https://" + re.search('\nAccept: https://(.*)\n', text_message).group(1)
-        profile_url = "https://" + re.search('\nView profile: https://(.*)\n', text_message).group(1)
+        if fromm is not None:
+            who = fromm.group(1)
+            spiel = text_message[:text_message.find('\nAccept:')].replace("\n\n","\n")
+            accept_url = "https://" + re.search('\nAccept: https://(.*)\n', text_message).group(1)
+            profile_url = "https://" + re.search('\nView profile: https://(.*)\n', text_message).group(1)
 
-        src = "x"
-        if html_message:
-            soup = BeautifulSoup(html_message, 'html.parser')
-            headshot_img = soup.find("img", {"alt": who})
-            if headshot_img:
-                src_ = headshot_img['src']
-                src = src_
-            else:
-                src = "https://upload.wikimedia.org/wikipedia/commons/8/85/Border_collie.jpg"
+            src = "x"
+            if html_message:
+                soup = BeautifulSoup(html_message, 'html.parser')
+                headshot_img = soup.find("img", {"alt": who})
+                if headshot_img:
+                    src_ = headshot_img['src']
+                    src = src_
+                else:
+                    src = "https://upload.wikimedia.org/wikipedia/commons/8/85/Border_collie.jpg"
 
-            self.linkedin_invitations[when] = {
-                 "img_src": src,
-                 "who": who,
-                 "spiel": spiel,
-                 "accept_url": accept_url,
-                 "profile_url": profile_url
-            }
+                self.linkedin_invitations[when] = {
+                     "img_src": src,
+                     "who": who,
+                     "spiel": spiel,
+                     "accept_url": accept_url,
+                     "profile_url": profile_url
+                }
 
-            return True
+                return True
 
         return False
 
