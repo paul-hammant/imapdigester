@@ -129,7 +129,7 @@ Are paused for the time being - I consistently experience a segfault with Python
 Refer [issues/210](https://bitbucket.org/mjs0/imapclient/issues/210/fetch-that-runs-fine-with-python-2711)
 for IMAPClient.
 
-# Rewritten emails are available for:
+# Digest emails are available for these services
 
 ## Credit Card usages.
 
