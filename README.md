@@ -46,7 +46,14 @@ You'll also need to make a cron job for it - see below
 
 ## Installation Prerequisites
 
-Python 2.7.11 or above:
+If on Raspbian:
+
+```
+sudo apt install libffi-dev
+# one of the pips/wheels below needs it
+```
+
+Python 2.7.13 or above:
 
 ```
 brew install python
