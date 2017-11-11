@@ -134,9 +134,8 @@ to unencrypted IMAP (port 143).
 
 # Plans to go to Python3.
 
-Are paused for the time being - I consistently experience a segfault with Python 3.5.1 and IMAPClient 1.0.1.
-Refer [issues/210](https://bitbucket.org/mjs0/imapclient/issues/210/fetch-that-runs-fine-with-python-2711)
-for IMAPClient.
+... are paused for the time being - I consistently experience a segfault with Python 3.5.1 or above and IMAPClient 1.0.2.
+Refer [issue 207](https://github.com/mjs/imapclient/issues/207) for IMAPClient.
 
 # Digest emails are available for these services
 
