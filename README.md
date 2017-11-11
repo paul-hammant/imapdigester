@@ -51,7 +51,7 @@ You'll also need to make a cron job for it - see below
 If on Raspbian:
 
 ```
-sudo apt install libffi-dev
+sudo apt install libffi-dev python-backports.ssl
 # one of the pips/wheels below needs it
 ```
 
@@ -79,13 +79,16 @@ Note for the Pi's Raspbian, which is running a slightly older version of Python,
 pip install IMAPClient==0.13
 ```
 
-- In `/home/pi`, git clone this repo, and cd into that folder.
-- Copy the [cron_run_imapdigester_sample.sh](https://github.com/paul-hammant/imapdigester/blob/master/cron_run_imapdigester_sample.sh)
-script and lose the '_sample' suffix, and customize as appropriate for your email provider and account details.
+In `/home/pi`, git clone the repo, and cd into that folder in order to copy a shell script (make it executable too):
 
-- Make it executable via `chmod +x run_imapdigester.sh`
+```
+git clone https://github.com/paul-hammant/imapdigester.git
+cd imapdigester
+cp cron_run_imapdigester_sample.sh cron_run_imapdigester.sh
+chmod +x cron_run_imapdigester.sh
+```
 
-If you run that shell script, you should be able it's output in `imapdigester_output.txt`.
+Then customize that as appropriate for your email provider and account details. If you run that shell script, you should be able it's output in `imapdigester_output.txt`.
 
 ## One Dollar & Ten Cents?
 
