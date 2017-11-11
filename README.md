@@ -6,7 +6,7 @@ you've read previously or not.
  * all, cough, means three types of credit card alerts, and notifications from Github, Linkedin, Hipchat, Confluence,
   Jira, and StackExchange so far.
 
-![image](https://user-images.githubusercontent.com/82182/32691349-4fc58630-c6d4-11e7-900c-a6172af2f530.png)
+![image](https://user-images.githubusercontent.com/82182/32691583-e7d552f4-c6d7-11e7-936a-42d8eed99bfd.png)
 
 # Rationale
 
