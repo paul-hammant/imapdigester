@@ -38,7 +38,7 @@ Maybe grabbing two email addresses from a major email provider the above two is 
 mobile) may be able to show and "all inboxes" view of your regular email, and your **digest inbox** just fine.
 The Outlook client on the iPhone certainly can.
 
-# Deploying your daemon
+# Deploying your process
 
 I have mine on a Raspberry Pi Zero that's just dangling out of a power socket at home.  If I were you I would fork this
 repo, copy `my_digesters_setup_sample.py` to `my_digesters_setup.py` and make mods for yourself. The latter is in the
@@ -93,7 +93,7 @@ The $1.10 referenced is 0.7 Watt for 8760 hours (one year) at current electricit
 own consumes a quarter of that, and the rest is the USB wifi dongle. Inefficiency of a 110V to 5V transformer is not
 factored in. Refer a [Pi power usage page](http://www.pidramble.com/wiki/benchmarks/power-consumption).
 
-## Scheduling it with Cron
+## Scheduling the job with Cron
 
 In `/etc/cron.d` make a file `run_imapdigester` (sudo needed):
 
