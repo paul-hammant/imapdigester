@@ -163,10 +163,16 @@ if __name__ == '__main__':
                            options.sender_to_implicate, options.move_unmatched, options.digest_folder_name)\
             .doit()
 
-    digest_folder.expunge()
+    try:
+        digest_folder.expunge()
+    except IMAPClient.AbortError, e:
+        print "Error expunging digest folder"
     digest_folder.logout()
 
-    notification_folder.expunge()
+    try:
+        notification_folder.expunge()
+    except IMAPClient.AbortError, e:
+        print "Error expunging notification folder"
     notification_folder.logout()
 
     if command is "BASH-OPERATIONS":

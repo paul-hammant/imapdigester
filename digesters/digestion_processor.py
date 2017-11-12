@@ -2,6 +2,8 @@ import email
 import imaplib
 import re
 
+from imapclient import IMAPClient
+
 from utils import Utils
 
 
@@ -43,18 +45,18 @@ class DigestionProcessor(object):
 
         messages = self.notification_folder.search('NOT DELETED')
         response = self.notification_folder.fetch(messages, ['FLAGS', 'RFC822.SIZE'])
-        unmatched_to_move = []
+        unmatched_mails = []
         to_delete = []
 
         # Loop through email in notification folder
         for msgid, data in response.iteritems():
             rfc822content = self.notification_folder.fetch(msgid, ["INTERNALDATE", "BODY", "RFC822"])[msgid]['RFC822']
-            # try:
-            self.process_incoming_notification(msgid, self.digesters, rfc822content, to_delete,
-                                                   unmatched_to_move, self.move_unmatched)
-            # except Exception, e:
-            #     msg = email.message_from_string(rfc822content)
-            #     print "Subject " + msg["Subject"] + ", From: " + msg["From"] + " : processing failed: " + str(e)
+            try:
+                self.process_incoming_notification(msgid, self.digesters, rfc822content, to_delete,
+                                                   unmatched_mails, self.move_unmatched)
+            except Exception, e:
+                modified_mail = re.sub("\nSubject:", "\nSubject: [err]", rfc822content)
+                self.move_unmatched.append(modified_mail)
 
 
         # Rewrite emails in the digest folder (the one the end-user actually reads)
@@ -78,10 +80,17 @@ class DigestionProcessor(object):
 
         # Move Unmatched files so the human can see them
 
-        for unm in unmatched_to_move:
-            unm = re.sub("\nFrom: .*\r\n", "\nFrom: " + self.sender_to_implicate + "\r\n", unm)
-            unm = re.sub("\nTo: .*\r\n", "\nTo: " + self.sender_to_implicate + "\r\n", unm)
-            self.digest_folder.append(self.digest_folder_name, unm)
+        for unmatched in unmatched_mails:
+            # unm = re.sub("\nFrom: .*\r\n", "\nFrom: " + self.sender_to_implicate + "\r\n", unm)
+            # unm = re.sub("\nTo: .*\r\n", "\nTo: " + self.sender_to_implicate + "\r\n", unm)
+            modified_mail = re.sub("\nSubject:", "\nSubject: [I:D]", unmatched)
+            try:
+                self.digest_folder.append(self.digest_folder_name, modified_mail)
+            except IMAPClient.AbortError, e:
+                for line in unmatched.split("\n"):
+                    if line.startswith("Subject: "):
+                        print "Can't move " + line + " --> " + str(e)
+                        break
 
         # Delete Originals
 
