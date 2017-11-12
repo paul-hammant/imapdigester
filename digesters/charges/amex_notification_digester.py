@@ -236,7 +236,7 @@ class AmexNotificationDigester(BaseChargeCardDigester):
             text)
         if not a_charge:
             a_charge = re.search(
-                'Account Ending:(.*)View AccountMake.*Transaction Date:(.*)Merchant Name:(.*)Purchase Amount:.*\$(.*)Some transactions',
+                "Ending: (.*) Large purchase on your Card As you requested, we're letting you know that this purchase was above your notification amount of \$\d+\.\d+\. (.*) \$(.*)\*(.*) Available",
                 text)
             if not a_charge:
                 return False
@@ -264,7 +264,7 @@ class AmexNotificationDigester(BaseChargeCardDigester):
     def get_fields(a_charge):
         acct = a_charge.group(1)
         # date in body doesn't include time element
-        vendor = a_charge.group(3)
-        amt = a_charge.group(4)
+        vendor = a_charge.group(2)
+        amt = a_charge.group(3)
         curr = "USD"
         return acct, amt, curr, vendor
