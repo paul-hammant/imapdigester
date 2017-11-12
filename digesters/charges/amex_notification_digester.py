@@ -139,6 +139,8 @@ class AmexNotificationDigester(BaseChargeCardDigester):
             return True
         if "MANAGE YOUR ALERTS >" in text:
             return True
+        if "AutoPay Reminder" in text:
+            return True
         if "About This Survey" in text:
             return True
 
