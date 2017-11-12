@@ -55,8 +55,8 @@ class DigestionProcessor(object):
                 self.process_incoming_notification(msgid, self.digesters, rfc822content, to_delete,
                                                    unmatched_mails, self.move_unmatched)
             except Exception, e:
-                modified_mail = re.sub("\nSubject:", "\nSubject: [err]", rfc822content)
-                self.move_unmatched.append(modified_mail)
+                modified_mail = re.sub("\nSubject:", "\nSubject: [" + str(e) + "]", rfc822content)
+                unmatched_mails.append(modified_mail)
 
 
         # Rewrite emails in the digest folder (the one the end-user actually reads)
