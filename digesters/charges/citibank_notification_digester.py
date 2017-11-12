@@ -15,11 +15,11 @@ class CitibankNotificationDigester(BaseChargeCardDigester):
         print "New Citibank Charges: " + str(self.new_citi)
 
     def matching_incoming_headers(self):
-        return ["From: alerts@citibank.com"]
+        return ["From: Citi Alerts <alerts@citibank.com>"]
 
     def process_new_notification(self, rfc822content, msg, html_message, text_message):
         cdate = msg["Date"].split(',', 1)[1].strip()
-        when = arrow.get(cdate, 'D MMM YYYY HH:mm:ss ZZZ').timestamp
+        when = arrow.get(cdate, 'D MMM YYYY HH:mm:ss Z').timestamp
 
         a_charge = re.search("^Account #: (.*) \$(.*) at (.*) on (.*) exceeds", text_message)
 
