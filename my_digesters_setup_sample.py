@@ -1,4 +1,5 @@
 from digesters.confluence.confluence_notification_digester import ConfluenceNotificationDigester
+from digesters.fidelity.fidelity_notification_digester import FidelityNotificationDigester
 from digesters.github.github_notification_digester import GithubNotificationDigester
 from digesters.hipchat.hipchat_notification_digester import HipchatNotificationDigester
 from digesters.jira.jira_notification_digester import JiraNotificationDigester
@@ -7,6 +8,11 @@ from digesters.stackexchange.stack_exchange_notification_digester import StackEx
 
 from metastore import MetaStore
 from digesters.charges.charge_card_digester import ChargeCardDigester
+
+# This file - my_digesters_setup_sample.py - is activated despite the 'sample' name, UNLESS
+# 'my_digesters_setup.py' is present. You would have made that yourself by copying this source file
+# and replacing this notice with "copied from ...". Yes, it is an unconventional way of configuring
+# an application (Python versus XML, JSON, YAML, TOML, properties/ini files), but it is what it is.
 
 def add_digesters(digesters):
 
@@ -37,6 +43,9 @@ def add_digesters(digesters):
 
     # Atlassian HipChat (service) notifications
     digesters.append(HipchatNotificationDigester(MetaStore("hipchat_notifications")))
+
+    # Fidelity Investments (investments) Balance notifications
+    digesters.append(FidelityNotificationDigester(MetaStore("fidelity_notifications")))
 
     # Linkedin (service) Invitations
     digesters.append(LinkedinInvitationDigester(MetaStore("linkedin_invitations")))
