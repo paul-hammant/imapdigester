@@ -49,12 +49,13 @@ class DigestionProcessor(object):
         # Loop through email in notification folder
         for msgid, data in response.iteritems():
             rfc822content = self.notification_folder.fetch(msgid, ["INTERNALDATE", "BODY", "RFC822"])[msgid]['RFC822']
-            try:
-                self.process_incoming_notification(msgid, self.digesters, rfc822content, to_delete,
+            # try:
+            self.process_incoming_notification(msgid, self.digesters, rfc822content, to_delete,
                                                    unmatched_to_move, self.move_unmatched)
-            except Exception, e:
-                msg = email.message_from_string(rfc822content)
-                print "Subject " + msg["Subject"] + ", From: " + msg["From"] + " : processing failed: " + str(e)
+            # except Exception, e:
+            #     msg = email.message_from_string(rfc822content)
+            #     print "Subject " + msg["Subject"] + ", From: " + msg["From"] + " : processing failed: " + str(e)
+
 
         # Rewrite emails in the digest folder (the one the end-user actually reads)
         for digester in self.digesters:

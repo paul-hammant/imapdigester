@@ -37,7 +37,8 @@ class LinkedinInvitationDigester(BaseDigester):
         text_message = text_message.replace("\r\n", "\n")
 
         if msg["Subject"].endswith("invitation is waiting for your response") or \
-            msg["Subject"].endswith("connections, experience, and more"):
+            msg["Subject"].endswith("connections, experience, and more") or \
+                "has accepted your invitation" in text_message:
             # No need to be reminded, bugged.
             return True
 
@@ -46,6 +47,7 @@ class LinkedinInvitationDigester(BaseDigester):
 
         fromm = re.search('(.*) <invitations@linkedin.com>', msg["From"])
         if fromm is not None:
+            # print " msg[Subject]:" +  msg["Subject"]
             who = fromm.group(1)
             spiel = text_message[:text_message.find('\nAccept:')].replace("\n\n","\n")
             accept_url = "https://" + re.search('\nAccept: https://(.*)\n', text_message).group(1)

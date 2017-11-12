@@ -19,7 +19,7 @@ class CitibankNotificationDigester(BaseChargeCardDigester):
 
     def process_new_notification(self, rfc822content, msg, html_message, text_message):
         cdate = msg["Date"].split(',', 1)[1].strip()
-        when = arrow.get(cdate, 'D MMM YYYY HH:mm:ss ZZ').timestamp
+        when = arrow.get(cdate, 'D MMM YYYY HH:mm:ss ZZZ').timestamp
 
         a_charge = re.search("^Account #: (.*) \$(.*) at (.*) on (.*) exceeds", text_message)
 

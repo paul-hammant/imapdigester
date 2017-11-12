@@ -46,62 +46,67 @@ class ConfluenceNotificationDigester(BaseDigester):
             from_, encoding = decode_header(from_)[0]
         who = re.search('(.*) \(Confluence\)', from_).group(1).replace('"','')
 
-        if html_message:
-            soup = BeautifulSoup(html_message, 'html.parser')
-            event_text = soup.find("td", {"id": "header-text-container"}).text
-            doc_elem = soup.find("td", {"id": "page-title-pattern-header-container"}).find("span").find("a")
-            doc_url = doc_elem.attrs["href"]
-            doc_url = doc_url[:doc_url.find("&")]
-            if "#" in doc_url:
-                doc_url = doc_url[:doc_url.find("#")]
+        try:
+            if html_message:
+                soup = BeautifulSoup(html_message, 'html.parser')
+                # print "soup:" + str(soup.prettify())
+                event_text = soup.find("td", {"id": "header-text-container"}).text
+                doc_elem = soup.find("td", {"id": "page-title-pattern-header-container"}).find("span").find("a")
+                doc_url = doc_elem.attrs["href"]
+                doc_url = doc_url[:doc_url.find("&")]
+                if "#" in doc_url:
+                    doc_url = doc_url[:doc_url.find("#")]
 
-            anchors =  soup.findAll("a")
-            space = "UNKNOWN"
-            for anchor in anchors:
-                if "href" in anchor.attrs:
-                    href_ = anchor.attrs["href"]
-                    if "spaceKey=" in href_:
-                        space = re.search('spaceKey=(.*)', href_).group(1)
-                        if "&" in space:
-                            space = space[:space.index("&")]
+                anchors =  soup.findAll("a")
+                space = "UNKNOWN"
+                for anchor in anchors:
+                    if "href" in anchor.attrs:
+                        href_ = anchor.attrs["href"]
+                        if "spaceKey=" in href_:
+                            space = re.search('spaceKey=(.*)', href_).group(1)
+                            if "&" in space:
+                                space = space[:space.index("&")]
 
-            doc_text = unicode(doc_elem.text)
+                doc_text = unicode(doc_elem.text)
 
-            if "edited a page" in event_text:
-                if "?" in doc_url:
-                    doc_url = doc_url[:doc_url.find("?")]
-                added = len(soup.findAll("span", {"class", "diff-html-added"}))
-                added += len(soup.findAll("span", {"class", "x_diff-html-added"}))
-                removed = len(soup.findAll("span", {"class", "diff-html-removed"}))
-                removed += len(soup.findAll("span", {"class", "x_diff-html-removed"}))
-                changed = len(soup.findAll("span", {"class", "diff-html-changed"}))
-                changed += len(soup.findAll("span", {"class", "x_diff-html-changed"}))
-                excerpt = "Page nodes added: " + str(added) \
-                                               + ", removed: " + str(removed) \
-                                               + ", changed: " + str(changed)
-            elif "created a page" in event_text:
-                contents = soup.find("td", {"class": "email-content-main mobile-expand"})
-                words_in_new_page = Counter(contents.text).elements()
-                excerpt = "Page added with " + str(len(list(words_in_new_page))) + " words."
-            else:
-                blurb = unicode(soup.find("table", {"class": "content-excerpt-pattern"}).text.strip())
-                excerpt = blurb[:55].strip()
-                if len(excerpt) > 55:
-                    excerpt += "..."
+                if "edited a page" in event_text:
+                    if "?" in doc_url:
+                        doc_url = doc_url[:doc_url.find("?")]
+                    added = len(soup.findAll("span", {"class", "diff-html-added"}))
+                    added += len(soup.findAll("span", {"class", "x_diff-html-added"}))
+                    removed = len(soup.findAll("span", {"class", "diff-html-removed"}))
+                    removed += len(soup.findAll("span", {"class", "x_diff-html-removed"}))
+                    changed = len(soup.findAll("span", {"class", "diff-html-changed"}))
+                    changed += len(soup.findAll("span", {"class", "x_diff-html-changed"}))
+                    excerpt = "Page nodes added: " + str(added) \
+                                                   + ", removed: " + str(removed) \
+                                                   + ", changed: " + str(changed)
+                elif "created a page" in event_text:
+                    contents = soup.find("td", {"class": "email-content-main mobile-expand"})
+                    words_in_new_page = Counter(contents.text).elements()
+                    excerpt = "Page added with " + str(len(list(words_in_new_page))) + " words."
+                else:
+                    blurb = unicode(soup.find("table", {"class": "content-excerpt-pattern"}).text.strip())
+                    excerpt = blurb[:55].strip()
+                    if len(excerpt) > 55:
+                        excerpt += "..."
 
 
-            self.confluence_notifications[when] = {
-                 "doc_url": doc_url,
-                 "who": who,
-                 "space": space,
-                 "doc_text": doc_text,
-                 "event": event_text,
-                 "excerpt": excerpt
-            }
+                self.confluence_notifications[when] = {
+                     "doc_url": doc_url,
+                     "who": who,
+                     "space": space,
+                     "doc_text": doc_text,
+                     "event": event_text,
+                     "excerpt": excerpt
+                }
 
-            # print simplejson.dumps(self.confluence_notifications[when], sort_keys=True) + "\n\n"
+                # print simplejson.dumps(self.confluence_notifications[when], sort_keys=True) + "\n\n"
 
-            return True
+                return True
+        except AttributeError:
+            print "AttributeError processing confluence message"
+            pass
 
         return False
 

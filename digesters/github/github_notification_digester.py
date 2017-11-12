@@ -41,7 +41,8 @@ class GithubNotificationDigester(BaseDigester):
         if who.startswith("=?"):
             who, encoding = decode_header(who)[0]
 
-        origArrivalTime = msg['X-OriginalArrivalTime']
+        origArrivalTime = msg['X-MS-Exchange-CrossTenant-OriginalArrivalTime']
+        # print "msg== " + str(msg)
         origArrivalTime = origArrivalTime[:origArrivalTime.index(' (UTC')]
         when = arrow.get(origArrivalTime, 'DD MMM YYYY HH:mm:ss.SSSS')
         closedVia = re.search('^Closed #\d* via ', text_message)
