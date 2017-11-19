@@ -1,16 +1,18 @@
 # ImapDigester
 
-Reads all* your robot-sent notifications and digests them into a single digest email, that has some smarts how much
+Reads all* your robot-sent notifications and digests them into a **single** digest email, that has some smarts: how much
 you've read previously or not.
 
- * all, cough, means three types of credit card alerts, and notifications from Github, Linkedin, Hipchat, Confluence,
-  Jira, and StackExchange so far.
+ * all, means three types of credit card alerts, and notifications from Github, Linkedin, Hipchat, Confluence,
+  Jira, and StackExchange **so far**.
+
+To reiterate: this tech perpetually rewrites emails directly in your Inbox with 'sending' (SMTP) emails at all.
 
 ![image](https://user-images.githubusercontent.com/82182/32691583-e7d552f4-c6d7-11e7-936a-42d8eed99bfd.png)
 
 # Rationale
 
-I've been blogging for a while towards this better **and pervasive** inbox:
+I've been blogging for a while towards this better **pervasive inbox**:
 
 - April 4th, 2016 » [Reducing My Robo-Emails To A Handful of Digest Emails Every Few Minutes (IMAP Rewriting With Python)](http://paulhammant.com/2016/04/04/reducing-my-robo-emails-to-a-handful-of-rollup-emails-every-few-minutes/)
 - September 3rd, 2015 » [Resurrecting a small piece of Google Wave](http://paulhammant.com/2015/09/03/resurrecting-a-small-piece-of-google-wave/)
