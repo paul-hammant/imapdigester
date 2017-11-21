@@ -20,12 +20,12 @@ def add_digesters(digesters):
     # Customize for your filter(s) ...
     digesters.append(StackExchangeNotificationDigester(MetaStore("stack_exchange_1"), "My SO filters"))
 
-    # Charge (Credit) card spenting alerts (and mmore)
+    # Charge (Credit) card spending alerts (and more)
     digesters.append(ChargeCardDigester(MetaStore("charge_cards"))
                       .with_amex()
                       .with_chase()
                       .with_barclaycard()  # non-operational presently
-                      .with_bofa()  # non-operational presently
+                      .with_bofa()
                       .with_jpmorgan()  # non-operational presently
                       .with_capitalone()  # non-operational presently
                       .with_citi())

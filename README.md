@@ -62,6 +62,7 @@ brew install python
 # apt-get for Linux
 # you might have to force link that
 
+pip install lxml
 pip install BeautifulSoup4
 pip install IMAPClient
 pip install arrow

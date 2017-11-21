@@ -12,8 +12,11 @@ class Utils(object):
         :return: Message body as unicode string
         """
 
+        multipart = msg.is_multipart()
+        content_type_is_html = msg.get_content_type() == "text/html"
+
         text = ""
-        if msg.is_multipart():
+        if multipart:
             html = None
             for part in msg.get_payload():
                 if part.get_content_charset() is None:
@@ -30,7 +33,9 @@ class Utils(object):
                 if part.get_content_type() == 'text/html' and html_needed == True:
                     html = unicode(part.get_payload(decode=True), str(charset), "ignore").encode('utf8', 'replace')
                     return html.strip()
-
+        elif not multipart and content_type_is_html:
+            payload = msg.get_payload(decode=True)
+            return payload.strip()
         else:
             if html_needed == False:
                 chrset = msg.get_content_charset()

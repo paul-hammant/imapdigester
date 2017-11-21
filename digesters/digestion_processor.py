@@ -41,6 +41,7 @@ class DigestionProcessor(object):
         self.digest_folder = digest_folder
         self.notification_folder = notification_folder
 
+
     def doit(self):
 
         messages = self.notification_folder.search('NOT DELETED')
@@ -87,10 +88,8 @@ class DigestionProcessor(object):
             try:
                 self.digest_folder.append(self.digest_folder_name, modified_mail)
             except IMAPClient.AbortError, e:
-                for line in unmatched.split("\n"):
-                    if line.startswith("Subject: "):
-                        print "Can't move " + line + " --> " + str(e)
-                        break
+                print("Can't move '" + self.get_subject(unmatched) + ", error:" + str(e))
+                break
 
         # Delete Originals
 
@@ -101,6 +100,12 @@ class DigestionProcessor(object):
         if self.print_summary:
             for digester in self.digesters:
                 digester.print_summary()
+
+    def get_subject(self, rfc822content):
+        for line in rfc822content.split("\n"):
+            if line.startswith("Subject: "):
+                return line[len("Subject: "):]
+        return "[i:d] - unknown subject"
 
     def process_incoming_notification(self, msgid, digesters, rfc822content, to_delete,
                                       unmatched_to_move, move_unmatched):
