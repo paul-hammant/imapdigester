@@ -1,6 +1,4 @@
-from __future__ import unicode_literals
-
-import StringIO
+import io
 import re
 from email.header import decode_header
 
@@ -97,7 +95,7 @@ class GithubNotificationDigester(BaseDigester):
         message = ""
         quoted = False
         ddd = False
-        s = StringIO.StringIO(body)
+        s = io.StringIO(body)
         for line in s:
             if line.startswith("> "):
                 quoted = True
@@ -105,7 +103,7 @@ class GithubNotificationDigester(BaseDigester):
             if line.strip() == "":
                 continue
             if message == "":
-                message = unicode(line[:55].strip(), errors='replace')
+                message = str(line[:55].strip(), errors='replace')
                 if len(line) > 55:
                     ddd = True
                 continue
@@ -132,7 +130,7 @@ class GithubNotificationDigester(BaseDigester):
 
         # If the last mail has been read, then everything in it has been seen
         if previously_seen:
-            for topic, detail in self.github_notifications.iteritems():
+            for topic, detail in self.github_notifications.items():
                 if (detail["mostRecent"] > self.most_recently_seen):
                     self.most_recently_seen = detail["mostRecent"]
 
@@ -216,7 +214,7 @@ class GithubNotificationDigester(BaseDigester):
         self.store_writer.store_as_binary("most-recently-seen", self.most_recently_seen)
 
     def add_new_notifications_to_those_grouped_by_topic_and_calc_most_recent_for_each_topic(self):
-        for ts, notif in self.new_notifications.iteritems():
+        for ts, notif in self.new_notifications.items():
             if (notif["topic"] not in self.github_notifications):
                 self.github_notifications[notif["topic"]] = {"ts": {}, "mostRecent": 0}
             if (ts > self.github_notifications[notif["topic"]]["mostRecent"]):
@@ -231,7 +229,7 @@ class GithubNotificationDigester(BaseDigester):
     def map_topics_by_their_most_recent_notification(self):
         # map topics by their most recent notification
         notifsToPrint = {}
-        for topic, detail in self.github_notifications.iteritems():
+        for topic, detail in self.github_notifications.items():
             notifsToPrint[detail["mostRecent"]] = {
                 "when": arrow.get(detail["mostRecent"]).to("local").format("MMM DD YYYY---hh:mm A"),
                 "path": topic[:topic.index("@")],
@@ -247,13 +245,13 @@ class GithubNotificationDigester(BaseDigester):
         num_messages_since_last_seen = 0
         line_here_done = False
         mostRecentNotification = None
-        for ts0, notif in sorted(notifsToPrint.iteritems(), reverse=False):
+        for ts0, notif in sorted(iter(notifsToPrint.items()), reverse=False):
             mostRecentNotification = notif
             if self.most_recently_seen != 0 and ts0 >= self.most_recently_seen and line_here_done == False:
                 notif['line_here'] = True
                 line_here_done = True
             lastTs = 0
-            for ts, detail in sorted(notif["ts"].iteritems(), reverse=True):
+            for ts, detail in sorted(iter(notif["ts"].items()), reverse=True):
                 if (ts > self.most_recently_seen):
                     num_messages_since_last_seen += 1
                 if lastTs != 0:
@@ -283,4 +281,4 @@ class GithubNotificationDigester(BaseDigester):
         return self.known_as
 
     def print_summary(self):
-        print "New " + self.known_as + " notifications: " + str(self.new_message_count)
+        print("New " + self.known_as + " notifications: " + str(self.new_message_count))

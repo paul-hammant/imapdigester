@@ -14,7 +14,7 @@ class AmexNotificationDigester(BaseChargeCardDigester):
         self.new_amex = 0
 
     def print_summary(self):
-        print "New Amex Charges: " + str(self.new_amex)
+        print("New Amex Charges: " + str(self.new_amex))
 
     def matching_incoming_headers(self):
         return ["From: \"American Express\" <AmericanExpress@welcome.aexp.com>",
@@ -211,7 +211,7 @@ class AmexNotificationDigester(BaseChargeCardDigester):
                 chg = self.make_or_get_charge_entry(when)
                 # should prob do de-morgan's..
                 if (amt is None or amt is "") or (merchant is None or merchant is ""):
-                    print "Amex.maybe_card_not_present_purchase amt is none or merch"
+                    print("Amex.maybe_card_not_present_purchase amt is none or merch")
                     return False
                 else:
                     chg["type"] = "Virtual Charge"
@@ -221,14 +221,14 @@ class AmexNotificationDigester(BaseChargeCardDigester):
                     chg["card"] = "Amex " + re.search("Account Ending: (\d{5})", plain_text).group(1)
                     return True
             else:
-                print "Amex.maybe_card_not_present_purchase card_not_present regex didn't match"
+                print("Amex.maybe_card_not_present_purchase card_not_present regex didn't match")
                 return False
         except:
-            print "Amex.maybe_card_not_present_purchase: Unexpected error:", sys.exc_info()[0]
-            print "--> " + plain_text
+            print("Amex.maybe_card_not_present_purchase: Unexpected error:", sys.exc_info()[0])
+            print("--> " + plain_text)
             return False
 
-        print "--> Amex.maybe_card_not_present_purchase - unprocessed unexecptedly w/o exception -->" + plain_text
+        print("--> Amex.maybe_card_not_present_purchase - unprocessed unexecptedly w/o exception -->" + plain_text)
         return False
 
     def maybe_process_regular_charge(self, text, when):

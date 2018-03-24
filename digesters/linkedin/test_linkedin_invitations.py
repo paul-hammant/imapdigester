@@ -133,36 +133,36 @@ View profile: https://www.linkedin.com/comm/profile/view?id=AAsAAAJUVTYBWkKAZwpp
         digester.rewrite_digest_emails(digest_inbox_proxy, has_previous_message=True,
                                        previously_seen=False, sender_to_implicate="ph@example.com")
 
-        self.assertEquals(digest_inbox_proxy.mock_calls, [call.delete_previous_message(), call.append(expected_message)])
+        self.assertEqual(digest_inbox_proxy.mock_calls, [call.delete_previous_message(), call.append(expected_message)])
 
         calls = store_writer.mock_calls
-        self.assertEquals(calls, [
+        self.assertEqual(calls, [
             call.get_from_binary('linkedin-invitations'),
             call.get_from_binary('most-recently-seen'),
             call.store_as_binary('linkedin-invitations',
                                  {1462203530: {
-                                     u'spiel': u"Hi Paul,\nI'd like to join your LinkedIn network.\nFOO BAR\nVice President\nView profile: https://www.linkedin.com/comm/profile/view?id=AAsAAAFlvJcBCnnIlLvQhDO6ZBU5rdb7fAb_-IU&authType=name&authToken=95up&invAcpt=2197625_I6132926076281774083_500&midToken=AQHQ1w5V4ws4wA&trk=eml-email_m2m_invite_single_01-hero-3-prof%7Ecta&trkEmail=eml-email_m2m_invite_single_01-hero-3-prof%7Ecta-null-1b3p5%7Einq68641%7E1h\n",
-                                     u'accept_url': u'https://www.linkedin.com/comm/people/invite-accept?mboxid=I6132926076281774083_500&sharedKey=w447gWge&fr=false&invitationId=6132926046288310272&fe=true&midToken=AQHQ1w5V4ws4wA&trk=eml-email_m2m_invite_single_01-hero-0-accept%7Ecta&trkEmail=eml-email_m2m_invite_single_01-hero-0-accept%7Ecta-null-1b3p5%7Einq68641%7E1h',
-                                     u'who': 'Foo Bar',
-                                     u'img_src': u'https://upload.wikimedia.org/wikipedia/commons/8/85/Border_collie.jpg',
-                                     u'profile_url': u'https://www.linkedin.com/comm/profile/view?id=AAsAAAFlvJcBCnnIlLvQhDO6ZBU5rdb7fAb_-IU&authType=name&authToken=95up&invAcpt=2197625_I6132926076281774083_500&midToken=AQHQ1w5V4ws4wA&trk=eml-email_m2m_invite_single_01-hero-3-prof%7Ecta&trkEmail=eml-email_m2m_invite_single_01-hero-3-prof%7Ecta-null-1b3p5%7Einq68641%7E1h'},
+                                     'spiel': "Hi Paul,\nI'd like to join your LinkedIn network.\nFOO BAR\nVice President\nView profile: https://www.linkedin.com/comm/profile/view?id=AAsAAAFlvJcBCnnIlLvQhDO6ZBU5rdb7fAb_-IU&authType=name&authToken=95up&invAcpt=2197625_I6132926076281774083_500&midToken=AQHQ1w5V4ws4wA&trk=eml-email_m2m_invite_single_01-hero-3-prof%7Ecta&trkEmail=eml-email_m2m_invite_single_01-hero-3-prof%7Ecta-null-1b3p5%7Einq68641%7E1h\n",
+                                     'accept_url': 'https://www.linkedin.com/comm/people/invite-accept?mboxid=I6132926076281774083_500&sharedKey=w447gWge&fr=false&invitationId=6132926046288310272&fe=true&midToken=AQHQ1w5V4ws4wA&trk=eml-email_m2m_invite_single_01-hero-0-accept%7Ecta&trkEmail=eml-email_m2m_invite_single_01-hero-0-accept%7Ecta-null-1b3p5%7Einq68641%7E1h',
+                                     'who': 'Foo Bar',
+                                     'img_src': 'https://upload.wikimedia.org/wikipedia/commons/8/85/Border_collie.jpg',
+                                     'profile_url': 'https://www.linkedin.com/comm/profile/view?id=AAsAAAFlvJcBCnnIlLvQhDO6ZBU5rdb7fAb_-IU&authType=name&authToken=95up&invAcpt=2197625_I6132926076281774083_500&midToken=AQHQ1w5V4ws4wA&trk=eml-email_m2m_invite_single_01-hero-3-prof%7Ecta&trkEmail=eml-email_m2m_invite_single_01-hero-3-prof%7Ecta-null-1b3p5%7Einq68641%7E1h'},
                                   1462131286: {
-                                      u'accept_url': u'https://www.linkedin.com/comm/people/invite-accept?mboxid=I6132985453227360256_500&sharedKey=48j6iM8P&fr=false&invitationId=6132985418842456064&fe=true&midToken=AQHQ1w5V4ws4wA&trk=eml-email_m2m_invite_single_01-hero-0-accept%7Ecta&trkEmail=eml-email_m2m_invite_single_01-hero-0-accept%7Ecta-null-1b3p5%7Einqenmmy%7Eir',
-                                      u'line_here': True, u'who': 'Aaaa Bbbb',
-                                      u'spiel': u"Hi Paul,\nI'd like to join your LinkedIn network.\nAaaa Bbbb\nManaging Director\nView profile: https://www.linkedin.com/comm/profile/view?id=AAsAAAJUVTYBWkKAZwppmyYBjwgm1AI0nKRyTwA&authType=name&authToken=eAsV&invAcpt=2197625_I6132985453227360256_500&midToken=AQHQ1w5V4ws4wA&trk=eml-email_m2m_invite_single_01-hero-3-prof%7Ecta&trkEmail=eml-email_m2m_invite_single_01-hero-3-prof%7Ecta-null-1b3p5%7Einqenmmy%7Eir\n",
-                                      u'img_src': u'https://upload.wikimedia.org/wikipedia/commons/8/85/Border_collie.jpg',
-                                      u'profile_url': u'https://www.linkedin.com/comm/profile/view?id=AAsAAAJUVTYBWkKAZwppmyYBjwgm1AI0nKRyTwA&authType=name&authToken=eAsV&invAcpt=2197625_I6132985453227360256_500&midToken=AQHQ1w5V4ws4wA&trk=eml-email_m2m_invite_single_01-hero-3-prof%7Ecta&trkEmail=eml-email_m2m_invite_single_01-hero-3-prof%7Ecta-null-1b3p5%7Einqenmmy%7Eir'},
+                                      'accept_url': 'https://www.linkedin.com/comm/people/invite-accept?mboxid=I6132985453227360256_500&sharedKey=48j6iM8P&fr=false&invitationId=6132985418842456064&fe=true&midToken=AQHQ1w5V4ws4wA&trk=eml-email_m2m_invite_single_01-hero-0-accept%7Ecta&trkEmail=eml-email_m2m_invite_single_01-hero-0-accept%7Ecta-null-1b3p5%7Einqenmmy%7Eir',
+                                      'line_here': True, 'who': 'Aaaa Bbbb',
+                                      'spiel': "Hi Paul,\nI'd like to join your LinkedIn network.\nAaaa Bbbb\nManaging Director\nView profile: https://www.linkedin.com/comm/profile/view?id=AAsAAAJUVTYBWkKAZwppmyYBjwgm1AI0nKRyTwA&authType=name&authToken=eAsV&invAcpt=2197625_I6132985453227360256_500&midToken=AQHQ1w5V4ws4wA&trk=eml-email_m2m_invite_single_01-hero-3-prof%7Ecta&trkEmail=eml-email_m2m_invite_single_01-hero-3-prof%7Ecta-null-1b3p5%7Einqenmmy%7Eir\n",
+                                      'img_src': 'https://upload.wikimedia.org/wikipedia/commons/8/85/Border_collie.jpg',
+                                      'profile_url': 'https://www.linkedin.com/comm/profile/view?id=AAsAAAJUVTYBWkKAZwppmyYBjwgm1AI0nKRyTwA&authType=name&authToken=eAsV&invAcpt=2197625_I6132985453227360256_500&midToken=AQHQ1w5V4ws4wA&trk=eml-email_m2m_invite_single_01-hero-3-prof%7Ecta&trkEmail=eml-email_m2m_invite_single_01-hero-3-prof%7Ecta-null-1b3p5%7Einqenmmy%7Eir'},
                                   1462217686: {
-                                      u'spiel': u"Hi Paul,\nI'd like to join your LinkedIn network.\nMichael McAuliffe\nManaging Director\nView profile: https://www.linkedin.com/comm/profile/view?id=AAsAAAJUVTYBWkKAZwppmyYBjwgm1AI0nKRyTwA&authType=name&authToken=eAsV&invAcpt=2197625_I6132985453227360256_500&midToken=AQHQ1w5V4ws4wA&trk=eml-email_m2m_invite_single_01-hero-3-prof%7Ecta&trkEmail=eml-email_m2m_invite_single_01-hero-3-prof%7Ecta-null-1b3p5%7Einqenmmy%7Eir\n",
-                                      u'accept_url': u'https://www.linkedin.com/comm/people/invite-accept?mboxid=I6132985453227360256_500&sharedKey=48j6iM8P&fr=false&invitationId=6132985418842456064&fe=true&midToken=AQHQ1w5V4ws4wA&trk=eml-email_m2m_invite_single_01-hero-0-accept%7Ecta&trkEmail=eml-email_m2m_invite_single_01-hero-0-accept%7Ecta-null-1b3p5%7Einqenmmy%7Eir',
-                                      u'who': 'Michael McAuliffe',
-                                      u'img_src': u'https://upload.wikimedia.org/wikipedia/commons/8/85/Border_collie.jpg',
-                                      u'profile_url': u'https://www.linkedin.com/comm/profile/view?id=AAsAAAJUVTYBWkKAZwppmyYBjwgm1AI0nKRyTwA&authType=name&authToken=eAsV&invAcpt=2197625_I6132985453227360256_500&midToken=AQHQ1w5V4ws4wA&trk=eml-email_m2m_invite_single_01-hero-3-prof%7Ecta&trkEmail=eml-email_m2m_invite_single_01-hero-3-prof%7Ecta-null-1b3p5%7Einqenmmy%7Eir'}}
+                                      'spiel': "Hi Paul,\nI'd like to join your LinkedIn network.\nMichael McAuliffe\nManaging Director\nView profile: https://www.linkedin.com/comm/profile/view?id=AAsAAAJUVTYBWkKAZwppmyYBjwgm1AI0nKRyTwA&authType=name&authToken=eAsV&invAcpt=2197625_I6132985453227360256_500&midToken=AQHQ1w5V4ws4wA&trk=eml-email_m2m_invite_single_01-hero-3-prof%7Ecta&trkEmail=eml-email_m2m_invite_single_01-hero-3-prof%7Ecta-null-1b3p5%7Einqenmmy%7Eir\n",
+                                      'accept_url': 'https://www.linkedin.com/comm/people/invite-accept?mboxid=I6132985453227360256_500&sharedKey=48j6iM8P&fr=false&invitationId=6132985418842456064&fe=true&midToken=AQHQ1w5V4ws4wA&trk=eml-email_m2m_invite_single_01-hero-0-accept%7Ecta&trkEmail=eml-email_m2m_invite_single_01-hero-0-accept%7Ecta-null-1b3p5%7Einqenmmy%7Eir',
+                                      'who': 'Michael McAuliffe',
+                                      'img_src': 'https://upload.wikimedia.org/wikipedia/commons/8/85/Border_collie.jpg',
+                                      'profile_url': 'https://www.linkedin.com/comm/profile/view?id=AAsAAAJUVTYBWkKAZwppmyYBjwgm1AI0nKRyTwA&authType=name&authToken=eAsV&invAcpt=2197625_I6132985453227360256_500&midToken=AQHQ1w5V4ws4wA&trk=eml-email_m2m_invite_single_01-hero-3-prof%7Ecta&trkEmail=eml-email_m2m_invite_single_01-hero-3-prof%7Ecta-null-1b3p5%7Einqenmmy%7Eir'}}
                                  ),
             call.store_as_binary('most-recently-seen', 1459548811)])
-        self.assertEquals(len(unmatched_to_move), 0)
-        self.assertEquals(str(to_delete_from_notification_folder), "[1234, 1235, 1236]")
-        self.assertEquals(len(final_invitations_store.invitations), 3)
+        self.assertEqual(len(unmatched_to_move), 0)
+        self.assertEqual(str(to_delete_from_notification_folder), "[1234, 1235, 1236]")
+        self.assertEqual(len(final_invitations_store.invitations), 3)
 
 
 INCOMING_1 = """From: Michael McAuliffe <invitations@linkedin.com>

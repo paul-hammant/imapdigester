@@ -141,13 +141,13 @@ class TestHipchatNotifications(TestCase):
         digester.rewrite_digest_emails(digest_inbox_proxy, has_previous_message=True,
                                        previously_seen=False, sender_to_implicate="ph@example.com")
 
-        self.assertEquals(digest_inbox_proxy.mock_calls, [call.delete_previous_message(), call.append(expected_message)])
+        self.assertEqual(digest_inbox_proxy.mock_calls, [call.delete_previous_message(), call.append(expected_message)])
 
         calls = store_writer.mock_calls
-        self.assertEquals(calls, [
+        self.assertEqual(calls, [
             call.get_from_binary('hipchat-notifications'),
             call.get_from_binary('most-recently-seen'),
-            call.store_as_binary('hipchat-notifications', {1459813540: {u'div': '<div class="hc-chat-row hc-msg-nocolor" style="border-bottom: 1px solid #efefef; box-sizing: border-box; display: table; padding: 0; width: 600px !important; max-width: 600px !important;">\n\
+            call.store_as_binary('hipchat-notifications', {1459813540: {'div': '<div class="hc-chat-row hc-msg-nocolor" style="border-bottom: 1px solid #efefef; box-sizing: border-box; display: table; padding: 0; width: 600px !important; max-width: 600px !important;">\n\
 <a name="078141ad-2547-4cfc-a651-309c2a865692" style="cursor: pointer; text-decoration: none;"></a>\n\
 <div class="hc-chat-from" style="display: table-cell; font-size: 13px; margin-bottom: 15px; margin-top: 15px; color: #888; max-width: 100px; overflow: hidden; text-align: right; text-overflow: ellipsis; vertical-align: top; white-space: nowrap; width: 100px; padding: 10px 0 10px 10px;">Paul Hammant</div>\n\
 <div class="hc-chat-msg" style="display: table-cell; font-size: 13px; margin-bottom: 15px; margin-top: 15px; line-height: 20px; padding: 10px; flex: 1;">\n\
@@ -155,7 +155,7 @@ class TestHipchatNotifications(TestCase):
 <span class="atTag atTagMe" style="-moz-border-radius: 4px; -webkit-border-radius: 4px; background-color: #EFEFEF; border: 1px solid #4783BF; border-radius: 4px; display: inline-block; padding: 0 3px; background: #4282C1 url(/img/at_bg.png) repeat-x; color: #fff;">@test2</span> you suck    </div>\n\
 </div>\n\
 <div class="hc-chat-time" style="display: table-cell; font-size: 10px !important; margin-bottom: 15px; margin-top: 15px; color: #888; text-align: right; vertical-align: top; white-space: nowrap; width: 40px; padding: 10px 10px 10px 0;">7:45 PM</div>\n\
-</div>', u'room': u'Room: Hammant'}, 1459813751: {u'div': '<div class="hc-chat-row hc-msg-nocolor" style="border-bottom: 1px solid #efefef; box-sizing: border-box; display: table; padding: 0; width: 600px !important; max-width: 600px !important;">\n\
+</div>', 'room': 'Room: Hammant'}, 1459813751: {'div': '<div class="hc-chat-row hc-msg-nocolor" style="border-bottom: 1px solid #efefef; box-sizing: border-box; display: table; padding: 0; width: 600px !important; max-width: 600px !important;">\n\
 <a name="a2f58d46-385e-4d7f-8bba-f8c0eb900d89" style="cursor: pointer; text-decoration: none;"></a>\n\
 <div class="hc-chat-from" style="display: table-cell; font-size: 13px; margin-bottom: 15px; margin-top: 15px; color: #888; max-width: 100px; overflow: hidden; text-align: right; text-overflow: ellipsis; vertical-align: top; white-space: nowrap; width: 100px; padding: 10px 0 10px 10px;">Paul Hammant</div>\n\
 <div class="hc-chat-msg" style="display: table-cell; font-size: 13px; margin-bottom: 15px; margin-top: 15px; line-height: 20px; padding: 10px; flex: 1;">\n\
@@ -167,11 +167,11 @@ The standard chunk of Lorem Ipsum used since the 1500s is reproduced below for t
 There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don\'t look even slightly believable. If you are going to use a passage of Lorem Ipsum, you need to be sure there isn\'t anything embarrassing hidden in the middle of text. All the Lorem Ipsum generators on the Internet tend to repeat predefined chunks as necessary, making this the first true generator on the Internet. It uses a dictionary of over 200 Latin words, combined with a handful of model sentence structures, to generate Lorem Ipsum which looks reasonable. The generated Lorem Ipsum is therefore always free from repetition, injected humour, or non-characteristic words etc.    </br></br></br></br></br></br></br></br></br></div>\n\
 </div>\n\
 <div class="hc-chat-time" style="display: table-cell; font-size: 10px !important; margin-bottom: 15px; margin-top: 15px; color: #888; text-align: right; vertical-align: top; white-space: nowrap; width: 40px; padding: 10px 10px 10px 0;">7:49 PM</div>\n\
-</div>', u'room': u'Direct Message'}} ),
+</div>', 'room': 'Direct Message'}} ),
             call.store_as_binary('most-recently-seen', 0)])
-        self.assertEquals(len(unmatched_to_move), 0)
-        self.assertEquals(str(to_delete_from_notification_folder), "[1234, 1235]")
-        self.assertEquals(len(final_notifs_store.notifs), 2)
+        self.assertEqual(len(unmatched_to_move), 0)
+        self.assertEqual(str(to_delete_from_notification_folder), "[1234, 1235]")
+        self.assertEqual(len(final_notifs_store.notifs), 2)
 
 HIPCHAT_ONE_TO_ONE = """To: "" <paul_hamm@example.com>
 Subject: Paul Hammant sent you a 1-1 message

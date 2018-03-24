@@ -61,7 +61,7 @@ class ChargeCardDigester(BaseDigester):
     def print_summary(self):
         for digester in self.digesters:
             digester.print_summary()
-        print "Total Charges: " + str(len(self.charge_summary["charges"]))
+        print("Total Charges: " + str(len(self.charge_summary["charges"])))
 
     def matching_incoming_headers(self):
         matching_terms = []
@@ -93,7 +93,7 @@ class ChargeCardDigester(BaseDigester):
             self.charge_summary["charges"] = {}
 
         # copy new items into main list
-        for when, chg in self.new_charge_summary.iteritems():
+        for when, chg in self.new_charge_summary.items():
             self.charge_summary["charges"][when] = chg
 
         all_the_same_year = True
@@ -105,7 +105,7 @@ class ChargeCardDigester(BaseDigester):
                 all_the_same_year = True
 
         # Update the string version of the charge time
-        for when, chg in self.charge_summary["charges"].iteritems():
+        for when, chg in self.charge_summary["charges"].items():
             chg["when_str"] = arrow.get(when).to('local').format("MMM---DD HH:mm" if all_the_same_year
                                                                  else "MMM---DD YYYY HH:mm")
 

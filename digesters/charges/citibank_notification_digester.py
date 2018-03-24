@@ -12,7 +12,7 @@ class CitibankNotificationDigester(BaseChargeCardDigester):
         self.new_citi = 0
 
     def print_summary(self):
-        print "New Citibank Charges: " + str(self.new_citi)
+        print("New Citibank Charges: " + str(self.new_citi))
 
     def matching_incoming_headers(self):
         return ["From: Citi Alerts <alerts@citibank.com>"]

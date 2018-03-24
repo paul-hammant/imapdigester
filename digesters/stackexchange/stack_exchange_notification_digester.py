@@ -1,4 +1,4 @@
-from __future__ import unicode_literals
+
 
 import re
 from bs4 import BeautifulSoup
@@ -75,7 +75,7 @@ class StackExchangeNotificationDigester(BaseDigester):
 
         past_bookmark = 0
         unseen = 0
-        for anum in sorted(self.article_dict["articles"].iterkeys(), reverse=True):
+        for anum in sorted(iter(self.article_dict["articles"].keys()), reverse=True):
             most_recent_seen = self.article_dict["most_recent_seen"]
             if anum < most_recent_seen:
                 past_bookmark += 1
@@ -114,7 +114,7 @@ class StackExchangeNotificationDigester(BaseDigester):
         email_html = template_start
 
         ix = 0
-        for anum in sorted(article_dict["articles"].iterkeys(), reverse=True):
+        for anum in sorted(iter(article_dict["articles"].keys()), reverse=True):
             if anum == article_dict["most_recent_seen"] and ix > 0:
                 email_html += '<tr><td colspan="2" style="border-bottom: 1.5pt solid red; border-top: 1.5pt solid red;"><center>^ New Questions Since You Last Checked ^</center></td></tr>\n'
             email_html += "<tr>\n" + article_dict["articles"][anum] + "</tr>\n"
@@ -145,6 +145,6 @@ class StackExchangeNotificationDigester(BaseDigester):
         return "StackExchange"
 
     def print_summary(self):
-        print "StackExchange: New StackExchange messages: " + str(
+        print("StackExchange: New StackExchange messages: " + str(
             self.new_message_count) + ", new articles: ?, " + "deleted articles (email was marked as read): " + str(
-            self.deleted_articles_count)
+            self.deleted_articles_count))

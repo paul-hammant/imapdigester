@@ -107,35 +107,35 @@ class TestGithubNotifications(TestCase):
         digester.rewrite_digest_emails(digest_inbox_proxy, has_previous_message=True,
                                        previously_seen=False, sender_to_implicate="ph@example.com")
 
-        self.assertEquals(digest_inbox_proxy.mock_calls, [call.delete_previous_message(), call.append(expected_message)])
+        self.assertEqual(digest_inbox_proxy.mock_calls, [call.delete_previous_message(), call.append(expected_message)])
 
-        self.assertEquals(store_writer.mock_calls, [
+        self.assertEqual(store_writer.mock_calls, [
             call.get_from_binary('github-notifications'),
             call.get_from_binary('most-recently-seen'),
             call.store_as_binary('github-notifications', {
                 'Homebrew/homebrew/pull/50441@github.com': {
-                    u'subj': u'[Homebrew/homebrew] ired 0.5.0 (#50441)',
-                    u'ts': {
+                    'subj': '[Homebrew/homebrew] ired 0.5.0 (#50441)',
+                    'ts': {
                         1459577656: {
-                        u'msg': u'[quoted block] @dunn Fixed....',
-                        u'diff': u' 60.0 mins earlier',
-                        u'what': u'comment',
-                        u'who': u'dholm: David Holm'
+                        'msg': '[quoted block] @dunn Fixed....',
+                        'diff': ' 60.0 mins earlier',
+                        'what': 'comment',
+                        'who': 'dholm: David Holm'
                     },
                         1459581256: {
-                            u'msg': u'Peter Piper picked a peck of pickled peppers....',
-                            u'diff': u'',
-                            u'what': u'comment',
-                            u'who': u'ppiper: Peter Piper'
+                            'msg': 'Peter Piper picked a peck of pickled peppers....',
+                            'diff': '',
+                            'what': 'comment',
+                            'who': 'ppiper: Peter Piper'
                         }
                     },
-                    u'mostRecent': 1459581256
+                    'mostRecent': 1459581256
                 }
             }),
             call.store_as_binary('most-recently-seen', 0)])
-        self.assertEquals(len(unmatched_to_move), 0)
-        self.assertEquals(str(to_delete_from_notification_folder), "[1234, 1235]")
-        self.assertEquals(len(final_notifs_store.notifs), 1)
+        self.assertEqual(len(unmatched_to_move), 0)
+        self.assertEqual(str(to_delete_from_notification_folder), "[1234, 1235]")
+        self.assertEqual(len(final_notifs_store.notifs), 1)
 
     def test_two_related_notifis_can_be_rolled_up_with_a_prior_notification(self):
 
@@ -186,16 +186,16 @@ class TestGithubNotifications(TestCase):
 
         initial_notification_store = {
             'aaa/bbb/pull/1111@github.com': {
-                u'subj': u'[aaa/bbb] ired 0.5.0 (#1234)',
-                u'ts': {
+                'subj': '[aaa/bbb] ired 0.5.0 (#1234)',
+                'ts': {
                     1459560000: {
-                        u'msg': u'Hello, how are you?',
-                        u'diff': u'',
-                        u'what': u'comment',
-                        u'who': u'xxx: x xx'
+                        'msg': 'Hello, how are you?',
+                        'diff': '',
+                        'what': 'comment',
+                        'who': 'xxx: x xx'
                     }
                 },
-            u'mostRecent': 1459560000
+            'mostRecent': 1459560000
             }
         }
 
@@ -234,47 +234,47 @@ class TestGithubNotifications(TestCase):
         digester.rewrite_digest_emails(digest_inbox_proxy, has_previous_message=True,
                                        previously_seen=True, sender_to_implicate="ph@example.com")
 
-        self.assertEquals(digest_inbox_proxy.mock_calls, [call.delete_previous_message(), call.append(expected_message)])
+        self.assertEqual(digest_inbox_proxy.mock_calls, [call.delete_previous_message(), call.append(expected_message)])
 
-        self.assertEquals(store_writer.mock_calls, [
+        self.assertEqual(store_writer.mock_calls, [
             call.get_from_binary('github-notifications'),
             call.get_from_binary('most-recently-seen'),
             call.store_as_binary('github-notifications', {
                 'Homebrew/homebrew/pull/50441@github.com': {
-                    u'subj': u'[Homebrew/homebrew] ired 0.5.0 (#50441)',
-                    u'ts': {
+                    'subj': '[Homebrew/homebrew] ired 0.5.0 (#50441)',
+                    'ts': {
                         1459577656: {
-                        u'msg': u'[quoted block] @dunn Fixed....',
-                        u'diff': u' 60.0 mins earlier',
-                        u'what': u'comment',
-                        u'who': u'dholm: David Holm'
+                        'msg': '[quoted block] @dunn Fixed....',
+                        'diff': ' 60.0 mins earlier',
+                        'what': 'comment',
+                        'who': 'dholm: David Holm'
                     },
                         1459581256: {
-                            u'msg': u'Peter Piper picked a peck of pickled peppers....',
-                            u'diff': u'',
-                            u'what': u'comment',
-                            u'who': u'ppiper: Peter Piper'
+                            'msg': 'Peter Piper picked a peck of pickled peppers....',
+                            'diff': '',
+                            'what': 'comment',
+                            'who': 'ppiper: Peter Piper'
                         }
                     },
-                    u'mostRecent': 1459581256
+                    'mostRecent': 1459581256
                 },
                 'aaa/bbb/pull/1111@github.com': {
-                    u'subj': u'[aaa/bbb] ired 0.5.0 (#1234)',
-                    u'ts': {
+                    'subj': '[aaa/bbb] ired 0.5.0 (#1234)',
+                    'ts': {
                         1459560000: {
-                            u'msg': u'Hello, how are you?',
-                            u'diff': u'',
-                            u'what': u'comment',
-                            u'who': u'xxx: x xx'
+                            'msg': 'Hello, how are you?',
+                            'diff': '',
+                            'what': 'comment',
+                            'who': 'xxx: x xx'
                         }
                     },
-                    u'mostRecent': 1459560000
+                    'mostRecent': 1459560000
                 }
             }),
             call.store_as_binary('most-recently-seen', 1459560000)])
-        self.assertEquals(len(unmatched_to_move), 0)
-        self.assertEquals(str(to_delete_from_notification_folder), "[1234, 1235]")
-        self.assertEquals(len(final_notifs_store.notifs), 2)
+        self.assertEqual(len(unmatched_to_move), 0)
+        self.assertEqual(str(to_delete_from_notification_folder), "[1234, 1235]")
+        self.assertEqual(len(final_notifs_store.notifs), 2)
 
     def test_two_related_notifs_can_be_rolled_up_where_one_was_previously_seen(self):
 
@@ -340,35 +340,35 @@ class TestGithubNotifications(TestCase):
         digester.rewrite_digest_emails(digest_inbox_proxy, has_previous_message=True,
                                        previously_seen=False, sender_to_implicate="ph@example.com")
 
-        self.assertEquals(digest_inbox_proxy.mock_calls, [call.delete_previous_message(), call.append(expected_message)])
+        self.assertEqual(digest_inbox_proxy.mock_calls, [call.delete_previous_message(), call.append(expected_message)])
 
-        self.assertEquals(store_writer.mock_calls, [
+        self.assertEqual(store_writer.mock_calls, [
             call.get_from_binary('github-notifications'),
             call.get_from_binary('most-recently-seen'),
             call.store_as_binary('github-notifications', {
                 'Homebrew/homebrew/pull/50441@github.com': {
-                    u'subj': u'[Homebrew/homebrew] ired 0.5.0 (#50441)',
-                    u'ts': {
+                    'subj': '[Homebrew/homebrew] ired 0.5.0 (#50441)',
+                    'ts': {
                         1459577656: {
-                        u'msg': u'[quoted block] @dunn Fixed....',
-                        u'diff': u' 60.0 mins earlier',
-                        u'what': u'comment',
-                        u'who': u'dholm: David Holm'
+                        'msg': '[quoted block] @dunn Fixed....',
+                        'diff': ' 60.0 mins earlier',
+                        'what': 'comment',
+                        'who': 'dholm: David Holm'
                     },
                         1459581256: {
-                            u'msg': u'Peter Piper picked a peck of pickled peppers....',
-                            u'diff': u'',
-                            u'what': u'comment',
-                            u'who': u'ppiper: Peter Piper'
+                            'msg': 'Peter Piper picked a peck of pickled peppers....',
+                            'diff': '',
+                            'what': 'comment',
+                            'who': 'ppiper: Peter Piper'
                         }
                     },
-                    u'mostRecent': 1459581256
+                    'mostRecent': 1459581256
                 }
             }),
             call.store_as_binary('most-recently-seen', 1459577657)])
-        self.assertEquals(len(unmatched_to_move), 0)
-        self.assertEquals(str(to_delete_from_notification_folder), "[1234, 1235]")
-        self.assertEquals(len(final_notifs_store.notifs), 1)
+        self.assertEqual(len(unmatched_to_move), 0)
+        self.assertEqual(str(to_delete_from_notification_folder), "[1234, 1235]")
+        self.assertEqual(len(final_notifs_store.notifs), 1)
 
 GITHUB_1 = """Date: Sat, 2 Apr 2016 06:36:07 -0700
 From: David Holm <notifications@github.com>

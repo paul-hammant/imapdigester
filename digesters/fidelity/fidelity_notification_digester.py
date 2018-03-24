@@ -1,5 +1,5 @@
 # coding=utf-8
-from __future__ import unicode_literals
+
 
 import re
 import arrow
@@ -32,7 +32,7 @@ class FidelityNotificationDigester(BaseDigester):
             return
         content = ""
         first = " <- most recent"
-        for when, bal in sorted(self.balances.items(), reverse=True):
+        for when, bal in sorted(list(self.balances.items()), reverse=True):
             line = arrow.get(when).to("local").format("MMM DD YYYY") + " $" + bal + first + "\n"
             content += line
             first = ""
@@ -54,7 +54,7 @@ class FidelityNotificationDigester(BaseDigester):
         return "Fidelity"
 
     def print_summary(self):
-        print "Fidelity: New Balance notifications: " + str(self.new_message_count)
+        print("Fidelity: New Balance notifications: " + str(self.new_message_count))
 
     def make_new_raw_email(self, content, count, sender_to_implicate):
         new_message = 'Subject: ' + self.matching_digest_subject() + "\n"

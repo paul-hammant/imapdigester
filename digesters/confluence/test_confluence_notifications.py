@@ -113,37 +113,37 @@ class TestConfluenceNotifications(TestCase):
         digester.rewrite_digest_emails(digest_inbox_proxy, has_previous_message=True,
                                        previously_seen=False, sender_to_implicate="ph@example.com")
 
-        self.assertEquals(digest_inbox_proxy.mock_calls, [call.delete_previous_message(), call.append(expected_message)])
+        self.assertEqual(digest_inbox_proxy.mock_calls, [call.delete_previous_message(), call.append(expected_message)])
 
         calls = store_writer.mock_calls
-        self.assertEquals(calls, [
+        self.assertEqual(calls, [
             call.get_from_binary('confluence-notifications'),
             call.get_from_binary('most-recently-seen'),
             call.store_as_binary('confluence-notifications', {
-                1460183824: {u'space': u'solr',
-                             u'line_here': True,
-                             u'who': 'surya ferdy',
-                             u'excerpt': u'definitely a great post  jadibd.com',
-                             u'doc_text': u'Re: Getting Started',
-                             u'doc_url': u'https://cwiki.apache.org/confluence/display/solr/Getting+Started?focusedCommentId=62691549',
-                             u'event': u'surya ferdy commented on a page'},
-                1460400060: {u'space': u'solr',
-                             u'who': 'Hoss Man',
-                             u'excerpt': u'definitely a great post  jadibd.com',
-                             u'doc_text': u'Re: Getting Started',
-                             u'doc_url': u'https://cwiki.apache.org/confluence/display/solr/Getting+Started?focusedCommentId=62691549',
-                             u'event': u'Hoss Man deleted a comment'},
-                1460535327: {u'space': u'solr',
-                             u'who': 'Noble Paul',
-                             u'excerpt': u'Page nodes added: 4, removed: 0, changed: 0',
-                             u'doc_text': u'Config API',
-                             u'doc_url': u'https://cwiki.apache.org/confluence/display/solr/Config+API',
-                             u'event': u'Noble Paul edited a page'}
+                1460183824: {'space': 'solr',
+                             'line_here': True,
+                             'who': 'surya ferdy',
+                             'excerpt': 'definitely a great post  jadibd.com',
+                             'doc_text': 'Re: Getting Started',
+                             'doc_url': 'https://cwiki.apache.org/confluence/display/solr/Getting+Started?focusedCommentId=62691549',
+                             'event': 'surya ferdy commented on a page'},
+                1460400060: {'space': 'solr',
+                             'who': 'Hoss Man',
+                             'excerpt': 'definitely a great post  jadibd.com',
+                             'doc_text': 'Re: Getting Started',
+                             'doc_url': 'https://cwiki.apache.org/confluence/display/solr/Getting+Started?focusedCommentId=62691549',
+                             'event': 'Hoss Man deleted a comment'},
+                1460535327: {'space': 'solr',
+                             'who': 'Noble Paul',
+                             'excerpt': 'Page nodes added: 4, removed: 0, changed: 0',
+                             'doc_text': 'Config API',
+                             'doc_url': 'https://cwiki.apache.org/confluence/display/solr/Config+API',
+                             'event': 'Noble Paul edited a page'}
             }),
             call.store_as_binary('most-recently-seen', 1460183824)])
-        self.assertEquals(len(unmatched_to_move), 0)
-        self.assertEquals(str(to_delete_from_notification_folder), "[1234, 1235, 1236]")
-        self.assertEquals(len(final_notifications_store.notifications), 3)
+        self.assertEqual(len(unmatched_to_move), 0)
+        self.assertEqual(str(to_delete_from_notification_folder), "[1234, 1235, 1236]")
+        self.assertEqual(len(final_notifications_store.notifications), 3)
 
 
 COMMENT_ADDED = """Date: Sat, 9 Apr 2016 06:37:04 +0000

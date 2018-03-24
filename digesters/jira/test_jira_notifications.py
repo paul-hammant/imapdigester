@@ -171,42 +171,42 @@ class TestJiraNotifications(TestCase):
         digester.rewrite_digest_emails(digest_inbox_proxy, has_previous_message=True,
                                        previously_seen=False, sender_to_implicate="ph@example.com")
 
-        self.assertEquals(digest_inbox_proxy.mock_calls, [call.delete_previous_message(), call.append(expected_message)])
+        self.assertEqual(digest_inbox_proxy.mock_calls, [call.delete_previous_message(), call.append(expected_message)])
 
         calls = store_writer.mock_calls
-        self.assertEquals(calls, [
+        self.assertEqual(calls, [
             call.get_from_binary('jira-notifications'),
             call.get_from_binary('most-recently-seen'),
             call.store_as_binary('jira-notifications', {
-                1461123240: {u'comment': u'Great idea, Paul',
-                             u'project_name': u'unknown',
-                             u'who': u'Paul Hammant',
-                             u'kvtable': [],
-                             u'issue_id': u'JRA-60612',
-                             u'event': u'Paul Hammant commented on  JRA-60612',
-                             u'issue_url': u'https://jira.atlassian.com/browse/JRA-60612'},
-                1460652660: {u'comment': u'Can you awesome folks add a text/json multipart to the...',
-                             u'project_name': u'HipChat',
-                             u'who': u'Paul Hammant',
-                             u'kvtable': [{u'k': u'Change By', u'v': u'Paul Hammant'}],
-                             u'issue_id': u'HCPUB-579',
-                             u'event': u'Paul Hammant updated an issue',
-                             u'issue_url': u'https://jira.atlassian.com/browse/HCPUB-579'},
-                1460652300: {u'comment': u'Can you awesome folks add a text/json multipart to the...',
-                             u'project_name': u'HipChat',
-                             u'line_here': True,
-                             u'who': u'Paul Hammant',
-                             u'kvtable': [{u'k': u'Issue Type', u'v': u'Suggestion'},
-                                          {u'k': u'Assignee', u'v': u'Unassigned'},
-                                          {u'k': u'Components', u'v': u'Notifications - email'},
-                                          {u'k': u'Created', u'v': u'14/Apr/2016 4'}],
-                             u'issue_id': u'HCPUB-579',
-                             u'event': u'Paul Hammant created an issue',
-                             u'issue_url': u'https://jira.atlassian.com/browse/HCPUB-579'}}),
+                1461123240: {'comment': 'Great idea, Paul',
+                             'project_name': 'unknown',
+                             'who': 'Paul Hammant',
+                             'kvtable': [],
+                             'issue_id': 'JRA-60612',
+                             'event': 'Paul Hammant commented on  JRA-60612',
+                             'issue_url': 'https://jira.atlassian.com/browse/JRA-60612'},
+                1460652660: {'comment': 'Can you awesome folks add a text/json multipart to the...',
+                             'project_name': 'HipChat',
+                             'who': 'Paul Hammant',
+                             'kvtable': [{'k': 'Change By', 'v': 'Paul Hammant'}],
+                             'issue_id': 'HCPUB-579',
+                             'event': 'Paul Hammant updated an issue',
+                             'issue_url': 'https://jira.atlassian.com/browse/HCPUB-579'},
+                1460652300: {'comment': 'Can you awesome folks add a text/json multipart to the...',
+                             'project_name': 'HipChat',
+                             'line_here': True,
+                             'who': 'Paul Hammant',
+                             'kvtable': [{'k': 'Issue Type', 'v': 'Suggestion'},
+                                          {'k': 'Assignee', 'v': 'Unassigned'},
+                                          {'k': 'Components', 'v': 'Notifications - email'},
+                                          {'k': 'Created', 'v': '14/Apr/2016 4'}],
+                             'issue_id': 'HCPUB-579',
+                             'event': 'Paul Hammant created an issue',
+                             'issue_url': 'https://jira.atlassian.com/browse/HCPUB-579'}}),
             call.store_as_binary('most-recently-seen', 1460183824)])
-        self.assertEquals(len(unmatched_to_move), 0)
-        self.assertEquals(str(to_delete_from_notification_folder), "[1234, 1235, 1236]")
-        self.assertEquals(len(final_notifications_store.notifications), 3)
+        self.assertEqual(len(unmatched_to_move), 0)
+        self.assertEqual(str(to_delete_from_notification_folder), "[1234, 1235, 1236]")
+        self.assertEqual(len(final_notifications_store.notifications), 3)
 
 
 NEW_ISSUE = """Date: Thu, 14 Apr 2016 16:45:00 +0000 (UTC)

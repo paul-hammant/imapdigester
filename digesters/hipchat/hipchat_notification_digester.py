@@ -1,5 +1,5 @@
 # coding=utf-8
-from __future__ import unicode_literals
+
 
 import arrow
 from bs4 import BeautifulSoup
@@ -103,7 +103,7 @@ class HipchatNotificationDigester(BaseDigester):
 
         past_bookmark = 0
         unseen = 0
-        for when in sorted(self.hc_notifications.iterkeys(), reverse=True):
+        for when in sorted(iter(self.hc_notifications.keys()), reverse=True):
             mostRecentSeen = self.most_recently_seen
             if when < mostRecentSeen:
                 past_bookmark += 1
@@ -132,7 +132,7 @@ class HipchatNotificationDigester(BaseDigester):
         return "HipChat"
 
     def print_summary(self):
-        print "Hipchat: New HipChat notifications: " + str(self.new_message_count)
+        print("Hipchat: New HipChat notifications: " + str(self.new_message_count))
 
     def get_template_start_and_end(self, template):
         template_start = template[:template.find("<InsertHere/>")]
@@ -143,7 +143,7 @@ class HipchatNotificationDigester(BaseDigester):
         email_html = template_start
 
         ix = 0
-        for anum in sorted(hc_notifications.iterkeys(), reverse=True):
+        for anum in sorted(iter(hc_notifications.keys()), reverse=True):
             if anum == self.most_recently_seen and ix > 0:
                 email_html += '<div style="border-bottom: 1.5pt solid red; border-top: 1.5pt solid red;"><center>^ New Questions Since You Last Checked ^</center></div>\n'
             email_html += '<div class="ecxhc-chat-from" style="margin-left: 150px;text-align:left;width:200px;padding:10px 0 10px 10px;">' + hc_notifications[anum]["room"] + '</div>\n'

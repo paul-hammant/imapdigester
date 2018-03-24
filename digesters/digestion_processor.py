@@ -6,7 +6,6 @@ from imapclient import IMAPClient
 
 from utils import Utils
 
-
 class DigestServer(object):
 
     def __init__(self, server, mid, digest_folder_name):
@@ -24,7 +23,7 @@ class DigestServer(object):
             self.digest_inbox.append(self.digest_folder_name, message)
         except UnicodeEncodeError:
             # Found this with attempts to utf-8 encode, but not utf-7
-            print ">>>>UnicodeError>>>>" + message + "\n\n"
+            print(">>>>UnicodeError>>>>" + message + "\n\n")
             raise
 
 
@@ -50,12 +49,12 @@ class DigestionProcessor(object):
         to_delete = []
 
         # Loop through email in notification folder
-        for msgid, data in response.iteritems():
-            rfc822content = self.notification_folder.fetch(msgid, ["INTERNALDATE", "BODY", "RFC822"])[msgid]['RFC822']
+        for msgid, data in response.items():
+            rfc822content = str(self.notification_folder.fetch(msgid, ["INTERNALDATE", "BODY", "RFC822"])[msgid][b'RFC822'])
             try:
                 self.process_incoming_notification(msgid, self.digesters, rfc822content, to_delete,
                                                    unmatched_mails, self.move_unmatched)
-            except Exception, e:
+            except Exception as e:
                 modified_mail = re.sub("\nSubject:", "\nSubject: [" + str(e) + "]", rfc822content)
                 unmatched_mails.append(modified_mail)
 
@@ -72,23 +71,34 @@ class DigestionProcessor(object):
             response = self.digest_folder.fetch(messages, ['FLAGS', 'RFC822.SIZE'])
             previously_seen = False
             previous_message_id = None
-            for msgid, data in response.iteritems():
+            for msgid, data in response.items():
                 previous_message_id = msgid
-                previously_seen = '\\Seen' in data[b'FLAGS']
+                previously_seen = b'\\Seen' in data[b'FLAGS']
+            # digest_inbox_proxy = DigestServer(self.digest_folder, previous_message_id, self.digest_folder_name)
             digest_inbox_proxy = DigestServer(self.digest_folder, previous_message_id, self.digest_folder_name)
             digester.rewrite_digest_emails(digest_inbox_proxy, previous_message_id is not None, previously_seen,
                                            self.sender_to_implicate)
 
         # Move Unmatched files so the human can see them
-
         for unmatched in unmatched_mails:
             # unm = re.sub("\nFrom: .*\r\n", "\nFrom: " + self.sender_to_implicate + "\r\n", unm)
             # unm = re.sub("\nTo: .*\r\n", "\nTo: " + self.sender_to_implicate + "\r\n", unm)
-            modified_mail = re.sub("\nSubject:", "\nSubject: [I:D]", unmatched)
+
+            # modified_mail = re.sub("\\nSubject:", "\\nSubject: [I:D]", unmatched)
+            # modified_mail = str(unmatched[1:]).replace("\nSubject:", "\nSubject: [I:D]")
+            pos = unmatched.find("\\nSubject:")
+            if pos != -1:
+                pos = pos + len("\nSubject:") + 1
+            modified_mail = unmatched[:pos] + " [I:D]" + unmatched[pos+6:]
+            print("Position = ", pos)
             try:
+                print("UnModified Email = ", unmatched )
+                print("Modified Email = ", modified_mail )
                 self.digest_folder.append(self.digest_folder_name, modified_mail)
-            except IMAPClient.AbortError, e:
-                print("Can't move '" + self.get_subject(unmatched) + ", error:" + str(e))
+
+
+            except IMAPClient.AbortError as e:
+                print(("Can't move '" + self.get_subject(unmatched) + "', error:" + str(e)))
                 break
 
         # Delete Originals
@@ -129,4 +139,4 @@ class DigestionProcessor(object):
                 unmatched_to_move.append(rfc822content)
                 to_delete.append(msgid)
             else:
-                print "Unmatched email from: " + msg['From'].strip() + ", subject: " + msg['Subject'].strip()
+                print("Unmatched email from: " + msg['From'].strip() + ", subject: " + msg['Subject'].strip())
