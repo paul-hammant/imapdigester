@@ -13,32 +13,31 @@ from imapclient import IMAPClient
 
 from digesters.digestion_processor import DigestionProcessor
 
-
 def get_command():
     retval = None
 
-    if check_for_command(b'git-pull'):
-        with open(b"imapdigester_commands_next_time.sh", 'w+') as f:
-            f.write(b"\ngit pull\nfind . -name \"*.pyc\" -exec rm -rf {} \;\n")
-        retval = b"BASH-OPERATIONS"
+    if check_for_command('git-pull'):
+        with open("imapdigester_commands_next_time.sh", 'w+') as f:
+            f.write("\ngit pull\nfind . -name \"*.pyc\" -exec rm -rf {} \;\n")
+        retval = "BASH-OPERATIONS"
 
-    elif check_for_command(b'pause'):
-        with open(b"pause_if_present.txt", 'w') as f:
-            f.write(b"")
-        retval = b"PAUSE"
+    elif check_for_command('pause'):
+        with open("pause_if_present.txt", 'w') as f:
+            f.write("")
+        retval = "PAUSE"
 
-    elif check_for_command(b'resume'):
-        os.remove(b'pause_if_present.txt')
+    elif check_for_command('resume'):
+        os.remove('pause_if_present.txt')
 
-    elif os.path.isfile(b"pause_if_present.txt"):
-        retval = b"PAUSE"
+    elif os.path.isfile("pause_if_present.txt"):
+        retval = "PAUSE"
 
     return retval
 
 
 def check_for_command(cmd):
-    messages = digest_folder.search(b'SUBJECT "%s"' % cmd)
-    response = digest_folder.fetch(messages, [b'FLAGS', b'RFC822.SIZE'])
+    messages = digest_folder.search('SUBJECT "%s"' % cmd)
+    response = digest_folder.fetch(messages, ['FLAGS', 'RFC822.SIZE'])
     retval = False
     for msgid, data in response.items():
         digest_folder.delete_messages([msgid])
@@ -86,19 +85,19 @@ if __name__ == '__main__':
 
     old_imapclient = (imapclient.__version__ == "0.13")
     if old_imapclient and (options.digest_cert_check_skip or options.notifications_cert_check_skip):
-        print(b"Can't do certificate check skipping on IMAPClient 0.13 with command line options " \
-              b"--digest-cert-check-skip or --notifications-cert-check-skip")
+        print("Can't do certificate check skipping on IMAPClient 0.13 with command line options " \
+              "--digest-cert-check-skip or --notifications-cert-check-skip")
         exit(10)
 
     if options.notifications_pw is None:
-        print(b"Enter notifications user password:")
+        print("Enter notifications user password:")
         options.notifications_pw = getpass.getpass()
 
     if options.digest_pw is None:
         if options.notifications_imap == options.digest_imap and options.notifications_user == options.digest_user:
             options.digest_pw = options.notifications_pw
         else:
-            print(b"Enter digest user password:")
+            print("Enter digest user password:")
             options.digest_pw = getpass.getpass()
 
     # Read and mark for deletion items from notification inbox.
@@ -143,7 +142,7 @@ if __name__ == '__main__':
     except:
         time.sleep(5)
         digest_folder.login(options.digest_user, options.digest_pw)
-    digest_folder.select_folder(options.digest_folder_name)
+    digest_folder.select_folder(options.digest_folder_name)    
 
     command = get_command()
     if command is None:
@@ -166,14 +165,14 @@ if __name__ == '__main__':
     try:
         print(digest_folder.expunge())
     except IMAPClient.AbortError as e:
-        print(b"Error expunging digest folder")
+        print("Error expunging digest folder")
     digest_folder.logout()
 
     try:
         notification_folder.expunge()
     except IMAPClient.AbortError as e:
-        print(b"Error expunging notification folder")
+        print("Error expunging notification folder")
     notification_folder.logout()
 
-    if command is b"BASH-OPERATIONS":
+    if command is "BASH-OPERATIONS":
         sys.exit(202)  ## HTTP 'accepted' (FYI)

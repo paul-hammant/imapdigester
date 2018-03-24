@@ -42,7 +42,6 @@ class DigestionProcessor(object):
 
 
     def doit(self):
-
         messages = self.notification_folder.search('NOT DELETED')
         response = self.notification_folder.fetch(messages, ['FLAGS', 'RFC822.SIZE'])
         unmatched_mails = []
@@ -50,7 +49,7 @@ class DigestionProcessor(object):
 
         # Loop through email in notification folder
         for msgid, data in response.items():
-            rfc822content = str(self.notification_folder.fetch(msgid, ["INTERNALDATE", "BODY", "RFC822"])[msgid][b'RFC822'])
+            rfc822content = self.notification_folder.fetch(msgid, ["INTERNALDATE", "BODY", "RFC822"])[msgid][b'RFC822'].decode('utf8')
             try:
                 self.process_incoming_notification(msgid, self.digesters, rfc822content, to_delete,
                                                    unmatched_mails, self.move_unmatched)
@@ -73,8 +72,7 @@ class DigestionProcessor(object):
             previous_message_id = None
             for msgid, data in response.items():
                 previous_message_id = msgid
-                previously_seen = b'\\Seen' in data[b'FLAGS']
-            # digest_inbox_proxy = DigestServer(self.digest_folder, previous_message_id, self.digest_folder_name)
+                previously_seen = '\\Seen' in data[b'FLAGS']
             digest_inbox_proxy = DigestServer(self.digest_folder, previous_message_id, self.digest_folder_name)
             digester.rewrite_digest_emails(digest_inbox_proxy, previous_message_id is not None, previously_seen,
                                            self.sender_to_implicate)
@@ -84,21 +82,13 @@ class DigestionProcessor(object):
             # unm = re.sub("\nFrom: .*\r\n", "\nFrom: " + self.sender_to_implicate + "\r\n", unm)
             # unm = re.sub("\nTo: .*\r\n", "\nTo: " + self.sender_to_implicate + "\r\n", unm)
 
+
             # modified_mail = re.sub("\\nSubject:", "\\nSubject: [I:D]", unmatched)
-            # modified_mail = str(unmatched[1:]).replace("\nSubject:", "\nSubject: [I:D]")
-            pos = unmatched.find("\\nSubject:")
-            if pos != -1:
-                pos = pos + len("\nSubject:") + 1
-            modified_mail = unmatched[:pos] + " [I:D]" + unmatched[pos+6:]
-            print("Position = ", pos)
+            modified_mail = unmatched.replace("\nSubject:", "\nSubject: [I:D]")
             try:
-                print("UnModified Email = ", unmatched )
-                print("Modified Email = ", modified_mail )
-                self.digest_folder.append(self.digest_folder_name, modified_mail)
-
-
+                self.digest_folder.append(self.digest_folder_name, bytes(modified_mail,"utf8"))
             except IMAPClient.AbortError as e:
-                print(("Can't move '" + self.get_subject(unmatched) + "', error:" + str(e)))
+                print("Can't move '" + self.get_subject(modified_mail) + "', error:" + str(e))
                 break
 
         # Delete Originals
@@ -112,7 +102,7 @@ class DigestionProcessor(object):
                 digester.print_summary()
 
     def get_subject(self, rfc822content):
-        for line in rfc822content.split("\n"):
+        for line in rfc822content.split("\\n"):
             if line.startswith("Subject: "):
                 return line[len("Subject: "):]
         return "[i:d] - unknown subject"
@@ -129,7 +119,8 @@ class DigestionProcessor(object):
                 break
             matching_incoming_headers = digester.matching_incoming_headers()
             for matching_header in matching_incoming_headers:
-                if re.search(matching_header, rfc822content) is not None:
+                # if re.search(matching_header, rfc822content) is not None:
+                if rfc822content.find(matching_header) != -1:
                     processed = digester.process_new_notification(rfc822content, msg, html_message, text_message)
                     break
         if processed:
