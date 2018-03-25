@@ -1,13 +1,13 @@
-from .digesters.confluence.confluence_notification_digester import ConfluenceNotificationDigester
-from .digesters.fidelity.fidelity_notification_digester import FidelityNotificationDigester
-from .digesters.github.github_notification_digester import GithubNotificationDigester
-from .digesters.hipchat.hipchat_notification_digester import HipchatNotificationDigester
-from .digesters.jira.jira_notification_digester import JiraNotificationDigester
-from .digesters.linkedin.linkedin_invitation_digester import LinkedinInvitationDigester
-from .digesters.stackexchange.stack_exchange_notification_digester import StackExchangeNotificationDigester
+from digesters.confluence.confluence_notification_digester import ConfluenceNotificationDigester
+from digesters.fidelity.fidelity_notification_digester import FidelityNotificationDigester
+from digesters.github.github_notification_digester import GithubNotificationDigester
+from digesters.hipchat.hipchat_notification_digester import HipchatNotificationDigester
+from digesters.jira.jira_notification_digester import JiraNotificationDigester
+from digesters.linkedin.linkedin_invitation_digester import LinkedinInvitationDigester
+from digesters.stackexchange.stack_exchange_notification_digester import StackExchangeNotificationDigester
 
-from .metastore import MetaStore
-from .digesters.charges.charge_card_digester import ChargeCardDigester
+from metastore import MetaStore
+from digesters.charges.charge_card_digester import ChargeCardDigester
 
 # This file - my_digesters_setup_sample.py - is activated despite the 'sample' name, UNLESS
 # 'my_digesters_setup.py' is present. You would have made that yourself by copying this source file

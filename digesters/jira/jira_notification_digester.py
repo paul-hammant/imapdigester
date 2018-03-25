@@ -213,7 +213,7 @@ class JiraNotificationDigester(BaseDigester):
         email_ascii = email_html.replace("\n\n\n", "\n").replace("\n\n", "\n").encode('utf-8', 'replace')
 
         # Ugly hack
-        email_ascii = "".join(i for i in email_ascii if ord(i) < 128)
+        # email_ascii = "".join(i for i in email_ascii if ord(i) < 128)
 
 
         new_message = 'Subject: ' + self.matching_digest_subject() + ": " + str(count) + ' new notification(s)\n'

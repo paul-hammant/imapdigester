@@ -19,7 +19,7 @@ class DigestServer(object):
     def append(self, message):
         try:
             # Ugly hack
-            message = "".join(i for i in message if ord(i) < 128)
+            # message = "".join(i for i in message if ord(i) < 128)
             self.digest_inbox.append(self.digest_folder_name, message)
         except UnicodeEncodeError:
             # Found this with attempts to utf-8 encode, but not utf-7
@@ -119,8 +119,20 @@ class DigestionProcessor(object):
                 break
             matching_incoming_headers = digester.matching_incoming_headers()
             for matching_header in matching_incoming_headers:
-                # if re.search(matching_header, rfc822content) is not None:
-                if rfc822content.find(matching_header) != -1:
+
+                # Note, matching_header contains things like:
+                # From: .* <jira@apache.org>
+                #       ^ regex!!
+
+                # Note2, rfc822content contains everything as a string, including the headers
+                # ...
+                # From: "Thomas Neidhart (JIRA)" <jira@apache.org>
+                # To: <you@example.com>
+                # Message-ID: <JIRA.12911300.1446902881000.65833.1447445412298@Atlassian.JIRA>
+                # ...
+
+                if re.search(matching_header, rfc822content) is not None:
+                    # print("PROCESSING " + matching_header)
                     processed = digester.process_new_notification(rfc822content, msg, html_message, text_message)
                     break
         if processed:
