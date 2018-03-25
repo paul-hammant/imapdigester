@@ -51,7 +51,7 @@ class DigestionProcessor(object):
         for msgid, data in response.items():
             rfc822content = self.notification_folder.fetch(msgid, ["INTERNALDATE", "BODY", "RFC822"])[msgid][b'RFC822'].decode('utf8')
 
-            # Debugging strande transcrpion error?
+            # Debugging strange transcrpion error?
             # Well this catch Exception may need to be commented out
             # so that you can see the full (root cause) stack trace
 
@@ -144,10 +144,10 @@ class DigestionProcessor(object):
                 # Message-ID: <JIRA.12911300.1446902881000.65833.1447445412298@Atlassian.JIRA>
                 # ...
 
-                if re.search(matching_header, rfc822content) is not None:
-                    # print("PROCESSING " + matching_header)
+                if re.search(matching_header, rfc822content) is not None or rfc822content.find(matching_header) != -1:
                     processed = digester.process_new_notification(rfc822content, msg, html_message, text_message)
                     break
+
         if processed:
             to_delete.append(msgid)
         else:

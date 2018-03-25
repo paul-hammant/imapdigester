@@ -76,6 +76,7 @@ class StackExchangeNotificationDigester(BaseDigester):
         past_bookmark = 0
         unseen = 0
         for anum in sorted(iter(self.article_dict["articles"].keys()), reverse=True):
+            anum = int(anum)
             most_recent_seen = self.article_dict["most_recent_seen"]
             if anum < most_recent_seen:
                 past_bookmark += 1
@@ -105,7 +106,7 @@ class StackExchangeNotificationDigester(BaseDigester):
         new_message += 'This is a multi-part message in MIME format.\n'
         new_message += '-----NOTIFICATION_BOUNDARY\nContent-Type: text/html; charset="utf-8"\n'
         new_message += 'Content-Transfer-Encoding: 8bit\n\n\n'
-        new_message += email_html.encode('utf-8', 'replace')
+        new_message += email_html
         new_message += '\n\n-----NOTIFICATION_BOUNDARY'
         return new_message
 
@@ -117,7 +118,8 @@ class StackExchangeNotificationDigester(BaseDigester):
         for anum in sorted(iter(article_dict["articles"].keys()), reverse=True):
             if anum == article_dict["most_recent_seen"] and ix > 0:
                 email_html += '<tr><td colspan="2" style="border-bottom: 1.5pt solid red; border-top: 1.5pt solid red;"><center>^ New Questions Since You Last Checked ^</center></td></tr>\n'
-            email_html += "<tr>\n" + article_dict["articles"][anum] + "</tr>\n"
+            anum_ = article_dict["articles"][anum]
+            email_html += "<tr>\n" + anum_.decode("utf-8") + "</tr>\n"
             ix = + 1
         email_html += template_end
 
