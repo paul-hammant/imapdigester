@@ -210,10 +210,6 @@ class JiraNotificationDigester(BaseDigester):
 
     def make_new_raw_email(self, email_html, count, sender_to_implicate):
 
-        # Ugly hack
-        # email_ascii = "".join(i for i in email_ascii if ord(i) < 128)
-
-
         new_message = 'Subject: ' + self.matching_digest_subject() + ": " + str(count) + ' new notification(s)\n'
         new_message += 'From: \"' + self.jira_short_name + ' JIRA\" <' + sender_to_implicate + '>\n'
         new_message += 'Content-Transfer-Encoding: 8bit\n'

@@ -17,14 +17,7 @@ class DigestServer(object):
         self.digest_inbox.delete_messages([self.previous_message_id])
 
     def append(self, message):
-        try:
-            # Ugly hack
-            # message = "".join(i for i in message if ord(i) < 128)
-            self.digest_inbox.append(self.digest_folder_name, message.encode("utf-8"))
-        except UnicodeEncodeError:
-            # Found this with attempts to utf-8 encode, but not utf-7
-            print(">>>>UnicodeError>>>>" + message + "\n\n")
-            raise
+        self.digest_inbox.append(self.digest_folder_name, message.encode("utf-8"))
 
 
 class DigestionProcessor(object):

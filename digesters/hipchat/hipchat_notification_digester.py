@@ -164,8 +164,6 @@ class HipchatNotificationDigester(BaseDigester):
         new_message += '-----NOTIFICATION_BOUNDARY' + self.notification_boundary_rand \
                        + '\nContent-Type: text/html; charset="utf-8"\n'
         new_message += 'Content-Transfer-Encoding: 8bit\n\n'
-        # Ugly hack
-        # email_ascii = "".join(i for i in email_ascii if ord(i) < 128)
         new_message += email_html.replace("\n\n\n", "\n").replace("\n\n", "\n")
         new_message += '\n\n-----NOTIFICATION_BOUNDARY' + self.notification_boundary_rand
 

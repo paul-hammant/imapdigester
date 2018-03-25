@@ -167,9 +167,11 @@ if __name__ == '__main__':
             .doit()
 
     try:
-        print(digest_folder.expunge())
+        digest_folder.expunge()
     except IMAPClient.AbortError as e:
-        print("Error expunging digest folder")
+        print("Error expunging digest folder:")
+        e.print_exc()
+
     digest_folder.logout()
 
     try:
