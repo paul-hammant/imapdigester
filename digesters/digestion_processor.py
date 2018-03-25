@@ -20,7 +20,7 @@ class DigestServer(object):
         try:
             # Ugly hack
             # message = "".join(i for i in message if ord(i) < 128)
-            self.digest_inbox.append(self.digest_folder_name, message)
+            self.digest_inbox.append(self.digest_folder_name, message.encode("utf-8"))
         except UnicodeEncodeError:
             # Found this with attempts to utf-8 encode, but not utf-7
             print(">>>>UnicodeError>>>>" + message + "\n\n")
@@ -50,6 +50,11 @@ class DigestionProcessor(object):
         # Loop through email in notification folder
         for msgid, data in response.items():
             rfc822content = self.notification_folder.fetch(msgid, ["INTERNALDATE", "BODY", "RFC822"])[msgid][b'RFC822'].decode('utf8')
+
+            # Debugging strande transcrpion error?
+            # Well this catch Exception may need to be commented out
+            # so that you can see the full (root cause) stack trace
+
             try:
                 self.process_incoming_notification(msgid, self.digesters, rfc822content, to_delete,
                                                    unmatched_mails, self.move_unmatched)
@@ -85,8 +90,13 @@ class DigestionProcessor(object):
 
             # modified_mail = re.sub("\\nSubject:", "\\nSubject: [I:D]", unmatched)
             modified_mail = unmatched.replace("\nSubject:", "\nSubject: [I:D]")
+            # print("UNMATCHED:::")
+            # print(modified_mail)
+            # b = bytes(modified_mail, "utf8")
+            # print("-=-=-=-=-=-=-=-=")
+            # print(str(b))
             try:
-                self.digest_folder.append(self.digest_folder_name, bytes(modified_mail,"utf8"))
+                self.digest_folder.append(self.digest_folder_name, modified_mail.encode('utf-8'))
             except IMAPClient.AbortError as e:
                 print("Can't move '" + self.get_subject(modified_mail) + "', error:" + str(e))
                 break
@@ -112,6 +122,9 @@ class DigestionProcessor(object):
         msg = email.message_from_string(rfc822content)
         html_message = Utils.get_decoded_email_body(msg, True)
         text_message = Utils.get_decoded_email_body(msg, False)
+
+        if type(text_message) is bytes:
+            text_message = text_message.decode("utf-8")
 
         processed = False
         for digester in digesters:
