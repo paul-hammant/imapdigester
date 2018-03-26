@@ -42,7 +42,8 @@ class DigestionProcessor(object):
 
         # Loop through email in notification folder
         for msgid, data in response.items():
-            rfc822content = self.notification_folder.fetch(msgid, ["INTERNALDATE", "BODY", "RFC822"])[msgid][b'RFC822'].decode('utf8')
+            rfc_msgid = self.notification_folder.fetch(msgid, ["INTERNALDATE", "BODY", "RFC822"])[msgid]
+            rfc822content = rfc_msgid[b'RFC822'].decode('ISO-8859-1')
 
             # Debugging strange transcrpion error?
             # Well this catch Exception may need to be commented out

@@ -102,6 +102,8 @@ class JiraNotificationDigester(BaseDigester):
             # print simplejson.dumps(self.jira_notifications[when], sort_keys=True) + "\n\n"
 
             return True
+        else:
+            print("Was expecting HTML for \"" + msg['Subject'] + "\" - not processing")
 
         return False
 
