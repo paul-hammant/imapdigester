@@ -1,9 +1,13 @@
 import sys
 from unittest import TestCase
+import unittest
+import os
 
+from importlib import reload
 from mock import Mock, call
 from mockextras import stub
 
+sys.path = [os.path.abspath(os.path.join('..', os.pardir))] + sys.path
 from digesters.confluence.confluence_notification_digester import ConfluenceNotificationDigester
 from digesters.digestion_processor import DigestionProcessor
 
@@ -42,7 +46,7 @@ class TestConfluenceNotifications(TestCase):
     def __init__(self, methodName='runTest'):
         super(TestConfluenceNotifications, self).__init__(methodName)
         reload(sys)
-        sys.setdefaultencoding('utf8')
+        # sys.setdefaultencoding('utf8')
 
     def test_two_related_notifications_can_be_rolled_up(self):
 
@@ -1104,3 +1108,6 @@ so-table-rspace: 0pt; color: #333; display: none">=20
 </html>=
 
 ------=_Part_1157937_100703508.1460535327916--"""
+
+if __name__ == '__main__':
+    unittest.main()

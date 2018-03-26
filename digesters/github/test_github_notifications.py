@@ -1,9 +1,15 @@
 # coding=utf-8
 import sys
+import unittest
 from unittest import TestCase
+from importlib import reload
+
 
 from mock import Mock, call
 from mockextras import stub
+import os
+
+sys.path = [os.path.abspath(os.path.join('..', os.pardir))] + sys.path
 
 from digesters.digestion_processor import DigestionProcessor
 from digesters.github.github_notification_digester import GithubNotificationDigester
@@ -42,7 +48,7 @@ class TestGithubNotifications(TestCase):
     def __init__(self, methodName='runTest'):
         super(TestGithubNotifications, self).__init__(methodName)
         reload(sys)
-        sys.setdefaultencoding('utf8')
+        # sys.setdefaultencoding('utf8')
 
     def test_two_related_notifs_can_be_rolled_up(self):
 
@@ -385,7 +391,7 @@ Precedence: list
 X-GitHub-Sender: dholm
 X-GitHub-Recipient: paul-hammant
 Return-Path: noreply@github.com
-X-OriginalArrivalTime: 02 Apr 2016 06:14:16.0870 (UTC) FILETIME=[52CF5460:01E18CF2]
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 02 Apr 2016 06:14:16.0870 (UTC) FILETIME=[52CF5460:01E18CF2]
 MIME-Version: 1.0
 
 ----==_mimepart_56ffcac7e82a2_9a33f9431ac72b8233528
@@ -435,7 +441,7 @@ Precedence: list
 X-GitHub-Sender: ppiper
 X-GitHub-Recipient: paul-hammant
 Return-Path: noreply@github.com
-X-OriginalArrivalTime: 02 Apr 2016 07:14:16.0870 (UTC) FILETIME=[52CF5460:01E18CF2]
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 02 Apr 2016 07:14:16.0870 (UTC) FILETIME=[52CF5460:01E18CF2]
 MIME-Version: 1.0
 
 ----==_mimepart_56ffcac7e82a2_9a33f9431ac72b8233528
@@ -470,3 +476,7 @@ Where's the peck of pickled peppers that Peter Piper picked?</p>
 </div>
 
 ----==_mimepart_56ffcac7e82a2_9a33f9431ac72b8233528--"""
+
+
+if __name__ == '__main__':
+    unittest.main()

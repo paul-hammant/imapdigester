@@ -1,8 +1,13 @@
 import sys
 from unittest import TestCase
+import unittest
+import os
 
+from importlib import reload
 from mock import Mock, call
 from mockextras import stub
+
+sys.path = [os.path.abspath(os.path.join('..', os.pardir))] + sys.path
 
 from digesters.jira.jira_notification_digester import JiraNotificationDigester
 from digesters.digestion_processor import DigestionProcessor
@@ -42,7 +47,7 @@ class TestJiraNotifications(TestCase):
     def __init__(self, methodName='runTest'):
         super(TestJiraNotifications, self).__init__(methodName)
         reload(sys)
-        sys.setdefaultencoding('utf8')
+        # sys.setdefaultencoding('utf8')
 
     def test_two_related_notifications_can_be_rolled_up(self):
 
@@ -762,3 +767,6 @@ Content-Transfer-Encoding: 7bit
 </html>
 
 ------=_Part_195733_1307700225.1461123240075--"""
+
+if __name__ == '__main__':
+    unittest.main()

@@ -514,3 +514,6 @@ t: 0px !important;">
 
 
 --_=_swift_v4_1459813540_7a9621b909dae12bbf328c18ebf028b2_=_--"""
+
+if __name__ == '__main__':
+    unittest.main()

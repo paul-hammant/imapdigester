@@ -14,10 +14,10 @@ do_it() {
      /usr/bin/python digest_emails.py \
      --notifications-imap imap-mail.outlook.com \
      --notifications-user imap_tester1@outlook.com \
-     --notifications-pw 'Kailash.68' \
+     --notifications-pw 'PWD' \
      --digest-imap imap-mail.outlook.com \
      --digest-user imap_tester2@outlook.com \
-     --digest-pw 'Kailash.68' \
+     --digest-pw 'PWD' \
      --implicate imapdigester@it_does_not_matter.com \
      --move-unmatched  >> imapdigester_output.txt 2>&1
 

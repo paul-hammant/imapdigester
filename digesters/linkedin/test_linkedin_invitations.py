@@ -1,8 +1,13 @@
 import sys
 from unittest import TestCase
+import unittest
+import os
 
+from importlib import reload
 from mock import Mock, call
 from mockextras import stub
+
+sys.path = [os.path.abspath(os.path.join('..', os.pardir))] + sys.path
 
 from digesters.digestion_processor import DigestionProcessor
 from digesters.linkedin.linkedin_invitation_digester import LinkedinInvitationDigester
@@ -42,7 +47,7 @@ class TestLinkedinInvitations(TestCase):
     def __init__(self, methodName='runTest'):
         super(TestLinkedinInvitations, self).__init__(methodName)
         reload(sys)
-        sys.setdefaultencoding('utf8')
+        # sys.setdefaultencoding('utf8')
 
     def test_two_related_invitations_can_be_rolled_up(self):
 
@@ -791,3 +796,6 @@ ne:none;-ms-interpolation-mode:bicubic;color:#FFFFFF;text-decoration:none;w=
 idth:1px;height:1px;"> </body> </html>=
 
 ------=_Part_1161867_773496138.1462203530633--"""
+
+if __name__ == '__main__':
+    unittest.main()

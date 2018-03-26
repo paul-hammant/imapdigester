@@ -1,10 +1,14 @@
 from decimal import Decimal
 from unittest import TestCase
 import copy
-
+import unittest
+import os
 import sys
+from importlib import reload
 from mock import Mock, call
 from mockextras import stub
+
+sys.path = [os.path.abspath(os.path.join('..', os.pardir))] + sys.path
 
 from digesters.charges.charge_card_digester import ChargeCardDigester
 
@@ -55,7 +59,7 @@ class TestChargeCardDigester(TestCase):
     def __init__(self, methodName='runTest'):
         super(TestChargeCardDigester, self).__init__(methodName)
         reload(sys)
-        sys.setdefaultencoding('utf8')
+        # sys.setdefaultencoding('utf8')
 
         # print "P1 " + str(PIMORONI_CHARGE)
         # print "P2 " + str(PIMORONI_CHARGE_WITH_WHEN_STR)
@@ -188,3 +192,5 @@ class TestChargeCardDigester(TestCase):
                 'most_recent_seen': 1460184000
             })
         ])
+if __name__ == '__main__':
+    unittest.main()
