@@ -153,10 +153,15 @@ if __name__ == '__main__':
         if os.path.isfile("my_digesters_setup.py"):
             from my_digesters_setup import add_digesters
         else:
-            print("##############################################################")
-            print("## You should really Copy my_digesters_setup_template.py to ##")
-            print("## my_digesters_setup.py and customize it for you           ##")
-            print("##############################################################")
+            print("#################################################################")
+            print("##                                                             ##")
+            print("##                        IMAP Digester                        ##")
+            print("##                        -------------                        ##")
+            print("##                                                             ##")
+            print("##   You should really copy `my_digesters_setup_template.py`   ##")
+            print("##   to `my_digesters_setup.py` and customize it for you.      ##")
+            print("##                                                             ##")
+            print("#################################################################")
             # Copy my_digesters_setup_template.py to the my_digesters_setup.py,
             # if you're wanting to customize the digesters.
             from my_digesters_setup_sample import add_digesters
