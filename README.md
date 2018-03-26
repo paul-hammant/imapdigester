@@ -50,19 +50,12 @@ You'll also need to make a cron job for it - see below
 
 ## Installation Prerequisites
 
-If on Raspbian:
+Python 3.6 or above:
 
 ```
-sudo apt install libffi-dev python-backports.ssl
-# one of the pips/wheels below needs it
-```
-
-Python 2.7.13 or above:
-
-```
-brew install python
+brew install python3
+# (you might have to force link that)
 # apt-get for Linux
-# you might have to force link that
 
 pip install lxml
 pip install BeautifulSoup4
@@ -76,11 +69,6 @@ pip install jsonpickle
 
 # Running it on the Pi Zero for $1.10 a year in electricity
 
-Note for the Pi's Raspbian, which is running a slightly older version of Python, **install an older version** of IMAPClient:
-
-```
-pip install IMAPClient==0.13
-```
 
 In `/home/pi`, git clone the repo, and cd into that folder in order to copy a shell script (make it executable too):
 
@@ -137,11 +125,6 @@ off the verification of the certificate for the IMAP server
 
 If your IMAP server isn't over SSL (port 993) at all, then you can specify `--notifications-no-ssl` and `--digest-no-ssl`
 to unencrypted IMAP (port 143).
-
-# Plans to go to Python3.
-
-... are paused for the time being - I consistently experience a segfault with Python 3.5.1 or above and IMAPClient 1.0.2.
-Refer [issue 207](https://github.com/mjs/imapclient/issues/207) for IMAPClient.
 
 # Digest emails are available for these services
 

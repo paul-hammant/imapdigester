@@ -1,17 +1,16 @@
 import getpass
-import os
-import sys
-import time
 import imp
-from sys import version_info
+import os
 from optparse import OptionParser
 from socket import gaierror
-import backports.ssl as ssl
 
 import imapclient
+import sys
+import time
 from imapclient import IMAPClient
 
 from digesters.digestion_processor import DigestionProcessor
+
 
 def get_command():
     retval = None
@@ -51,7 +50,6 @@ if __name__ == '__main__' and __package__ is None:
 if __name__ == '__main__':
 
     imp.reload(sys)
-    # sys.setdefaultencoding('utf8')
 
     # Command Line Args
 
