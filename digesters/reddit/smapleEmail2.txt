@@ -1,0 +1,514 @@
+Received: from SN1NAM01HT183.eop-nam01.prod.protection.example.com
+ (2603:10b6:403::28) by BN3PR20MB0625.namprd20.prod.example.com with HTTPS via
+ BN4PR10CA0018.NAMPRD10.PROD.EXAMPLE.COM; Tue, 27 Mar 2018 07:37:17 +0000
+Received: from SN1NAM01FT009.eop-nam01.prod.protection.example.com
+ (10.152.64.52) by SN1NAM01HT183.eop-nam01.prod.protection.example.com
+ (10.152.65.38) with Pegasus SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384_P256) id 15.20.567.18; Tue, 27
+ Mar 2018 07:37:16 +0000
+Authentication-Results: spf=pass (sender IP is 184.173.153.236)
+ smtp.mailfrom=redditmail.com; example.com; dkim=pass (signature was verified)
+ header.d=redditmail.com;example.com; dmarc=pass action=none
+ header.from=redditmail.com;
+Received-SPF: Pass (protection.example.com: domain of redditmail.com
+ designates 184.173.153.236 as permitted sender)
+ receiver=protection.example.com; client-ip=184.173.153.236;
+ helo=mail-p236.reddit.com;
+Received: from mail-p236.reddit.com (184.173.153.236) by
+ SN1NAM01FT009.mail.protection.example.com (10.152.65.54) with Pegasus SMTP
+ Server id 15.20.567.18 via Frontend Transport; Tue, 27 Mar 2018 07:37:16
+ +0000
+Received: by luna.mailgun.net with HTTP; Tue, 27 Mar 2018 07:37:16 +0000
+Date: Tue, 27 Mar 2018 07:37:16 +0000
+Sender: notifications@redditmail.com
+Message-Id: &lt;20180327073716.1.53A527487AB61422@redditmail.com&gt;
+References:
+To: phRedditTest@example.com
+From: Reddit &lt;notifications@redditmail.com&gt;
+Subject: [reddit] 4 new messages from u/paul_h
+Content-Type: multipart/alternative; boundary="569691ds8b4a4f22b3ch1967aec4e6e5"
+Return-Path: bounce+84e56d.0f3a00-phRedditTest=example.com@redditmail.com
+MIME-Version: 1.0
+
+--569691ds8b4a4f22b3ch1967aec4e6e5
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
+
+
+
+
+
+
+You have 4 new messages in your Reddit Inbox:=20
+ =20
+  https://www.reddit.com/message/inbox?utm_medium=3Dmessage_notification&amp;am=
+p;utm_source=3Demail&amp;amp;utm_name=3Da1a20d=
+1&amp;amp;utm_term=3Dinbox_link
+
+
+    Comment reply from /u/paul_h
+    View:=20
+ =20
+  https://www.reddit.com/r/programming/comments/872bgr/reacts_tictactoe_tut=
+orial_in_kotlinjavafx_a/dwcoo78/?context=3D3&amp;amp;utm_medium=3Dmessage_notif=
+ication&amp;amp;utm_source=3Demail&amp;amp;utm_name=3Dcf8884ee49ef6=
+7879b5a20d1&amp;amp;utm_content=3Dcomment_reply&amp;amp;utm_term=3D0
+
+
+
+  A larger community is always needed for these things. For the project pag=
+e stated "Important: TornadoFX is not yet compatible with Java 9", and that=
+ may take multiple sets of eyes to solve.
+
+    /u/paul_h mentioned you in a thread
+    View:=20
+ =20
+  https://www.reddit.com/r/test/comments/876rgc/test/dwcow3u/?context=3D3&amp;a=
+mp;utm_medium=3Dmessage_notification&amp;amp;utm_source=3Demail&amp;amp;utm_name=3D=
+a1a20d1&amp;amp;utm_content=3Dusername_mention=
+&amp;amp;utm_term=3D1
+
+
+  Imma going to test mentions here, ~~pls ignore me~~
+
+ /u/sdjhfsdfwewer
+
+    /u/paul_h mentioned you in a thread
+    View:=20
+ =20
+  https://www.reddit.com/r/test/comments/876rgc/test/dwcp46n/?context=3D3&amp;a=
+mp;utm_medium=3Dmessage_notification&amp;amp;utm_source=3Demail&amp;amp;utm_name=3D=
+a1a20d1&amp;amp;utm_content=3Dusername_mention=
+&amp;amp;utm_term=3D2
+
+
+  Imma going to test mentions here, ~~pls ignore me~~
+=20
+ /u/sdjhfsdfwewer
+
+
+
+    Private message from /u/paul_h
+    View:=20
+ =20
+  https://www.reddit.com/message/messages/bay5nk?utm_medium=3Dmessage_notif=
+ication&amp;amp;utm_source=3Demail&amp;amp;utm_name=3Dcf8884ee49ef6=
+7879b5a20d1&amp;amp;utm_content=3Dprivate_message&amp;amp;utm_term=3D3
+
+    Complete list of European Special Characters
+
+
+  Working on a german project with dynamic Textfields or forms is no proble=
+m for me: there are six =C2=BBUmlaute=C2=AB and one ligature, that I use ev=
+ery day. English forms are even easier: no special characters at all (how u=
+nimaginative ;-)=E2=80=A6
+But at the moment the project=E2=80=99s scope is widened to East- or West-E=
+urope, problems begin if you weren=E2=80=99t attentive in school: In Spanis=
+h questions start with this upsidedown questionmark, don=E2=80=99t they? In=
+ French there are accents, but what directions and on which letters? And do=
+es anyone had Czech or Hungarian in school?
+
+This is for all developers, making forms or dynamic textfields for the west=
+ern hemisphere (no Cyrillic or Greek characters).
+
+    =C2=A1=C2=BF
+    =C3=84=C3=A4=C3=80=C3=A0=C3=81=C3=A1=C3=82=C3=A2=C3=83=C3=A3=C3=85=C3=
+=A5=C7=8D=C7=8E=C4=84=C4=85=C4=82=C4=83=C3=86=C3=A6=C4=80=C4=81
+    =C3=87=C3=A7=C4=86=C4=87=C4=88=C4=89=C4=8C=C4=8D
+    =C4=8E=C4=91=C4=90=C4=8F=C3=B0
+    =C3=88=C3=A8=C3=89=C3=A9=C3=8A=C3=AA=C3=8B=C3=AB=C4=9A=C4=9B=C4=98=C4=
+=99=C4=96=C4=97=C4=92=C4=93
+    =C4=9C=C4=9D=C4=A2=C4=A3=C4=9E=C4=9F
+    =C4=A4=C4=A5
+    =C3=8C=C3=AC=C3=8D=C3=AD=C3=8E=C3=AE=C3=8F=C3=AF=C4=B1=C4=AA=C4=AB=C4=
+=AE=C4=AF
+    =C4=B4=C4=B5
+    =C4=B6=C4=B7
+    =C4=B9=C4=BA=C4=BB=C4=BC=C5=81=C5=82=C4=BD=C4=BE
+    =C3=91=C3=B1=C5=83=C5=84=C5=87=C5=88=C5=85=C5=86
+    =C3=96=C3=B6=C3=92=C3=B2=C3=93=C3=B3=C3=94=C3=B4=C3=95=C3=B5=C5=90=C5=
+=91=C3=98=C3=B8=C5=92=C5=93
+    =C5=94=C5=95=C5=98=C5=99
+    =E1=BA=9E=C3=9F=C5=9A=C5=9B=C5=9C=C5=9D=C5=9E=C5=9F=C5=A0=C5=A1=C8=98=
+=C8=99
+    =C5=A4=C5=A5=C5=A2=C5=A3=C3=9E=C3=BE=C8=9A=C8=9B
+    =C3=9C=C3=BC=C3=99=C3=B9=C3=9A=C3=BA=C3=9B=C3=BB=C5=B0=C5=B1=C5=A8=C5=
+=A9=C5=B2=C5=B3=C5=AE=C5=AF=C5=AA=C5=AB
+    =C5=B4=C5=B5
+    =C3=9D=C3=BD=C5=B8=C3=BF=C5=B6=C5=B7
+    =C5=B9=C5=BA=C5=BD=C5=BE=C5=BB=C5=BC
+
+
+
+Go to Reddit Inbox for u/sdjhfsdfwewer:=20
+ =20
+  https://www.reddit.com/message/messages/bay5nk?utm_medium=3Dmessage_notif=
+ication&amp;amp;utm_source=3Demail&amp;amp;utm_name=3Dcf8884ee49ef6=
+7879b5a20d1&amp;amp;utm_term=3Dinbox_button
+
+
+If you would not like to receive emails from Reddit in the future, unsubscr=
+ibe here:=20
+ =20
+  https://www.reddit.com/mail/unsubscribe/b9b4=
+a8a224a5c7f?utm_medium=3Dmessage_notification&amp;a=
+mp;utm_source=3Demail&amp;amp;utm_name=3Da1a20=
+d1&amp;amp;utm_term=3Dunsubscriunsubbe
+
+Reddit Inc.: https://www.google.com/maps/place/548+Market+St,+San+Francisco=
+,+CA+94104/@37.790002,-122.4009435,17z/data=3D!3m1!4b1!4m2!3m1!1s0x80858062=
+7b5ea1d1:0x60fd99496057cf74
+
+548 Market St #16093, San Francisco, CA 94104-5401, United States
+
+--569691ds8b4a4f22b3ch1967aec4e6e5
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/html; charset="utf-8"
+
+&lt;!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.=
+w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"&gt;&lt;html xmlns=3D"http://www.w3.=
+org/1999/xhtml"&gt;&lt;head&gt;
+&lt;meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Dutf-8"&gt;
+  &lt;meta name=3D"viewport" content=3D"width=3Ddevice-width, initial-scale=3D=
+1, maximum-scale=3D1"&gt;
+  &lt;meta http-equiv=3D"X-UA-Compatible" content=3D"IE=3Dedge"&gt;
+  &lt;meta name=3D"format-detection" content=3D"date=3Dno"&gt;
+  &lt;meta name=3D"format-detection" content=3D"address=3Dno"&gt;
+  &lt;meta name=3D"format-detection" content=3D"telephone=3Dno"&gt;
+
+  &lt;style type=3D"text/css" media=3D"screen"&gt;
+    /* Linked Styles */
+    body { padding:0 !important; margin:0 !important; display:block !import=
+ant; width:100% !important; background:#ffffff; -webkit-text-size-adjust:no=
+ne }
+    p { color:#555555; font-family:Arial; font-size:14px; line-height:18px;=
+ text-align:left; margin:16px 0 }=20
+    h2 { color:#000000; font-family:Arial; font-size:18px; line-height:22px=
+; text-align:left; font-weight:bold; margin:20px 0 }
+    a { color:#0079d3; text-decoration:none }
+    h2 span { font-size: 14px; color: #b5b3ac; font-weight: normal; }
+
+    hr { border: 0; height: 1px; background: #dad9d5; color: #dad9d5; margi=
+n: 20px 0; }
+
+    /* Mobile styles */
+    @media only screen and (max-device-width: 620px), only screen and (max-=
+width: 620px) {=20
+      div[class=3D'mobile-br-5'] { height: 5px !important; }
+      div[class=3D'mobile-br-10'] { height: 10px !important; }
+      div[class=3D'mobile-br-15'] { height: 15px !important; }
+
+      td[class=3D'm-td'], div[class=3D'hide-for-mobile'], span[class=3D'hid=
+e-for-mobile'] { display: none !important; width: 0 !important; height: 0 !=
+important; font-size: 0 !important; line-height: 0 !important; min-height: =
+0 !important; }
+      span[class=3D'mobile-block'] { display: block !important; }
+      div[class=3D'wgmail'] img { min-width: 320px !important; width: 320px=
+ !important; }
+
+      div[class=3D'full-width-img'] img { width: 100% !important; max-width=
+: 480px !important; height: auto !important; }
+      div[class=3D'content-width-img'] img { width: 100% !important; max-wi=
+dth: 480px !important; height: auto !important; }
+
+      table[class=3D'mobile-shell'] { width: 100% !important; }
+     =20
+      td[class=3D'column'] { float: left !important; width: 100% !important=
+; display: block !important; }
+      td[class=3D'content-spacing'] { width: 15px !important; }
+    }=20
+  &lt;/style&gt;
+&lt;/head&gt;
+&lt;body class=3D"body" style=3D"padding:0 !important; margin:0 !important; di=
+splay:block !important; width:100% !important; background:#ffffff; -webkit-=
+text-size-adjust:none"&gt;
+  &lt;table width=3D"100%" border=3D"0" cellspacing=3D"0" cellpadding=3D"0" bg=
+color=3D"#ffffff"&gt;
+    &lt;tr&gt;
+      &lt;td align=3D"center" valign=3D"top"&gt;
+        &lt;table width=3D"620" border=3D"0" cellspacing=3D"0" cellpadding=3D"=
+0" class=3D"mobile-shell"&gt;
+          &lt;tr&gt;
+            &lt;td class=3D"img" style=3D"font-size:0pt; line-height:0pt; text=
+-align:left" width=3D"20"&gt;&lt;/td&gt;
+            &lt;td&gt;
+              &lt;!-- Header --&gt;
+              &lt;div style=3D"font-size:0pt; line-height:0pt; height:10px"&gt;&lt;i=
+mg src=3D"https://www.redditstatic.com/spacer.gif" width=3D"1" height=3D"10=
+" style=3D"height:10px" alt=3D""&gt;&lt;/div&gt;
+
+              &lt;table width=3D"100%" border=3D"0" cellspacing=3D"0" cellpadd=
+ing=3D"0"&gt;
+                &lt;tr&gt;
+                  &lt;td valign=3D"middle" width=3D"60" class=3D"img" style=3D=
+"font-size:0pt; line-height:0pt; text-align:left"&gt;
+                    &lt;a href=3D"https://www.reddit.com?utm_medium=3Dmessage_=
+notification&amp;amp;amp;utm_source=3Demail&amp;amp;amp;utm_name=3D=
+cf880d1&amp;amp;amp;utm_term=3Dreddit_icon" target=3D"_blank"&gt;=
+&lt;img border=3D"0" src=3D"https://www.redditstatic.com/message_notification_=
+email_logo.png" alt=3D"" width=3D"50" height=3D"50"&gt;
+                    &lt;/a&gt;
+                  &lt;/td&gt;
+                  &lt;td&gt;
+                    &lt;div class=3D"text-header" style=3D"color:#555555; font=
+-family:Arial; font-size:18px; line-height:22px; text-align:left"&gt;
+                      You have 4 new messages in your
+                      &lt;a href=3D"https://www.reddit.com/message/inbox?utm_m=
+edium=3Dmessage_notification&amp;amp;amp;utm_source=3Demail&amp;amp;amp;utm_name=3D=
+a1a20d1&amp;amp;amp;utm_term=3Dinbox_link" cla=
+ss=3D"link" style=3D"color:#0079d3; text-decoration:none" target=3D"_blank"=
+&gt;
+                        &lt;span class=3D"link" style=3D"color:#0079d3; text-d=
+ecoration:none"&gt;Reddit Inbox&lt;/span&gt;
+                      &lt;/a&gt;
+                    &lt;/div&gt;
+                  &lt;/td&gt;
+                &lt;/tr&gt;
+              &lt;/table&gt;
+              &lt;div style=3D"font-size:0pt; line-height:0pt; height:10px"&gt;&lt;i=
+mg src=3D"https://www.redditstatic.com/spacer.gif" width=3D"1" height=3D"10=
+" style=3D"height:10px" alt=3D""&gt;&lt;/div&gt;
+
+              &lt;div style=3D"font-size:0pt; line-height:0pt; height:1px; bac=
+kground:#b5b3ac; "&gt;&lt;img src=3D"https://www.redditstatic.com/spacer.gif" wid=
+th=3D"1" height=3D"1" style=3D"height:1px" alt=3D""&gt;&lt;/div&gt;
+
+              &lt;div style=3D"font-size:0pt; line-height:0pt; height:10px"&gt;&lt;i=
+mg src=3D"https://www.redditstatic.com/spacer.gif" width=3D"1" height=3D"10=
+" style=3D"height:10px" alt=3D""&gt;&lt;/div&gt;
+
+              &lt;!-- END Header --&gt;
+
+              &lt;!-- Main --&gt;
+                  &lt;h2&gt;Comment reply from /u/paul_h =E2=80=A2=20
+ =20
+  &lt;a href=3D"https://www.reddit.com/r/programming/comments/872bgr/reacts_ti=
+ctactoe_tutorial_in_kotlinjavafx_a/dwcoo78/?context=3D3&amp;amp;utm_medium=3Dme=
+ssage_notification&amp;amp;utm_source=3Demail&amp;amp;utm_name=3Dcf=
+880d1&amp;amp;utm_content=3Dcomment_reply&amp;amp;utm_term=3D0" cl=
+ass=3D"link" style=3D"color:#0079d3;
+            text-decoration:none" target=3D"_blank"&gt;reply
+  &lt;/a&gt;
+
+
+                  &lt;/h2&gt;
+
+                &lt;!-- SC_OFF --&gt;&lt;div class=3D"md"&gt;&lt;p&gt;A larger community is a=
+lways needed for these things. For the project page stated &amp;quot;Important:=
+ TornadoFX is not yet compatible with Java 9&amp;quot;, and that may take multi=
+ple sets of eyes to solve.&lt;/p&gt;
+&lt;/div&gt;&lt;!-- SC_ON --&gt;
+
+                &lt;!-- Separator --&gt;
+                &lt;hr&gt;
+                &lt;!-- END Separator --&gt;
+
+                  &lt;h2&gt;
+                    /u/paul_h mentioned you in &lt;a href=3D"https://www.reddi=
+t.com/r/test/comments/876rgc/test/dwcow3u/?context=3D1" class=3D"link" styl=
+e=3D"color:#0079d3; text-decoration:none" target=3D"_blank"&gt;a thread&lt;/a&gt;
+                    =E2=80=A2=20
+ =20
+  &lt;a href=3D"https://www.reddit.com/r/test/comments/876rgc/test/dwcow3u/?co=
+ntext=3D3&amp;amp;utm_medium=3Dmessage_notification&amp;amp;utm_source=3Demail&amp;amp;=
+utm_name=3Da1a20d1&amp;amp;utm_content=3Dusern=
+ame_mention&amp;amp;utm_term=3D1" class=3D"link" style=3D"color:#0079d3;
+            text-decoration:none" target=3D"_blank"&gt;reply
+  &lt;/a&gt;
+
+
+                  &lt;/h2&gt;
+
+                &lt;!-- SC_OFF --&gt;&lt;div class=3D"md"&gt;&lt;p&gt;Imma going to test ment=
+ions here, &lt;del&gt;pls ignore me&lt;/del&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a href=3D"https://www.reddit.com/u/sdjhfsdfwewer"&gt;/u/sdjhfsdfwewer&lt;/a&gt;&lt;=
+/p&gt;
+&lt;/div&gt;&lt;!-- SC_ON --&gt;
+
+                &lt;!-- Separator --&gt;
+                &lt;hr&gt;
+                &lt;!-- END Separator --&gt;
+
+                  &lt;h2&gt;
+                    /u/paul_h mentioned you in &lt;a href=3D"https://www.reddi=
+t.com/r/test/comments/876rgc/test/dwcp46n/?context=3D1" class=3D"link" styl=
+e=3D"color:#0079d3; text-decoration:none" target=3D"_blank"&gt;a thread&lt;/a&gt;
+                    =E2=80=A2=20
+ =20
+  &lt;a href=3D"https://www.reddit.com/r/test/comments/876rgc/test/dwcp46n/?co=
+ntext=3D3&amp;amp;utm_medium=3Dmessage_notification&amp;amp;utm_source=3Demail&amp;amp;=
+utm_name=3Da1a20d1&amp;amp;utm_content=3Dusern=
+ame_mention&amp;amp;utm_term=3D2" class=3D"link" style=3D"color:#0079d3;
+            text-decoration:none" target=3D"_blank"&gt;reply
+  &lt;/a&gt;
+
+
+                  &lt;/h2&gt;
+
+                &lt;!-- SC_OFF --&gt;&lt;div class=3D"md"&gt;&lt;p&gt;Imma going to test ment=
+ions here, &lt;del&gt;pls ignore me&lt;/del&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a href=3D"https://www.reddit.com/u/sdjhfsdfwewer"&gt;/u/sdjhfsdfwewer&lt;/a&gt;&lt;=
+/p&gt;
+&lt;/div&gt;&lt;!-- SC_ON --&gt;
+
+                &lt;!-- Separator --&gt;
+                &lt;hr&gt;
+                &lt;!-- END Separator --&gt;
+
+                  &lt;h2&gt;Private message from /u/paul_h =E2=80=A2=20
+ =20
+  &lt;a href=3D"https://www.reddit.com/message/messages/bay5nk?utm_medium=3Dme=
+ssage_notification&amp;amp;utm_source=3Demail&amp;amp;utm_name=3Dcf=
+880d1&amp;amp;utm_content=3Dprivate_message&amp;amp;utm_term=3D3" =
+class=3D"link" style=3D"color:#0079d3;
+            text-decoration:none" target=3D"_blank"&gt;view
+  &lt;/a&gt;
+
+
+                  &lt;/h2&gt;
+
+                 =20
+  &lt;!-- SC_OFF --&gt;&lt;p&gt;Complete list of European Special Characters&lt;/p&gt;
+&lt;!-- SC_ON --&gt;
+
+
+
+                &lt;!-- SC_OFF --&gt;&lt;div class=3D"md"&gt;&lt;p&gt;Working on a german pro=
+ject with dynamic Textfields or forms is no problem for me: there are six =
+=C2=BBUmlaute=C2=AB and one ligature, that I use every day. English forms a=
+re even easier: no special characters at all (how unimaginative ;-)=E2=80=
+=A6
+But at the moment the project=E2=80=99s scope is widened to East- or West-E=
+urope, problems begin if you weren=E2=80=99t attentive in school: In Spanis=
+h questions start with this upsidedown questionmark, don=E2=80=99t they? In=
+ French there are accents, but what directions and on which letters? And do=
+es anyone had Czech or Hungarian in school?&lt;/p&gt;
+
+&lt;p&gt;This is for all developers, making forms or dynamic textfields for the w=
+estern hemisphere (no Cyrillic or Greek characters).&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;=C2=A1=C2=BF
+=C3=84=C3=A4=C3=80=C3=A0=C3=81=C3=A1=C3=82=C3=A2=C3=83=C3=A3=C3=85=C3=A5=C7=
+=8D=C7=8E=C4=84=C4=85=C4=82=C4=83=C3=86=C3=A6=C4=80=C4=81
+=C3=87=C3=A7=C4=86=C4=87=C4=88=C4=89=C4=8C=C4=8D
+=C4=8E=C4=91=C4=90=C4=8F=C3=B0
+=C3=88=C3=A8=C3=89=C3=A9=C3=8A=C3=AA=C3=8B=C3=AB=C4=9A=C4=9B=C4=98=C4=99=C4=
+=96=C4=97=C4=92=C4=93
+=C4=9C=C4=9D=C4=A2=C4=A3=C4=9E=C4=9F
+=C4=A4=C4=A5
+=C3=8C=C3=AC=C3=8D=C3=AD=C3=8E=C3=AE=C3=8F=C3=AF=C4=B1=C4=AA=C4=AB=C4=AE=C4=
+=AF
+=C4=B4=C4=B5
+=C4=B6=C4=B7
+=C4=B9=C4=BA=C4=BB=C4=BC=C5=81=C5=82=C4=BD=C4=BE
+=C3=91=C3=B1=C5=83=C5=84=C5=87=C5=88=C5=85=C5=86
+=C3=96=C3=B6=C3=92=C3=B2=C3=93=C3=B3=C3=94=C3=B4=C3=95=C3=B5=C5=90=C5=91=C3=
+=98=C3=B8=C5=92=C5=93
+=C5=94=C5=95=C5=98=C5=99
+=E1=BA=9E=C3=9F=C5=9A=C5=9B=C5=9C=C5=9D=C5=9E=C5=9F=C5=A0=C5=A1=C8=98=C8=99
+=C5=A4=C5=A5=C5=A2=C5=A3=C3=9E=C3=BE=C8=9A=C8=9B
+=C3=9C=C3=BC=C3=99=C3=B9=C3=9A=C3=BA=C3=9B=C3=BB=C5=B0=C5=B1=C5=A8=C5=A9=C5=
+=B2=C5=B3=C5=AE=C5=AF=C5=AA=C5=AB
+=C5=B4=C5=B5
+=C3=9D=C3=BD=C5=B8=C3=BF=C5=B6=C5=B7
+=C5=B9=C5=BA=C5=BD=C5=BE=C5=BB=C5=BC
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;&lt;!-- SC_ON --&gt;
+
+                &lt;!-- Separator --&gt;
+                &lt;hr&gt;
+                &lt;!-- END Separator --&gt;
+
+
+              &lt;!-- Button --&gt;
+              &lt;div style=3D"font-size:0pt; line-height:0pt; height:8px"&gt;&lt;im=
+g src=3D"https://www.redditstatic.com/spacer.gif" width=3D"1" height=3D"8" =
+style=3D"height:8px" alt=3D""&gt;
+              &lt;/div&gt;
+
+              &lt;table width=3D"100%" border=3D"0" cellspacing=3D"0" cellpadd=
+ing=3D"0"&gt;
+                &lt;tr&gt;
+                  &lt;td align=3D"left"&gt;
+                    &lt;table width=3D"200" border=3D"0" cellspacing=3D"0" cel=
+lpadding=3D"0" class=3D"container-1" bgcolor=3D"#24a0ed"&gt;
+                      &lt;tr&gt;
+                        &lt;td class=3D"img" style=3D"font-size:0pt; line-heig=
+ht:0pt; text-align:left" width=3D"10"&gt;&lt;div style=3D"font-size:0pt; line-hei=
+ght:0pt; height:40px"&gt;&lt;img src=3D"https://www.redditstatic.com/spacer.gif" =
+width=3D"1" height=3D"40" style=3D"height:40px" alt=3D""&gt;&lt;/div&gt;&lt;/td&gt;
+                          &lt;td class=3D"text-btn" style=3D"color:#ffffff; fo=
+nt-family:Arial; font-size:14px; line-height:18px; text-align:center"&gt;
+                            &lt;a href=3D"https://www.reddit.com/message/inbox=
+?utm_medium=3Dmessage_notification&amp;amp;amp;utm_source=3Demail&amp;amp;amp;utm_n=
+ame=3Da1a20d1&amp;amp;amp;utm_term=3Dinbox_but=
+ton" class=3D"call-to-action" style=3D"color:#ffffff; text-decoration:none"=
+ target=3D"_blank"&gt;
+                              &lt;strong class=3D"call-to-action" style=3D"col=
+or:#ffffff; text-decoration:none"&gt;Go to Reddit Inbox for u/sdjhfsdfwewer&lt;/s=
+trong&gt;
+                            &lt;/a&gt;
+                          &lt;/td&gt;
+                        &lt;td class=3D"img" style=3D"font-size:0pt; line-heig=
+ht:0pt; text-align:left" width=3D"10"&gt;&lt;/td&gt;
+                      &lt;/tr&gt;
+                    &lt;/table&gt;
+                  &lt;/td&gt;
+                &lt;/tr&gt;
+              &lt;/table&gt;
+             =20
+              &lt;!-- END Button --&gt;
+              &lt;!-- END Main --&gt;
+
+              &lt;!-- Footer --&gt;
+              &lt;div style=3D"font-size:0pt; line-height:0pt; height:40px"&gt;&lt;i=
+mg src=3D"https://www.redditstatic.com/spacer.gif" width=3D"1" height=3D"40=
+" style=3D"height:40px" alt=3D""&gt;&lt;/div&gt;
+
+              &lt;div style=3D"font-size:0pt; line-height:0pt; height:1px; bac=
+kground:#b5b3ac; "&gt;&lt;img src=3D"https://www.redditstatic.com/spacer.gif" wid=
+th=3D"1" height=3D"1" style=3D"height:1px" alt=3D""&gt;&lt;/div&gt;
+
+              &lt;div style=3D"font-size:0pt; line-height:0pt; height:15px"&gt;&lt;i=
+mg src=3D"https://www.redditstatic.com/spacer.gif" width=3D"1" height=3D"15=
+" style=3D"height:15px" alt=3D""&gt;&lt;/div&gt;
+
+
+              &lt;div class=3D"text-footer" style=3D"color:#b5b3ac; font-famil=
+y:Arial; font-size:12px; line-height:16px; text-align:center"&gt;
+                If you would not like to receive emails from Reddit in the =
+future, &lt;a href=3D"https://www.reddit.com/mail/unsubscribe/b9vwqat/2bd9eb2b=
+3f4a5c7f?utm_medium=3Dmessa=
+ge_notification&amp;amp;amp;utm_source=3Demail&amp;amp;amp;utm_name=3Da1067b214ad9e=
+ca4cf880d1&amp;amp;amp;utm_term=3Dunsubscribe" class=3D"link" =
+style=3D"color:#0079d3; text-decoration:none" target=3D"_blank"&gt;&lt;span class=
+=3D"link" style=3D"color:#0079d3; text-decoration:none"&gt;unsubscribe&lt;/span&gt;&lt;=
+/a&gt;.&lt;br&gt;Reddit Inc. &lt;a href=3D"https://www.google.com/maps/place/548&amp;#43;Ma=
+rket&amp;#43;St,&amp;#43;San&amp;#43;Francisco,&amp;#43;CA&amp;#43;94104/@37.790002,-122.400943=
+5,17z/data=3D!3m1!4b1!4m2!3m1!1s0x808496057cf74" clas=
+s=3D"link-footer" style=3D"color:#b5b3ac; text-decoration:none" target=3D"_=
+blank"&gt;&lt;span class=3D"link-footer" style=3D"color:#b5b3ac; text-decoration:=
+none"&gt;548 Market St #16093, San Francisco, CA 94104-5401, United States&lt;/sp=
+an&gt;&lt;/a&gt;
+              &lt;/div&gt;
+              &lt;div style=3D"font-size:0pt; line-height:0pt; height:15px"&gt;&lt;i=
+mg src=3D"https://www.redditstatic.com/spacer.gif" width=3D"1" height=3D"15=
+" style=3D"height:15px" alt=3D""&gt;&lt;/div&gt;
+
+              &lt;!-- END Footer --&gt;
+            &lt;/td&gt;
+            &lt;td class=3D"img" style=3D"font-size:0pt; line-height:0pt; text=
+-align:left" width=3D"20"&gt;&lt;/td&gt;
+          &lt;/tr&gt;
+        &lt;/table&gt;
+        &lt;div class=3D"wgmail" style=3D"font-size:0pt; line-height:0pt; text=
+-align:center"&gt;&lt;img src=3D"https://www.redditstatic.com/spacer.gif" width=
+=3D"620" height=3D"1" style=3D"min-width:620px" alt=3D"" border=3D"0"&gt;&lt;/div=
+&gt;
+      &lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/table&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+
+--569691ds8b4a4f22b3ch1967aec4e6e5--

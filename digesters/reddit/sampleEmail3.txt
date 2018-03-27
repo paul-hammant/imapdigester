@@ -1,0 +1,302 @@
+Received: from SN1NAM01HT147.eop-nam01.prod.protection.exmple.com
+ (2603:10b6:403::16) by BN3PR20MB0625.namprd20.prod.exmple.com with HTTPS via
+ BN4PR10CA0006.NAMPRD10.PROD.EXMPLE.COM; Tue, 27 Mar 2018 07:16:42 +0000
+Received: from SN1NAM01FT028.eop-nam01.prod.protection.exmple.com
+ (10.152.64.56) by SN1NAM01HT147.eop-nam01.prod.protection.exmple.com
+ (10.152.65.81) with Pegasus SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384_P256) id 15.20.567.18; Tue, 27
+ Mar 2018 07:16:42 +0000
+Authentication-Results: spf=pass (sender IP is 184.173.153.236)
+ smtp.mailfrom=redditmail.com; exmple.com; dkim=pass (signature was verified)
+ header.d=redditmail.com;exmple.com; dmarc=pass action=none
+ header.from=redditmail.com;
+Received-SPF: Pass (protection.exmple.com: domain of redditmail.com
+ designates 184.173.153.236 as permitted sender)
+ receiver=protection.exmple.com; client-ip=184.173.153.236;
+ helo=mail-p236.reddit.com;
+Received: from mail-p236.reddit.com (184.173.153.236) by
+ SN1NAM01FT028.mail.protection.exmple.com (10.152.65.41) with Pegasus SMTP
+ Server id 15.20.567.18 via Frontend Transport; Tue, 27 Mar 2018 07:16:42
+ +0000
+Received: by luna.mailgun.net with HTTP; Tue, 27 Mar 2018 07:16:41 +0000
+Date: Tue, 27 Mar 2018 07:16:41 +0000
+Sender: notifications@redditmail.com
+Message-Id: &lt;20180327071641.1.CB3A94FEBFB1DAD8@redditmail.com&gt;
+References:
+To: phRedditTest@exmple.com
+From: Reddit &lt;notifications@redditmail.com&gt;
+Subject: [reddit] 1 new message from u/sdjhfsdfwewer
+Content-Type: multipart/alternative; boundary="1ec3f3e781fee7b4yy888uu6fd34475fcb"
+MIME-Version: 1.0
+
+--1ec3f3e781fee7b4yy888uu6fd34475fcb
+Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="ascii"
+
+
+
+
+
+
+You have 1 new message in your Reddit Inbox: 
+  
+  https://www.reddit.com/message/inbox?utm_medium=message_notification&amp;amp;utm_source=email&amp;amp;utm_name=3f802b316a8a894b9c0daa7ed2ed1f3618772171&amp;amp;utm_term=inbox_link
+
+
+    Comment reply from /u/sdjhfsdfwewer
+    View: 
+  
+  https://www.reddit.com/r/programming/comments/872bgr/reacts_tictactoe_tutorial_in_kotlinjavafx_a/dwcohkb/?context=3&amp;amp;utm_medium=message_notification&amp;amp;utm_source=email&amp;amp;utm_name=3f802b316a8a894b9c0daa7ed2ed1f3618772171&amp;amp;utm_content=comment_reply&amp;amp;utm_term=0
+
+
+
+  TornadoFX is not by JetBrains but is made with their support.
+
+
+
+Go to Reddit Inbox for u/ph555: 
+  
+  https://www.reddit.com/r/programming/comments/872bgr/reacts_tictactoe_tutorial_in_kotlinjavafx_a/dwcohkb/?context=1&amp;amp;utm_medium=message_notification&amp;amp;utm_source=email&amp;amp;utm_name=3f802b316a8a894b9c0daa7ed2ed1f3618772171&amp;amp;utm_term=inbox_button
+
+
+If you would not like to receive emails from Reddit in the future, unsubscribe here: 
+  
+  https://www.reddit.com/mail/unsubscribe/13f4r78b/5f17525b?utm_medium=message_notification&amp;amp;utm_source=email&amp;amp;utm_name=3f802b316a8a894b9c0daa7ed2ed1f3618772171&amp;amp;utm_term=unsubscribe
+
+Reddit Inc.: https://www.google.com/maps/place/548+Market+St,+San+Francisco,+CA+94104/@37.790002,-122.4009435,17z/data=!3m1!4b1!4m2!3m1!1s0x896057cf74
+
+548 Market St #16093, San Francisco, CA 94104-5401, United States
+
+--1ec3f3e781fee7b4yy888uu6fd34475fcb
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/html; charset="ascii"
+
+&lt;!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.=
+w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"&gt;&lt;html xmlns=3D"http://www.w3.=
+org/1999/xhtml"&gt;&lt;head&gt;
+&lt;meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Dus-ascii"=
+&gt;
+  &lt;meta name=3D"viewport" content=3D"width=3Ddevice-width, initial-scale=3D=
+1, maximum-scale=3D1"&gt;
+  &lt;meta http-equiv=3D"X-UA-Compatible" content=3D"IE=3Dedge"&gt;
+  &lt;meta name=3D"format-detection" content=3D"date=3Dno"&gt;
+  &lt;meta name=3D"format-detection" content=3D"address=3Dno"&gt;
+  &lt;meta name=3D"format-detection" content=3D"telephone=3Dno"&gt;
+
+  &lt;style type=3D"text/css" media=3D"screen"&gt;
+    /* Linked Styles */
+    body { padding:0 !important; margin:0 !important; display:block !import=
+ant; width:100% !important; background:#ffffff; -webkit-text-size-adjust:no=
+ne }
+    p { color:#555555; font-family:Arial; font-size:14px; line-height:18px;=
+ text-align:left; margin:16px 0 }=20
+    h2 { color:#000000; font-family:Arial; font-size:18px; line-height:22px=
+; text-align:left; font-weight:bold; margin:20px 0 }
+    a { color:#0079d3; text-decoration:none }
+    h2 span { font-size: 14px; color: #b5b3ac; font-weight: normal; }
+
+    hr { border: 0; height: 1px; background: #dad9d5; color: #dad9d5; margi=
+n: 20px 0; }
+
+    /* Mobile styles */
+    @media only screen and (max-device-width: 620px), only screen and (max-=
+width: 620px) {=20
+      div[class=3D'mobile-br-5'] { height: 5px !important; }
+      div[class=3D'mobile-br-10'] { height: 10px !important; }
+      div[class=3D'mobile-br-15'] { height: 15px !important; }
+
+      td[class=3D'm-td'], div[class=3D'hide-for-mobile'], span[class=3D'hid=
+e-for-mobile'] { display: none !important; width: 0 !important; height: 0 !=
+important; font-size: 0 !important; line-height: 0 !important; min-height: =
+0 !important; }
+      span[class=3D'mobile-block'] { display: block !important; }
+      div[class=3D'wgmail'] img { min-width: 320px !important; width: 320px=
+ !important; }
+
+      div[class=3D'full-width-img'] img { width: 100% !important; max-width=
+: 480px !important; height: auto !important; }
+      div[class=3D'content-width-img'] img { width: 100% !important; max-wi=
+dth: 480px !important; height: auto !important; }
+
+      table[class=3D'mobile-shell'] { width: 100% !important; }
+     =20
+      td[class=3D'column'] { float: left !important; width: 100% !important=
+; display: block !important; }
+      td[class=3D'content-spacing'] { width: 15px !important; }
+    }=20
+  &lt;/style&gt;
+&lt;/head&gt;
+&lt;body class=3D"body" style=3D"padding:0 !important; margin:0 !important; di=
+splay:block !important; width:100% !important; background:#ffffff; -webkit-=
+text-size-adjust:none"&gt;
+  &lt;table width=3D"100%" border=3D"0" cellspacing=3D"0" cellpadding=3D"0" bg=
+color=3D"#ffffff"&gt;
+    &lt;tr&gt;
+      &lt;td align=3D"center" valign=3D"top"&gt;
+        &lt;table width=3D"620" border=3D"0" cellspacing=3D"0" cellpadding=3D"=
+0" class=3D"mobile-shell"&gt;
+          &lt;tr&gt;
+            &lt;td class=3D"img" style=3D"font-size:0pt; line-height:0pt; text=
+-align:left" width=3D"20"&gt;&lt;/td&gt;
+            &lt;td&gt;
+              &lt;!-- Header --&gt;
+              &lt;div style=3D"font-size:0pt; line-height:0pt; height:10px"&gt;&lt;i=
+mg src=3D"https://www.redditstatic.com/spacer.gif" width=3D"1" height=3D"10=
+" style=3D"height:10px" alt=3D""&gt;&lt;/div&gt;
+
+              &lt;table width=3D"100%" border=3D"0" cellspacing=3D"0" cellpadd=
+ing=3D"0"&gt;
+                &lt;tr&gt;
+                  &lt;td valign=3D"middle" width=3D"60" class=3D"img" style=3D=
+"font-size:0pt; line-height:0pt; text-align:left"&gt;
+                    &lt;a href=3D"https://www.reddit.com?utm_medium=3Dmessage_=
+notification&amp;amp;amp;utm_source=3Demail&amp;amp;amp;utm_name=3D3f802b316a8a894b=
+9c0daa7ed2ed1f3618772171&amp;amp;amp;utm_term=3Dreddit_icon" target=3D"_blank"&gt;=
+&lt;img border=3D"0" src=3D"https://www.redditstatic.com/message_notification_=
+email_logo.png" alt=3D"" width=3D"50" height=3D"50"&gt;
+                    &lt;/a&gt;
+                  &lt;/td&gt;
+                  &lt;td&gt;
+                    &lt;div class=3D"text-header" style=3D"color:#555555; font=
+-family:Arial; font-size:18px; line-height:22px; text-align:left"&gt;
+                      You have 1 new message in your
+                      &lt;a href=3D"https://www.reddit.com/message/inbox?utm_m=
+edium=3Dmessage_notification&amp;amp;amp;utm_source=3Demail&amp;amp;amp;utm_name=3D=
+3f802b316a8a894b9c0daa7ed2ed1f3618772171&amp;amp;amp;utm_term=3Dinbox_link" cla=
+ss=3D"link" style=3D"color:#0079d3; text-decoration:none" target=3D"_blank"=
+&gt;
+                        &lt;span class=3D"link" style=3D"color:#0079d3; text-d=
+ecoration:none"&gt;Reddit Inbox&lt;/span&gt;
+                      &lt;/a&gt;
+                    &lt;/div&gt;
+                  &lt;/td&gt;
+                &lt;/tr&gt;
+              &lt;/table&gt;
+              &lt;div style=3D"font-size:0pt; line-height:0pt; height:10px"&gt;&lt;i=
+mg src=3D"https://www.redditstatic.com/spacer.gif" width=3D"1" height=3D"10=
+" style=3D"height:10px" alt=3D""&gt;&lt;/div&gt;
+
+              &lt;div style=3D"font-size:0pt; line-height:0pt; height:1px; bac=
+kground:#b5b3ac; "&gt;&lt;img src=3D"https://www.redditstatic.com/spacer.gif" wid=
+th=3D"1" height=3D"1" style=3D"height:1px" alt=3D""&gt;&lt;/div&gt;
+
+              &lt;div style=3D"font-size:0pt; line-height:0pt; height:10px"&gt;&lt;i=
+mg src=3D"https://www.redditstatic.com/spacer.gif" width=3D"1" height=3D"10=
+" style=3D"height:10px" alt=3D""&gt;&lt;/div&gt;
+
+              &lt;!-- END Header --&gt;
+
+              &lt;!-- Main --&gt;
+                  &lt;h2&gt;Comment reply from /u/sdjhfsdfwewer &amp;#8226;=20
+ =20
+  &lt;a href=3D"https://www.reddit.com/r/programming/comments/872bgr/reacts_ti=
+ctactoe_tutorial_in_kotlinjavafx_a/dwcohkb/?context=3D3&amp;amp;utm_medium=3Dme=
+ssage_notification&amp;amp;utm_source=3Demail&amp;amp;utm_name=3D3f802b316a8a894b9c=
+0daa7ed2ed1f3618772171&amp;amp;utm_content=3Dcomment_reply&amp;amp;utm_term=3D0" cl=
+ass=3D"link" style=3D"color:#0079d3;
+            text-decoration:none" target=3D"_blank"&gt;reply
+  &lt;/a&gt;
+
+
+                  &lt;/h2&gt;
+
+                &lt;!-- SC_OFF --&gt;&lt;div class=3D"md"&gt;&lt;p&gt;TornadoFX is not by Jet=
+Brains but is made with their support.&lt;/p&gt;
+&lt;/div&gt;&lt;!-- SC_ON --&gt;
+
+                &lt;!-- Separator --&gt;
+                &lt;hr&gt;
+                &lt;!-- END Separator --&gt;
+
+
+              &lt;!-- Button --&gt;
+              &lt;div style=3D"font-size:0pt; line-height:0pt; height:8px"&gt;&lt;im=
+g src=3D"https://www.redditstatic.com/spacer.gif" width=3D"1" height=3D"8" =
+style=3D"height:8px" alt=3D""&gt;
+              &lt;/div&gt;
+
+              &lt;table width=3D"100%" border=3D"0" cellspacing=3D"0" cellpadd=
+ing=3D"0"&gt;
+                &lt;tr&gt;
+                  &lt;td align=3D"left"&gt;
+                    &lt;table width=3D"200" border=3D"0" cellspacing=3D"0" cel=
+lpadding=3D"0" class=3D"container-1" bgcolor=3D"#24a0ed"&gt;
+                      &lt;tr&gt;
+                        &lt;td class=3D"img" style=3D"font-size:0pt; line-heig=
+ht:0pt; text-align:left" width=3D"10"&gt;&lt;div style=3D"font-size:0pt; line-hei=
+ght:0pt; height:40px"&gt;&lt;img src=3D"https://www.redditstatic.com/spacer.gif" =
+width=3D"1" height=3D"40" style=3D"height:40px" alt=3D""&gt;&lt;/div&gt;&lt;/td&gt;
+                          &lt;td class=3D"text-btn" style=3D"color:#ffffff; fo=
+nt-family:Arial; font-size:14px; line-height:18px; text-align:center"&gt;
+                            &lt;a href=3D"https://www.reddit.com/message/inbox=
+?utm_medium=3Dmessage_notification&amp;amp;amp;utm_source=3Demail&amp;amp;amp;utm_n=
+ame=3D3f802b316a8a894b9c0daa7ed2ed1f3618772171&amp;amp;amp;utm_term=3Dinbox_but=
+ton" class=3D"call-to-action" style=3D"color:#ffffff; text-decoration:none"=
+ target=3D"_blank"&gt;
+                              &lt;strong class=3D"call-to-action" style=3D"col=
+or:#ffffff; text-decoration:none"&gt;Go to Reddit Inbox for u/ph555&lt;/strong&gt;
+                            &lt;/a&gt;
+                          &lt;/td&gt;
+                        &lt;td class=3D"img" style=3D"font-size:0pt; line-heig=
+ht:0pt; text-align:left" width=3D"10"&gt;&lt;/td&gt;
+                      &lt;/tr&gt;
+                    &lt;/table&gt;
+                  &lt;/td&gt;
+                &lt;/tr&gt;
+              &lt;/table&gt;
+             =20
+              &lt;!-- END Button --&gt;
+              &lt;!-- END Main --&gt;
+
+              &lt;!-- Footer --&gt;
+              &lt;div style=3D"font-size:0pt; line-height:0pt; height:40px"&gt;&lt;i=
+mg src=3D"https://www.redditstatic.com/spacer.gif" width=3D"1" height=3D"40=
+" style=3D"height:40px" alt=3D""&gt;&lt;/div&gt;
+
+              &lt;div style=3D"font-size:0pt; line-height:0pt; height:1px; bac=
+kground:#b5b3ac; "&gt;&lt;img src=3D"https://www.redditstatic.com/spacer.gif" wid=
+th=3D"1" height=3D"1" style=3D"height:1px" alt=3D""&gt;&lt;/div&gt;
+
+              &lt;div style=3D"font-size:0pt; line-height:0pt; height:15px"&gt;&lt;i=
+mg src=3D"https://www.redditstatic.com/spacer.gif" width=3D"1" height=3D"15=
+" style=3D"height:15px" alt=3D""&gt;&lt;/div&gt;
+
+
+              &lt;div class=3D"text-footer" style=3D"color:#b5b3ac; font-famil=
+y:Arial; font-size:12px; line-height:16px; text-align:center"&gt;
+                If you would not like to receive emails from Reddit in the =
+future, &lt;a href=3D"https://www.reddit.com/mail/unsubscribe/131=
+e6c25b?utm_medium=3Dmess=
+age_notification&amp;amp;amp;utm_source=3Demail&amp;amp;amp;utm_name=3D3f802b316a8a=
+894b9c0daa7ed2ed1f3618772171&amp;amp;amp;utm_term=3Dunsubscribe" class=3D"link"=
+ style=3D"color:#0079d3; text-decoration:none" target=3D"_blank"&gt;&lt;span clas=
+s=3D"link" style=3D"color:#0079d3; text-decoration:none"&gt;unsubscribe&lt;/span&gt;=
+&lt;/a&gt;.&lt;br&gt;Reddit Inc. &lt;a href=3D"https://www.google.com/maps/place/548&amp;#43;M=
+arket&amp;#43;St,&amp;#43;San&amp;#43;Francisco,&amp;#43;CA&amp;#43;94104/@37.790002,-122.40094=
+35,17z/data=3D!3m1!4b1!4m2!3m1!1s0x896057cf74" cla=
+ss=3D"link-footer" style=3D"color:#b5b3ac; text-decoration:none" target=3D"=
+_blank"&gt;&lt;span class=3D"link-footer" style=3D"color:#b5b3ac; text-decoration=
+:none"&gt;548 Market St #16093, San Francisco, CA 94104-5401, United States&lt;/s=
+pan&gt;&lt;/a&gt;
+              &lt;/div&gt;
+              &lt;div style=3D"font-size:0pt; line-height:0pt; height:15px"&gt;&lt;i=
+mg src=3D"https://www.redditstatic.com/spacer.gif" width=3D"1" height=3D"15=
+" style=3D"height:15px" alt=3D""&gt;&lt;/div&gt;
+
+              &lt;!-- END Footer --&gt;
+            &lt;/td&gt;
+            &lt;td class=3D"img" style=3D"font-size:0pt; line-height:0pt; text=
+-align:left" width=3D"20"&gt;&lt;/td&gt;
+          &lt;/tr&gt;
+        &lt;/table&gt;
+        &lt;div class=3D"wgmail" style=3D"font-size:0pt; line-height:0pt; text=
+-align:center"&gt;&lt;img src=3D"https://www.redditstatic.com/spacer.gif" width=
+=3D"620" height=3D"1" style=3D"min-width:620px" alt=3D"" border=3D"0"&gt;&lt;/div=
+&gt;
+      &lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/table&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+
+--1ec3f3e781fee7b4yy888uu6fd34475fcb--
