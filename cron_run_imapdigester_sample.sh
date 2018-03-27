@@ -12,12 +12,12 @@ do_it() {
 
     # Do the IMAP digesting (python 2.7.11 or above)
      /usr/bin/python digest_emails.py \
-     --notifications-imap imap-mail.emailprovider.com \
-     --notifications-user secret_email_address_for_notifications@emailprovider.com \
-     --notifications-pw '123456' \
-     --digest-imap imap-mail.emailprovider.com \
-     --digest-user another_email_address_for_digests@emailprovider.com \
-     --digest-pw p4ssw0rd \
+     --notifications-imap imap-mail.outlook.com \
+     --notifications-user imap_tester1@outlook.com \
+     --notifications-pw 'PWD' \
+     --digest-imap imap-mail.outlook.com \
+     --digest-user imap_tester2@outlook.com \
+     --digest-pw 'PWD' \
      --implicate imapdigester@it_does_not_matter.com \
      --move-unmatched  >> imapdigester_output.txt 2>&1
 
@@ -32,4 +32,3 @@ then
   # Perhaps there was a command to do 'git pull'
   do_it
 fi
-

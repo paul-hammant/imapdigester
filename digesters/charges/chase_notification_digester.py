@@ -1,4 +1,4 @@
-from __future__ import unicode_literals
+
 import re
 import arrow as arrow
 import dateutil
@@ -90,4 +90,4 @@ class ChaseNotificationDigester(BaseChargeCardDigester):
         return ["Subject: (.*) Alert from Chase"]
 
     def print_summary(self):
-        print "New Chase Messages/Charges: " + str(self.new_chase)
+        print("New Chase Messages/Charges: " + str(self.new_chase))

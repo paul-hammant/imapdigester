@@ -27,11 +27,11 @@ class Utils(object):
                 charset = part.get_content_charset()
 
                 if part.get_content_type() == 'text/plain' and html_needed == False:
-                    text = unicode(part.get_payload(decode=True), str(charset), "ignore").encode('utf8', 'replace')
+                    text = part.get_payload(decode=True)
                     return text.strip()
 
                 if part.get_content_type() == 'text/html' and html_needed == True:
-                    html = unicode(part.get_payload(decode=True), str(charset), "ignore").encode('utf8', 'replace')
+                    html = part.get_payload(decode=True)
                     return html.strip()
         elif not multipart and content_type_is_html:
             payload = msg.get_payload(decode=True)
@@ -40,7 +40,7 @@ class Utils(object):
             if html_needed == False:
                 chrset = msg.get_content_charset()
                 if chrset is not None:
-                    return unicode(msg.get_payload(decode=True), chrset, 'ignore').encode('utf8', 'replace').strip()
+                    return msg.get_payload(decode=True).strip()
                 else:
                     return msg.get_payload(decode=True)
             else:

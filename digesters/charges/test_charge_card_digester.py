@@ -1,10 +1,14 @@
 from decimal import Decimal
 from unittest import TestCase
 import copy
-
+import unittest
+import os
 import sys
+from importlib import reload
 from mock import Mock, call
 from mockextras import stub
+
+sys.path = [os.path.abspath(os.path.join('..', os.pardir))] + sys.path
 
 from digesters.charges.charge_card_digester import ChargeCardDigester
 
@@ -19,7 +23,7 @@ PIMORONI_CHARGE = {
 }
 
 PIMORONI_CHARGE_WITH_WHEN_STR = copy.deepcopy(PIMORONI_CHARGE)
-PIMORONI_CHARGE_WITH_WHEN_STR[1460185000]['when_str'] = u'Apr---09 02:56'
+PIMORONI_CHARGE_WITH_WHEN_STR[1460185000]['when_str'] = 'Apr---09 02:56'
 
 PIHUT_CHARGE = {
     1460184000: {
@@ -32,7 +36,7 @@ PIHUT_CHARGE = {
 }
 
 PIHUT_CHARGE_WITH_WHEN_STR = copy.deepcopy(PIHUT_CHARGE)
-PIHUT_CHARGE_WITH_WHEN_STR[1460184000]['when_str'] = u'Apr---09 02:40'
+PIHUT_CHARGE_WITH_WHEN_STR[1460184000]['when_str'] = 'Apr---09 02:40'
 
 PIHUT_AND_PIMORONI_CHARGE_WITH_WHEN_STR = copy.deepcopy(PIMORONI_CHARGE_WITH_WHEN_STR)
 PIHUT_AND_PIMORONI_CHARGE_WITH_WHEN_STR[1460184000] = copy.deepcopy(PIHUT_CHARGE_WITH_WHEN_STR[1460184000])
@@ -55,7 +59,7 @@ class TestChargeCardDigester(TestCase):
     def __init__(self, methodName='runTest'):
         super(TestChargeCardDigester, self).__init__(methodName)
         reload(sys)
-        sys.setdefaultencoding('utf8')
+        # sys.setdefaultencoding('utf8')
 
         # print "P1 " + str(PIMORONI_CHARGE)
         # print "P2 " + str(PIMORONI_CHARGE_WITH_WHEN_STR)
@@ -106,11 +110,11 @@ class TestChargeCardDigester(TestCase):
         digester.notification_boundary_rand = "5678"
         digester.rewrite_digest_emails(digest_inbox_proxy, False, False, "foo@bar.com")
 
-        self.assertEquals(digest_inbox_proxy.mock_calls,
+        self.assertEqual(digest_inbox_proxy.mock_calls,
                           [call.append(expected_message)])
 
         calls = store_writer.mock_calls
-        self.assertEquals(calls, [
+        self.assertEqual(calls, [
             call.get_from_binary('charges'),
             call.store_as_binary('charges', {
                 'charges': PIMORONI_CHARGE_WITH_WHEN_STR,
@@ -177,14 +181,16 @@ class TestChargeCardDigester(TestCase):
         digester.notification_boundary_rand = "5678"
         digester.rewrite_digest_emails(digest_inbox_proxy, True, False, "foo@bar.com")
 
-        self.assertEquals(digest_inbox_proxy.mock_calls,
+        self.assertEqual(digest_inbox_proxy.mock_calls,
                           [call.delete_previous_message(), call.append(expected_message)])
 
         calls = store_writer.mock_calls
-        self.assertEquals(calls, [
+        self.assertEqual(calls, [
             call.get_from_binary('charges'),
             call.store_as_binary('charges', {
                 'charges': PIHUT_AND_PIMORONI_CHARGE_WITH_WHEN_STR,
                 'most_recent_seen': 1460184000
             })
         ])
+if __name__ == '__main__':
+    unittest.main()

@@ -18,7 +18,7 @@ def add_digesters(digesters):
 
     # StackExchange site filtered notifications
     # Customize for your filter(s) ...
-    digesters.append(StackExchangeNotificationDigester(MetaStore("stack_exchange_1"), "My SO filters"))
+    digesters.append(StackExchangeNotificationDigester(MetaStore("stack_exchange_1"), "TBD"))
 
     # Charge (Credit) card spending alerts (and more)
     digesters.append(ChargeCardDigester(MetaStore("charge_cards"))

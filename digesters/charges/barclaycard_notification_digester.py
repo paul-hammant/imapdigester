@@ -8,7 +8,7 @@ class BarclaycardNotificationDigester(BaseChargeCardDigester):
         self.new_notifs = 0
 
     def print_summary(self):
-        print "New Barclaycard Charges: " + str(self.new_notifs)
+        print("New Barclaycard Charges: " + str(self.new_notifs))
 
     def matching_incoming_headers(self):
         return ["From: alerts@barclaycard.com"]

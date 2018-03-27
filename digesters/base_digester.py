@@ -3,9 +3,7 @@ from abc import ABCMeta, abstractmethod
 from random import random
 
 
-class BaseDigester(object):
-    __metaclass__ = ABCMeta
-
+class BaseDigester(object, metaclass=ABCMeta):
     def __init__(self):
         self._notification_boundary_rand = str(random())
 

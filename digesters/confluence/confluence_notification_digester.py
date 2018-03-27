@@ -1,5 +1,5 @@
 # coding=utf-8
-from __future__ import unicode_literals
+
 
 import re
 from email.header import decode_header
@@ -67,7 +67,7 @@ class ConfluenceNotificationDigester(BaseDigester):
                             if "&" in space:
                                 space = space[:space.index("&")]
 
-                doc_text = unicode(doc_elem.text)
+                doc_text = str(doc_elem.text)
 
                 if "edited a page" in event_text:
                     if "?" in doc_url:
@@ -86,7 +86,7 @@ class ConfluenceNotificationDigester(BaseDigester):
                     words_in_new_page = Counter(contents.text).elements()
                     excerpt = "Page added with " + str(len(list(words_in_new_page))) + " words."
                 else:
-                    blurb = unicode(soup.find("table", {"class": "content-excerpt-pattern"}).text.strip())
+                    blurb = str(soup.find("table", {"class": "content-excerpt-pattern"}).text.strip())
                     excerpt = blurb[:55].strip()
                     if len(excerpt) > 55:
                         excerpt += "..."
@@ -105,7 +105,7 @@ class ConfluenceNotificationDigester(BaseDigester):
 
                 return True
         except AttributeError:
-            print "AttributeError processing confluence message"
+            print("AttributeError processing confluence message")
             pass
 
         return False
@@ -120,7 +120,7 @@ class ConfluenceNotificationDigester(BaseDigester):
             if self.previously_notified_article_count > 0:
                 self.most_recently_seen = self.previously_notified_article_most_recent
 
-        templ = u"""<html><body>{% if not_first_email %}<span>You have previously read notifications up to: {{most_recent_seen_str}}</span>{% endif %}
+        templ = """<html><body>{% if not_first_email %}<span>You have previously read notifications up to: {{most_recent_seen_str}}</span>{% endif %}
         <table>
           <tr style="background-color: #acf;">
             <th>Notifications</th>
@@ -138,7 +138,7 @@ class ConfluenceNotificationDigester(BaseDigester):
         template = Template(templ)
 
         cnt = 0
-        for when in sorted(self.confluence_notifications.iterkeys(), reverse=True):
+        for when in sorted(iter(self.confluence_notifications.keys()), reverse=True):
             cnt += 1
             if 90 < cnt:  # only show thirty
                 self.confluence_notifications.pop(when, None)
@@ -162,7 +162,7 @@ class ConfluenceNotificationDigester(BaseDigester):
     def add_line_for_notifications_seen_already(self):
         num_messages_since_last_seen = 0
         line_here_done = False
-        for ts0, notif in sorted(self.confluence_notifications.iteritems(), reverse=False):
+        for ts0, notif in sorted(iter(self.confluence_notifications.items()), reverse=False):
             if self.most_recently_seen != 0 and ts0 >= self.most_recently_seen and line_here_done is False:
                 notif['line_here'] = True
                 line_here_done = True
@@ -182,14 +182,9 @@ class ConfluenceNotificationDigester(BaseDigester):
         return self.confluence_short_name + " Confluence"
 
     def print_summary(self):
-        print "Confluence: New Confluence notifications: " + str(self.new_message_count)
+        print("Confluence: New Confluence notifications: " + str(self.new_message_count))
 
     def make_new_raw_email(self, email_html, count, sender_to_implicate):
-
-        email_ascii = email_html.replace("\n\n\n", "\n").replace("\n\n", "\n").encode('utf-8', 'replace')
-
-        # Ugly hack
-        email_ascii = "".join(i for i in email_ascii if ord(i) < 128)
 
 
         new_message = 'Subject: ' + self.matching_digest_subject() + ": " + str(count) + ' new notification(s)\n'
@@ -202,7 +197,7 @@ class ConfluenceNotificationDigester(BaseDigester):
         new_message += '-----NOTIFICATION_BOUNDARY' + self.notification_boundary_rand \
                        + '\nContent-Type: text/html; charset="utf-8"\n'
         new_message += 'Content-Transfer-Encoding: 8bit\n\n\n'
-        new_message += email_ascii
+        new_message += email_html.replace("\n\n\n", "\n").replace("\n\n", "\n")
         new_message += '\n\n-----NOTIFICATION_BOUNDARY' + self.notification_boundary_rand
 
         return new_message

@@ -1,5 +1,5 @@
 # coding=utf-8
-from __future__ import unicode_literals
+
 
 import re
 
@@ -104,7 +104,7 @@ class LinkedinInvitationDigester(BaseDigester):
         template = Template(templ)
 
         cnt = 0
-        for when in sorted(self.linkedin_invitations.iterkeys(), reverse=True):
+        for when in sorted(iter(self.linkedin_invitations.keys()), reverse=True):
             cnt = cnt + 1
             if cnt > 30:  # only show thirty
                 self.linkedin_invitations.pop(when, None)
@@ -128,7 +128,7 @@ class LinkedinInvitationDigester(BaseDigester):
     def add_line_for_invitations_seen_already(self):
         num_messages_since_last_seen = 0
         line_here_done = False
-        for ts0, inv in sorted(self.linkedin_invitations.iteritems(), reverse=False):
+        for ts0, inv in sorted(iter(self.linkedin_invitations.items()), reverse=False):
             if self.most_recently_seen != 0 and ts0 >= self.most_recently_seen and line_here_done == False:
                 inv['line_here'] = True
                 line_here_done = True
@@ -149,7 +149,7 @@ class LinkedinInvitationDigester(BaseDigester):
         return "Linkedin"
 
     def print_summary(self):
-        print "Linkedin: New Linkedin invitations: " + str(self.new_message_count)
+        print("Linkedin: New Linkedin invitations: " + str(self.new_message_count))
 
     def get_template_start_and_end(self, template):
         template_start = template[:template.find("<InsertHere/>")]
@@ -160,7 +160,7 @@ class LinkedinInvitationDigester(BaseDigester):
         email_html = template_start
 
         ix = 0
-        for anum in sorted(hc_notifications.iterkeys(), reverse=True):
+        for anum in sorted(iter(hc_notifications.keys()), reverse=True):
             if anum == self.most_recently_seen and ix > 0:
                 email_html += '<div style="border-bottom: 1.5pt solid red; border-top: 1.5pt solid red;"><center>^ New Questions Since You Last Checked ^</center></div>\n'
             email_html += '<div class="ecxhc-chat-from" style="margin-left: 150px;text-align:left;width:200px;padding:10px 0 10px 10px;">' + hc_notifications[anum]["room"] + '</div>\n'
@@ -181,10 +181,7 @@ class LinkedinInvitationDigester(BaseDigester):
         new_message += '-----NOTIFICATION_BOUNDARY' + self.notification_boundary_rand \
                        + '\nContent-Type: text/html; charset="utf-8"\n'
         new_message += 'Content-Transfer-Encoding: 8bit\n\n\n'
-        email_ascii = email_html.replace("\n\n\n", "\n").replace("\n\n", "\n").encode('utf-8', 'replace')
-        # Ugly hack
-        email_ascii = "".join(i for i in email_ascii if ord(i) < 128)
-        new_message += email_ascii
+        new_message += email_html.replace("\n\n\n", "\n").replace("\n\n", "\n")
         new_message += '\n\n-----NOTIFICATION_BOUNDARY' + self.notification_boundary_rand
 
         return new_message

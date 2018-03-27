@@ -1,5 +1,5 @@
 # coding=utf-8
-from __future__ import unicode_literals
+
 
 import os
 import re
@@ -102,6 +102,8 @@ class JiraNotificationDigester(BaseDigester):
             # print simplejson.dumps(self.jira_notifications[when], sort_keys=True) + "\n\n"
 
             return True
+        else:
+            print("Was expecting HTML for \"" + msg['Subject'] + "\" - not processing")
 
         return False
 
@@ -115,7 +117,7 @@ class JiraNotificationDigester(BaseDigester):
             if self.previously_notified_article_count > 0:
                 self.most_recently_seen = self.previously_notified_article_most_recent
 
-        templ = u"""<html><body>{% if not_first_email %}<span>You have previously read notifications up to: {{most_recent_seen_str}}</span>{% endif %}
+        templ = """<html><body>{% if not_first_email %}<span>You have previously read notifications up to: {{most_recent_seen_str}}</span>{% endif %}
         <table>
           <tr style="background-color: #acf;">
             <th>Notifications</th>
@@ -160,7 +162,7 @@ class JiraNotificationDigester(BaseDigester):
         template = Template(templ)
 
         cnt = 0
-        for when in sorted(self.jira_notifications.iterkeys(), reverse=True):
+        for when in sorted(iter(self.jira_notifications.keys()), reverse=True):
             cnt += 1
             if 90 < cnt:  # only show thirty
                 self.jira_notifications.pop(when, None)
@@ -186,7 +188,7 @@ class JiraNotificationDigester(BaseDigester):
     def add_line_for_notifications_seen_already(self):
         num_messages_since_last_seen = 0
         line_here_done = False
-        for ts0, notif in sorted(self.jira_notifications.iteritems(), reverse=False):
+        for ts0, notif in sorted(iter(self.jira_notifications.items()), reverse=False):
             if self.most_recently_seen != 0 and ts0 >= self.most_recently_seen and line_here_done is False:
                 notif['line_here'] = True
                 line_here_done = True
@@ -206,15 +208,9 @@ class JiraNotificationDigester(BaseDigester):
         return self.jira_short_name + " JIRA"
 
     def print_summary(self):
-        print "Jira: New JIRA notifications: " + str(self.new_message_count)
+        print("Jira: New JIRA notifications: " + str(self.new_message_count))
 
     def make_new_raw_email(self, email_html, count, sender_to_implicate):
-
-        email_ascii = email_html.replace("\n\n\n", "\n").replace("\n\n", "\n").encode('utf-8', 'replace')
-
-        # Ugly hack
-        email_ascii = "".join(i for i in email_ascii if ord(i) < 128)
-
 
         new_message = 'Subject: ' + self.matching_digest_subject() + ": " + str(count) + ' new notification(s)\n'
         new_message += 'From: \"' + self.jira_short_name + ' JIRA\" <' + sender_to_implicate + '>\n'
@@ -226,7 +222,7 @@ class JiraNotificationDigester(BaseDigester):
         new_message += '-----NOTIFICATION_BOUNDARY' + self.notification_boundary_rand \
                        + '\nContent-Type: text/html; charset="utf-8"\n'
         new_message += 'Content-Transfer-Encoding: 8bit\n\n\n'
-        new_message += email_ascii
+        new_message += email_html.replace("\n\n\n", "\n").replace("\n\n", "\n")
         new_message += '\n\n-----NOTIFICATION_BOUNDARY' + self.notification_boundary_rand
 
         return new_message
