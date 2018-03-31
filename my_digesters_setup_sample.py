@@ -4,6 +4,7 @@ from digesters.github.github_notification_digester import GithubNotificationDige
 from digesters.hipchat.hipchat_notification_digester import HipchatNotificationDigester
 from digesters.jira.jira_notification_digester import JiraNotificationDigester
 from digesters.linkedin.linkedin_invitation_digester import LinkedinInvitationDigester
+from digesters.reddit.reddit_notification_digester import RedditNotificationDigester
 from digesters.stackexchange.stack_exchange_notification_digester import StackExchangeNotificationDigester
 
 from metastore import MetaStore
@@ -63,3 +64,6 @@ def add_digesters(digesters):
     # Apache's JIRA Notifications
     digesters.append(JiraNotificationDigester(MetaStore("apache_jira_notifications"),
                                               "jira@apache.org", "Apache"))
+
+  # Apache's JIRA Notifications
+    digesters.append(RedditNotificationDigester(MetaStore("reddit_notifications"), "paul_h"))
