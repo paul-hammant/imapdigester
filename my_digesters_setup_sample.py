@@ -65,5 +65,6 @@ def add_digesters(digesters):
     digesters.append(JiraNotificationDigester(MetaStore("apache_jira_notifications"),
                                               "jira@apache.org", "Apache"))
 
-  # Apache's JIRA Notifications
-    digesters.append(RedditNotificationDigester(MetaStore("reddit_notifications"), "paul_h"))
+    # Reddit notifictions
+    digesters.append(RedditNotificationDigester(MetaStore("reddit_notifications_1"), "paul_h"))
+    digesters.append(RedditNotificationDigester(MetaStore("reddit_notifications_2"), "ph555"))
