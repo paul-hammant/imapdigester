@@ -40,13 +40,7 @@ Maybe grabbing two email addresses from a major email provider the above two is 
 mobile) may be able to show and "all inboxes" view of your regular email, and your **digest inbox** just fine.
 The Outlook client on the iPhone certainly can.
 
-# Deploying your process
-
-I have mine on a Raspberry Pi Zero that's just dangling out of a power socket at home.  If I were you I would fork this
-repo, copy `my_digesters_setup_sample.py` to `my_digesters_setup.py` and make mods for yourself. The latter is in the
-.gitignore file, so you'd have to go out of your way to accidentally push it back to me.
-
-You'll also need to make a cron job for it - see below
+# Deploying your ImapDigester process
 
 ## Installation Prerequisites
 
@@ -64,8 +58,7 @@ brew install python3
 pip3 install lxml BeautifulSoup4 IMAPClient arrow jinja2 simplejson mockextras jsonpickle
 ```
 
-# Running it on the Pi Zero for $1.10 a year in electricity
-
+## Installing it on a Pi Zero, and running it for $1.10 a year (electricity)
 
 In `/home/pi`, git clone the repo, and cd into that folder in order to copy a shell script (make it executable too):
 
@@ -76,13 +69,12 @@ cp cron_run_imapdigester_sample.sh cron_run_imapdigester.sh
 chmod +x cron_run_imapdigester.sh
 ```
 
-Then customize that as appropriate for your email provider and account details. If you run that shell script, you should be able it's output in `imapdigester_output.txt`.
+Then customize `cron_run_imapdigester.sh` as appropriate for your email provider and account details. If you run that shell script, you should be able it's output in `imapdigester_output.txt`.
 
-## One Dollar & Ten Cents?
-
-The $1.10 referenced is 0.7 Watt for 8760 hours (one year) at current electricity prices (18c/KWh). The Pi Zero on its
-own consumes a quarter of that, and the rest is the USB wifi dongle. Inefficiency of a 110V to 5V transformer is not
-factored in. Refer a [Pi power usage page](http://www.pidramble.com/wiki/benchmarks/power-consumption).
+You also have a `my_digesters_setup_sample.py` in the root folder that should be copied to `my_digesters_setup.py` and
+then edited to customize. You don't have to delete th digiesters you're not needing (they only tak a small amount of cpu
+time per notification email and are effectively benign if they don't match against the headers of the email. You
+would add new digesters here too, as well as change parameters for individual digesters that you do want.
 
 ## Scheduling the job with Cron
 
@@ -122,6 +114,12 @@ off the verification of the certificate for the IMAP server
 
 If your IMAP server isn't over SSL (port 993) at all, then you can specify `--notifications-no-ssl` and `--digest-no-ssl`
 to unencrypted IMAP (port 143).
+
+# The One Dollar & Ten Cents claim?
+
+The $1.10 referenced is 0.7 Watt for 8760 hours (one year) at current electricity prices (18c/KWh). The Pi Zero on its
+own consumes a quarter of that, and the rest is the USB wifi dongle. Inefficiency of a 110V to 5V transformer is not
+factored in. Refer a [Pi power usage page](http://www.pidramble.com/wiki/benchmarks/power-consumption).
 
 # Digest emails are available for these services
 
@@ -198,6 +196,10 @@ You must configure `my_digesters_setup.py` (hopefully you already copied it from
 set the emails confluence uses to notify you, and a short name for that instance.
 
 Refer too https://jira.atlassian.com/browse/JRA-60611 and https://jira.atlassian.com/browse/JRA-60612
+
+## Reddit Notifications
+
+TODO
 
 # Command emails
 
