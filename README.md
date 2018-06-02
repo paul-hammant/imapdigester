@@ -46,13 +46,32 @@ The Outlook client on the iPhone certainly can.
 
 ### Install Python 3.6 or above:
 
+Actually Python3, VitualEnv and Pip3
+
+(they should all be part of Python itself in my opinion (in the same distro). Also VirtualEnv should be `python3-virtualenv` to make it clearer it is for Python only)
+
 ```
-brew install python3
+brew install python3 virtualenv pip3
 # (you might have to force link that)
-# apt-get for Linux
+# apt-get for Linux:
+apt-get install python3 virtualenv pip3
 ```
 
-### Then Python packages, via pip3:
+### Then cloning of the ImapDigester source:
+
+```
+git clone https://github.com/paul-hammant/imapdigester.git
+cd imapdigester
+```
+
+### Then creation of a virtual environment:
+
+```
+virtualenv .
+source bin/activate
+```
+
+### Then Python packages, via pip3 (into the virtual env):
 
 ```
 pip3 install lxml BeautifulSoup4 IMAPClient arrow jinja2 simplejson mockextras jsonpickle
@@ -60,19 +79,18 @@ pip3 install lxml BeautifulSoup4 IMAPClient arrow jinja2 simplejson mockextras j
 
 ## Installing it on a Pi Zero, and running it for $1.10 a year (electricity)
 
-In `/home/pi`, git clone the repo, and cd into that folder in order to copy a shell script (make it executable too):
+Copy an initial shell script (make it executable too):
 
 ```
-git clone https://github.com/paul-hammant/imapdigester.git
-cd imapdigester
 cp cron_run_imapdigester_sample.sh cron_run_imapdigester.sh
 chmod +x cron_run_imapdigester.sh
 ```
 
-Then customize `cron_run_imapdigester.sh` as appropriate for your email provider and account details. If you run that shell script, you should be able it's output in `imapdigester_output.txt`.
+Then customize `cron_run_imapdigester.sh` as appropriate for your email provider and account details. If you run
+that shell script, you should be able it's output in `imapdigester_output.txt`.
 
 You also have a `my_digesters_setup_sample.py` in the root folder that should be copied to `my_digesters_setup.py` and
-then edited to customize. You don't have to delete th digiesters you're not needing (they only tak a small amount of cpu
+then edited to customize. You don't have to delete th digiesters you're not needing (they only tak a small amount of CPU
 time per notification email and are effectively benign if they don't match against the headers of the email. You
 would add new digesters here too, as well as change parameters for individual digesters that you do want.
 
@@ -86,7 +104,14 @@ In `/etc/cron.d` make a file `run_imapdigester` (sudo needed):
 
 Make sure you added a newline to the end of that line.
 
-The setup above will cause cron to run imapdigester every ten minutes.
+The setup above will cause cron to run `imapdigester.sh` every ten minutes.  That source file should say something
+like:
+
+```
+cd /path/to/imapdigester
+source bin/activate
+./cron_run_imapdigester.sh
+```
 
 Reboot the cron system, to start it, like so:
 

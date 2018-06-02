@@ -6,3 +6,8 @@ imapdigester_output.txt
 .store
 *.sh
 *.bat
+.Python
+bin/
+include/
+lib/
+pip-selfcheck.json
