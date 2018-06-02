@@ -166,12 +166,10 @@ if __name__ == '__main__':
             print("##                        IMAP Digester                        ##")
             print("##                        -------------                        ##")
             print("##                                                             ##")
-            print("##   You should really copy `my_digesters_setup_template.py`   ##")
+            print("##   You should really copy `my_digesters_setup_sample.py`     ##")
             print("##   to `my_digesters_setup.py` and customize it for you.      ##")
             print("##                                                             ##")
             print("#################################################################")
-            # Copy my_digesters_setup_template.py to the my_digesters_setup.py,
-            # if you're wanting to customize the digesters.
             from my_digesters_setup_sample import add_digesters
 
         # Get Digesters from my_digesters_setup.py
