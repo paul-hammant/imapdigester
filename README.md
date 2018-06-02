@@ -34,7 +34,7 @@ deletes from inbox for you. Lets call this the **notification inbox**.
 inbox for this one. This email address is totally private to you - not even other machines know about it.
 Just you, software-daemons you deployed and your email client(s). Let's call this the **digest inbox**. It could be
 your regular email address, but what if there's a bug and it deletes all you email - yup, that's right, use a
-dedicated email accound for this one too too.
+dedicated email account for this one too too.
 
 Maybe grabbing two email addresses from a major email provider the above two is best. Your email client (desktop or
 mobile) may be able to show and "all inboxes" view of your regular email, and your **digest inbox** just fine.
@@ -50,7 +50,7 @@ You'll also need to make a cron job for it - see below
 
 ## Installation Prerequisites
 
-Install Python 3.6 or above:
+### Install Python 3.6 or above:
 
 ```
 brew install python3
@@ -58,17 +58,10 @@ brew install python3
 # apt-get for Linux
 ```
 
-Then Python packages:
+### Then Python packages, via pip3:
 
 ```
-pip3 install lxml
-pip3 install BeautifulSoup4
-pip3 install IMAPClient
-pip3 install arrow
-pip3 install jinja2
-pip3 install simplejson
-pip3 install mockextras
-pip3 install jsonpickle
+pip3 install lxml BeautifulSoup4 IMAPClient arrow jinja2 simplejson mockextras jsonpickle
 ```
 
 # Running it on the Pi Zero for $1.10 a year in electricity
