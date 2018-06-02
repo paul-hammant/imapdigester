@@ -91,15 +91,23 @@ if __name__ == '__main__':
               "--digest-cert-check-skip or --notifications-cert-check-skip")
         exit(10)
 
+    print("Notifications IMAP account: " + str(options.notifications_imap))
+    print("Notifications IMAP account user: " + str(options.notifications_user))
+    print("Notifications IMAP account password is set?: " + str(options.notifications_pw is not None))
+
+    print("Digest IMAP account: " + str(options.digest_user))
+    print("Digest IMAP account user: " + str(options.digest_user))
+    print("Digest IMAP account password is set?: " + str(options.digest_pw is not None))
+
     if options.notifications_pw is None:
-        print("Enter notifications user password:")
+        print("Enter the user's password for the 'notifications' IMAP account:")
         options.notifications_pw = getpass.getpass()
 
     if options.digest_pw is None:
         if options.notifications_imap == options.digest_imap and options.notifications_user == options.digest_user:
             options.digest_pw = options.notifications_pw
         else:
-            print("Enter digest user password:")
+            print("Enter the user's password for the 'digest' IMAP account:")
             options.digest_pw = getpass.getpass()
 
     # Read and mark for deletion items from notification inbox.
