@@ -14,13 +14,13 @@ do_it() {
       --notifications-imap imap-mail.outlook.com \
       --notifications-user imap_tester1@outlook.com \
       --notifications-pw 'PASSWORD FOR THAT ACCOUNT' \
-      --digest-imap imap-mail.outlook.com \
-      --digest-user imap_tester2@outlook.com \
-      --digest-pw 'PASSWORD FOR THAT ACCOUNT' \
+      --digests-imap imap-mail.outlook.com \
+      --digests-user imap_tester2@outlook.com \
+      --digests-pw 'PASSWORD FOR THAT ACCOUNT' \
       --implicate imapdigester@it_does_not_matter.com \
       --move-unmatched  >> imapdigester_output.txt 2>&1
 
-      # --digest-cert-check-skip  (you're using a self-signed imap server)
+      # --digests-cert-check-skip  (you're using a self-signed imap server)
       # --notifications-cert-check-skip  (you're using a self-signed imap server)
 
 }

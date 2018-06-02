@@ -61,21 +61,21 @@ if __name__ == '__main__':
     parser.add_option("--notifications-pw", dest="notifications_pw",
                       help="User's password for incoming notifications mail server")
     parser.add_option("--notifications-folder", dest="notifications_folder_name", default="INBOX",
-                      help="The Imap folder to pull notification from, e.g. INBOX")
+                      help="The IMAP folder to pull notification from, e.g. INBOX")
     parser.add_option("--notifications-cert-check-skip", action="store_true", dest="notifications_cert_check_skip",
                       help="Skip Certificate check notification imap server (say self-signed)")
     parser.add_option("--notifications-no-ssl", action="store_false", dest="notifications_ssl", default=True,
                       help="SSL True/False (port 993) for notifications IMAP? (True by default)")
-    parser.add_option("--digest-imap", dest="digest_imap",
+    parser.add_option("--digests-imap", dest="digest_imap",
                       help="IMAP to use for outgoing digest (rewrite) mail server (SSL assumed)")
-    parser.add_option("--digest-user", dest="digest_user", help="User ID for outgoing digest (rewrite) mail server")
-    parser.add_option("--digest-pw", dest="digest_pw",
+    parser.add_option("--digests-user", dest="digest_user", help="User ID for outgoing digest (rewrite) mail server")
+    parser.add_option("--digests-pw", dest="digest_pw",
                       help="User's password for outgoing digest (rewrite) mail server")
-    parser.add_option("--digest-folder", dest="digest_folder_name", default="INBOX",
-                      help="The Imap folder to pull/push digest from/to, e.g. INBOX")
-    parser.add_option("--digest-cert-check-skip", action="store_true", dest="digest_cert_check_skip",
+    parser.add_option("--digests-folder", dest="digest_folder_name", default="INBOX",
+                      help="The IMAP folder to pull/push digest from/to, e.g. INBOX")
+    parser.add_option("--digests-cert-check-skip", action="store_true", dest="digest_cert_check_skip",
                       help="Skip Certificate check digest imap server (say self-signed)")
-    parser.add_option("--digest-no-ssl", action="store_false", dest="digest_ssl", default=True,
+    parser.add_option("--digests-no-ssl", action="store_false", dest="digest_ssl", default=True,
                       help="SSL True/False (port 993) for digest IMAP? (True by default)")
     parser.add_option("--implicate", dest="sender_to_implicate",
                       help="Who to name in digest emails, e.g. imapdigester@example.com")
@@ -86,29 +86,29 @@ if __name__ == '__main__':
     (options, args) = parser.parse_args()
 
     old_imapclient = (imapclient.__version__ == "0.13")
-    if old_imapclient and (options.digest_cert_check_skip or options.notifications_cert_check_skip):
+    if old_imapclient and (options.digests_cert_check_skip or options.notifications_cert_check_skip):
         print("Can't do certificate check skipping on IMAPClient 0.13 with command line options " \
-              "--digest-cert-check-skip or --notifications-cert-check-skip")
+              "--digests-cert-check-skip or --notifications-cert-check-skip")
         exit(10)
 
     print("Notifications IMAP account: " + str(options.notifications_imap))
     print("Notifications IMAP account user: " + str(options.notifications_user))
     print("Notifications IMAP account password is set?: " + str(options.notifications_pw is not None))
 
-    print("Digest IMAP account: " + str(options.digest_user))
-    print("Digest IMAP account user: " + str(options.digest_user))
-    print("Digest IMAP account password is set?: " + str(options.digest_pw is not None))
+    print("Digests IMAP account: " + str(options.digests_user))
+    print("Digests IMAP account user: " + str(options.digests_user))
+    print("Digests IMAP account password is set?: " + str(options.digests_pw is not None))
 
     if options.notifications_pw is None:
         print("Enter the user's password for the 'notifications' IMAP account:")
         options.notifications_pw = getpass.getpass()
 
-    if options.digest_pw is None:
-        if options.notifications_imap == options.digest_imap and options.notifications_user == options.digest_user:
-            options.digest_pw = options.notifications_pw
+    if options.digests_pw is None:
+        if options.notifications_imap == options.digests_imap and options.notifications_user == options.digests_user:
+            options.digests_pw = options.notifications_pw
         else:
             print("Enter the user's password for the 'digest' IMAP account:")
-            options.digest_pw = getpass.getpass()
+            options.digests_pw = getpass.getpass()
 
     # Read and mark for deletion items from notification inbox.
     notification_folder = None
@@ -138,21 +138,21 @@ if __name__ == '__main__':
     time.sleep(1)
     notification_folder.select_folder(options.notifications_folder_name)
 
-    kwargs = {"use_uid": True, "ssl": options.digest_ssl}
-    if not old_imapclient and options.digest_cert_check_skip:
+    kwargs = {"use_uid": True, "ssl": options.digests_ssl}
+    if not old_imapclient and options.digests_cert_check_skip:
         digest_context = None
         digest_context = ssl.SSLContext(ssl.PROTOCOL_SSLv23)
         digest_context.check_hostname = False
         digest_context.verify_mode = ssl.CERT_NONE
         kwargs["ssl_context"] = digest_context
-    digest_folder = IMAPClient(options.digest_imap, **kwargs)
+    digest_folder = IMAPClient(options.digests_imap, **kwargs)
 
     try:
-        digest_folder.login(options.digest_user, options.digest_pw)
+        digest_folder.login(options.digests_user, options.digests_pw)
     except:
         time.sleep(5)
-        digest_folder.login(options.digest_user, options.digest_pw)
-    digest_folder.select_folder(options.digest_folder_name)    
+        digest_folder.login(options.digests_user, options.digests_pw)
+    digest_folder.select_folder(options.digests_folder_name)    
 
     command = get_command()
     if command is None:
@@ -176,7 +176,7 @@ if __name__ == '__main__':
         add_digesters(digesters)
 
         DigestionProcessor(notification_folder, digest_folder, digesters, options.print_summary,
-                           options.sender_to_implicate, options.move_unmatched, options.digest_folder_name)\
+                           options.sender_to_implicate, options.move_unmatched, options.digests_folder_name)\
             .doit()
 
     try:

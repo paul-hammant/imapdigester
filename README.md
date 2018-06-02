@@ -100,19 +100,19 @@ what is wrong.
 
 ## Setup Choices
 
-The Inbox for the accounts is the default, but via `--notifications-folder` and `--digest-folder` you could specify
+The Inbox for the accounts is the default, but via `--notifications-folder` and `--digests-folder` you could specify
 a different folder for processing. Case might be important.
 
 You can have the same email account for **notifications** and **digests**. I choose not to, because I'm a chicken.
 Similarly, you can have the same folder within the same email account if you want to.
 
-If you leave out `--notifications-pw` or `--digest-pw` you will be prompted at startup to enter them.
+If you leave out `--notifications-pw` or `--digests-pw` you will be prompted at startup to enter them.
 If **notifications** and **digest** use the same email account, you'll only be prompted once.
 
-If you're using a self-signed IMAP server use `--digest-cert-check-skip` and/or `--notifications-cert-check-skip` to turn
+If you're using a self-signed IMAP server use `--digests-cert-check-skip` and/or `--notifications-cert-check-skip` to turn
 off the verification of the certificate for the IMAP server
 
-If your IMAP server isn't over SSL (port 993) at all, then you can specify `--notifications-no-ssl` and `--digest-no-ssl`
+If your IMAP server isn't over SSL (port 993) at all, then you can specify `--notifications-no-ssl` and `--digests-no-ssl`
 to unencrypted IMAP (port 143).
 
 # The One Dollar & Ten Cents claim?
