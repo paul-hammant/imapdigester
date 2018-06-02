@@ -50,21 +50,25 @@ You'll also need to make a cron job for it - see below
 
 ## Installation Prerequisites
 
-Python 3.6 or above:
+Install Python 3.6 or above:
 
 ```
 brew install python3
 # (you might have to force link that)
 # apt-get for Linux
+```
 
-pip install lxml
-pip install BeautifulSoup4
-pip install IMAPClient
-pip install arrow
-pip install jinja2
-pip install simplejson
-pip install mockextras
-pip install jsonpickle
+Then Python packages:
+
+```
+pip3 install lxml
+pip3 install BeautifulSoup4
+pip3 install IMAPClient
+pip3 install arrow
+pip3 install jinja2
+pip3 install simplejson
+pip3 install mockextras
+pip3 install jsonpickle
 ```
 
 # Running it on the Pi Zero for $1.10 a year in electricity

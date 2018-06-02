@@ -10,19 +10,18 @@ do_it() {
         rm imapdigester_commands_next_time.sh
     fi
 
-    # Do the IMAP digesting (python 2.7.11 or above)
-     /usr/bin/python digest_emails.py \
-     --notifications-imap imap-mail.outlook.com \
-     --notifications-user imap_tester1@outlook.com \
-     --notifications-pw 'PWD' \
-     --digest-imap imap-mail.outlook.com \
-     --digest-user imap_tester2@outlook.com \
-     --digest-pw 'PWD' \
-     --implicate imapdigester@it_does_not_matter.com \
-     --move-unmatched  >> imapdigester_output.txt 2>&1
+    python3 digest_emails.py \
+      --notifications-imap imap-mail.outlook.com \
+      --notifications-user imap_tester1@outlook.com \
+      --notifications-pw 'PASSWORD FOR THAT ACCOUNT' \
+      --digest-imap imap-mail.outlook.com \
+      --digest-user imap_tester2@outlook.com \
+      --digest-pw 'PASSWORD FOR THAT ACCOUNT' \
+      --implicate imapdigester@it_does_not_matter.com \
+      --move-unmatched  >> imapdigester_output.txt 2>&1
 
-     # --digest-cert-check-skip  (you're using a self-signed imap server)
-     # --notifications-cert-check-skip  (you're using a self-signed imap server)
+      # --digest-cert-check-skip  (you're using a self-signed imap server)
+      # --notifications-cert-check-skip  (you're using a self-signed imap server)
 
 }
 
