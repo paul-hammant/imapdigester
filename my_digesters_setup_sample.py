@@ -53,18 +53,20 @@ def add_digesters(digesters):
 
     # Atlassian Confluence Installation Notifications
     # Customize to the Confluence you're aiming at .....
-    digesters.append(ConfluenceNotificationDigester(MetaStore("confluence_notifications"),
+    digesters.append(ConfluenceNotificationDigester(MetaStore("apache_confluence_notifications"),
                                                     "confluence@apache.org", "Apache"))
 
     # Customize to the JIRA you're aiming at .....
 
     # Atlassian's JIRA Installation Notifications
-    digesters.append(JiraNotificationDigester(MetaStore("jira_notifications"),
+    digesters.append(JiraNotificationDigester(MetaStore("atlassian_jira_notifications"),
                                                     "jira@atlassian.com", "Atlassian"))
     # Apache's JIRA Notifications
     digesters.append(JiraNotificationDigester(MetaStore("apache_jira_notifications"),
                                               "jira@apache.org", "Apache"))
 
     # Reddit notifictions
-    digesters.append(RedditNotificationDigester(MetaStore("reddit_notifications_1"), "paul_h"))
-    digesters.append(RedditNotificationDigester(MetaStore("reddit_notifications_2"), "ph555"))
+    digesters.append(RedditNotificationDigester(MetaStore("paul_h_reddit"),
+                                                "paul_h")) # reddit account for paul_h
+    digesters.append(RedditNotificationDigester(MetaStore("sdjhfsdfwewer_reddit"),
+                                                "sdjhfsdfwewer")) # reddit account for sdjhfsdfwewer
