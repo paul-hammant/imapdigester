@@ -231,7 +231,12 @@ Refer too https://jira.atlassian.com/browse/JRA-60611 and https://jira.atlassian
 
 ## Reddit Notifications
 
-TODO
+Reddit Notififactions (for messages) are merged into a single digest email, that looks like:
+
+![img_6803](https://user-images.githubusercontent.com/82182/41223577-2e2ebfe0-6d38-11e8-873b-76f13e09f7cc.PNG)
+![img_6805](https://user-images.githubusercontent.com/82182/41223594-3994825c-6d38-11e8-8479-cc4b844f3c1e.PNG)
+
+One merged 'digest' email per Reddit account.  Direct message, replies, comments, and mentions.
 
 # Command emails
 
