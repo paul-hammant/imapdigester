@@ -155,6 +155,15 @@ factored in. Refer a [Pi power usage page](http://www.pidramble.com/wiki/benchma
 
 # Digest emails are available for these services
 
+* Credit Cards spends (Chase, Amex, Citibank)
+* Stack Exchange notifications
+* Github Repo Notifications (public portal or Github Enterprise)
+* Hipchat Notifications
+* Linkedin Invitations
+* Confluence Notifications
+* Jira Notifications (Atlassian's hosted or your own install)
+* Reddit Notifications
+
 ## Credit Card usages.
 
 A single email that can, so far, pull in transactions from American Express (US), Citibank (US) and Chase (US).
@@ -233,9 +242,8 @@ Refer too https://jira.atlassian.com/browse/JRA-60611 and https://jira.atlassian
 
 Reddit Notififactions (for messages) are merged into a single digest email, that looks like:
 
-![img_6803](https://user-images.githubusercontent.com/82182/41223577-2e2ebfe0-6d38-11e8-873b-76f13e09f7cc.PNG)
-![img_6805](https://user-images.githubusercontent.com/82182/41223594-3994825c-6d38-11e8-8479-cc4b844f3c1e.PNG)
-
+![img_6803](https://user-images.githubusercontent.com/82182/41223719-9759b7cc-6d38-11e8-851d-8a87650ce096.PNG)
+![img_6805](https://user-images.githubusercontent.com/82182/41223748-acb9c26a-6d38-11e8-8f2f-d5fa56942897.PNG)
 One merged 'digest' email per Reddit account.  Direct message, replies, comments, and mentions.
 
 # Command emails
