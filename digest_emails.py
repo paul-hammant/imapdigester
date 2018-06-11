@@ -35,11 +35,11 @@ def get_command():
 
 
 def check_for_command(cmd):
-    messages = digest_folder.search('SUBJECT "%s"' % cmd)
-    response = digest_folder.fetch(messages, ['FLAGS', 'RFC822.SIZE'])
+    messages = digests_folder.search('SUBJECT "%s"' % cmd)
+    response = digests_folder.fetch(messages, ['FLAGS', 'RFC822.SIZE'])
     retval = False
     for msgid, data in response.items():
-        digest_folder.delete_messages([msgid])
+        digests_folder.delete_messages([msgid])
         retval = True
     return retval
 
@@ -66,16 +66,16 @@ if __name__ == '__main__':
                       help="Skip Certificate check notification imap server (say self-signed)")
     parser.add_option("--notifications-no-ssl", action="store_false", dest="notifications_ssl", default=True,
                       help="SSL True/False (port 993) for notifications IMAP? (True by default)")
-    parser.add_option("--digests-imap", dest="digest_imap",
+    parser.add_option("--digests-imap", dest="digests_imap",
                       help="IMAP to use for outgoing digest (rewrite) mail server (SSL assumed)")
-    parser.add_option("--digests-user", dest="digest_user", help="User ID for outgoing digest (rewrite) mail server")
-    parser.add_option("--digests-pw", dest="digest_pw",
+    parser.add_option("--digests-user", dest="digests_user", help="User ID for outgoing digest (rewrite) mail server")
+    parser.add_option("--digests-pw", dest="digests_pw",
                       help="User's password for outgoing digest (rewrite) mail server")
-    parser.add_option("--digests-folder", dest="digest_folder_name", default="INBOX",
+    parser.add_option("--digests-folder", dest="digests_folder_name", default="INBOX",
                       help="The IMAP folder to pull/push digest from/to, e.g. INBOX")
-    parser.add_option("--digests-cert-check-skip", action="store_true", dest="digest_cert_check_skip",
+    parser.add_option("--digests-cert-check-skip", action="store_true", dest="digests_cert_check_skip",
                       help="Skip Certificate check digest imap server (say self-signed)")
-    parser.add_option("--digests-no-ssl", action="store_false", dest="digest_ssl", default=True,
+    parser.add_option("--digests-no-ssl", action="store_false", dest="digests_ssl", default=True,
                       help="SSL True/False (port 993) for digest IMAP? (True by default)")
     parser.add_option("--implicate", dest="sender_to_implicate",
                       help="Who to name in digest emails, e.g. imapdigester@example.com")
@@ -140,19 +140,19 @@ if __name__ == '__main__':
 
     kwargs = {"use_uid": True, "ssl": options.digests_ssl}
     if not old_imapclient and options.digests_cert_check_skip:
-        digest_context = None
-        digest_context = ssl.SSLContext(ssl.PROTOCOL_SSLv23)
-        digest_context.check_hostname = False
-        digest_context.verify_mode = ssl.CERT_NONE
-        kwargs["ssl_context"] = digest_context
-    digest_folder = IMAPClient(options.digests_imap, **kwargs)
+        digests_context = None
+        digests_context = ssl.SSLContext(ssl.PROTOCOL_SSLv23)
+        digests_context.check_hostname = False
+        digests_context.verify_mode = ssl.CERT_NONE
+        kwargs["ssl_context"] = digests_context
+    digests_folder = IMAPClient(options.digests_imap, **kwargs)
 
     try:
-        digest_folder.login(options.digests_user, options.digests_pw)
+        digests_folder.login(options.digests_user, options.digests_pw)
     except:
         time.sleep(5)
-        digest_folder.login(options.digests_user, options.digests_pw)
-    digest_folder.select_folder(options.digests_folder_name)    
+        digests_folder.login(options.digests_user, options.digests_pw)
+    digests_folder.select_folder(options.digests_folder_name)
 
     command = get_command()
     if command is None:
@@ -175,17 +175,17 @@ if __name__ == '__main__':
         # Get Digesters from my_digesters_setup.py
         add_digesters(digesters)
 
-        DigestionProcessor(notification_folder, digest_folder, digesters, options.print_summary,
+        DigestionProcessor(notification_folder, digests_folder, digesters, options.print_summary,
                            options.sender_to_implicate, options.move_unmatched, options.digests_folder_name)\
             .doit()
 
     try:
-        digest_folder.expunge()
+        digests_folder.expunge()
     except IMAPClient.AbortError as e:
         print("Error expunging digest folder:")
         e.print_exc()
 
-    digest_folder.logout()
+    digests_folder.logout()
 
     try:
         notification_folder.expunge()

@@ -54,7 +54,7 @@ Actually Python3, VitualEnv and Pip3
 brew install python3 virtualenv pip3
 # (you might have to force link that)
 # apt-get for Linux:
-apt-get install python3 virtualenv pip3
+apt-get install python3 virtualenv python3-pip
 ```
 
 ### Then cloning of the ImapDigester source:
@@ -76,6 +76,13 @@ source bin/activate
 ```
 pip3 install lxml BeautifulSoup4 IMAPClient arrow jinja2 simplejson mockextras jsonpickle
 ```
+
+On Ubuntu, yu may need to do this first:
+
+```
+pip3 install setuptools
+```
+
 
 ## Installing it on a Pi Zero, and running it for $1.10 a year (electricity)
 
