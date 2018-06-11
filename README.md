@@ -242,8 +242,9 @@ Refer too https://jira.atlassian.com/browse/JRA-60611 and https://jira.atlassian
 
 Reddit Notififactions (for messages) are merged into a single digest email, that looks like:
 
-![img_6803](https://user-images.githubusercontent.com/82182/41223719-9759b7cc-6d38-11e8-851d-8a87650ce096.PNG) One merged 'digest' email per Reddit account, and you'd instantiate a separate digester for each reddit account.  
-![img_6805](https://user-images.githubusercontent.com/82182/41223748-acb9c26a-6d38-11e8-8f2f-d5fa56942897.PNG). Direct messages, as well as replies, comments, and mentions are al supported.
+![image](https://user-images.githubusercontent.com/82182/41224441-7c5cc9bc-6d3a-11e8-9292-eed9379fb914.jpg)
+
+One merged 'digest' email per Reddit account, and you'd instantiate a separate digester for each reddit account. Direct messages, as well as replies, comments, and mentions are al supported.
 
 Clicking to 'reply' may launch a browser but you could be in the wrong account to it may not work as you'd expect. There's nothing that can be done about that.
 
